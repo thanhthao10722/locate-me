@@ -4,25 +4,26 @@ android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:background="@color/mainBackground"
     >
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/header"
-    android:background="#ffffff">
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="35dp"
-        android:src="@drawable/reply"
-        android:onClick="backButton"/>
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="28dp"
-        android:layout_centerInParent="true"
-        android:textColor="#FF020202">
-    </TextView>
-</RelativeLayout>
+        android:id="@+id/header"
+        android:background="#ffffff">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/reply"
+            android:onClick="backButton" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:fontFamily="serif"
+            android:textSize="20dp"
+            android:layout_centerInParent="true"
+            android:textColor="#FF020202">
+        </TextView>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,30 +36,38 @@ android:layout_height="match_parent"
         >
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/telephone"
-            android:layout_marginLeft="10dp"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/telephone" />
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your phone number"
-            android:background="@drawable/edit_text">
+            android:background="@drawable/edit_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
+            android:paddingRight="10dp"
+            >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mEdit_Phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 <Button
     android:id="@+id/send_btn"
-    android:background="@drawable/edit_text"
+    android:background="@drawable/btn_shape_round"
     android:layout_width="150dp"
     android:layout_centerHorizontal="true"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:text="SEND CODE"
+    android:fontFamily="serif"
     android:textStyle="bold"
     android:textColor="#FF020202"
     android:textSize="20dp"

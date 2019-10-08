@@ -4,26 +4,26 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
     >
-    <LinearLayout
-        android:id="@+id/header"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/header"
         android:background="#ffffff">
-
         <ImageView
             android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:onClick="backButton"
-            android:src="@drawable/reply" />
-
+            android:layout_height="35dp"
+            android:src="@drawable/reply"
+            android:onClick="backButton" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:text="Register"
-            android:textColor="#FF020202"
-            android:textSize="28dp"></TextView>
-    </LinearLayout>
+            android:textSize="20dp"
+            android:fontFamily="serif"
+            android:layout_centerInParent="true"
+            android:textColor="#FF020202">
+        </TextView>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/message_to_user"
@@ -81,7 +81,8 @@
                 android:id="@+id/mEdit_Code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:gravity="center"
+                />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -105,13 +106,14 @@
         android:layout_below="@+id/resend_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/btn_shape_round"
         android:onClick="onConfirmButton"
         android:text="Confirm"
         android:textColor="#FF020202"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:fontFamily="serif"/>
+        android:fontFamily="serif"
+        />
 
     <TextView
         android:id="@+id/material_text_button"

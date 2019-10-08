@@ -4,25 +4,26 @@
     android:id="@+id/android_sta"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/header">
-
+        android:id="@+id/header"
+        android:background="#ffffff">
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
             android:src="@drawable/reply"
-            android:onClick="backButton"/>
+            android:onClick="backButton" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="Login"
-            android:textSize="30dp"
-            android:layout_marginLeft="130dp"
-            android:textColor="#FF020202">
-        </TextView>
-    </LinearLayout>
+            android:fontFamily="serif"
+            android:textColor="#FF020202"
+            android:textSize="20dp"></TextView>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/logo"
@@ -67,15 +68,17 @@
             android:layout_height="wrap_content"
             android:hint="Phone"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
             android:background="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mEdit_Phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,6 +92,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="10dp"
             android:background="@drawable/edit_text"
             android:hint="Password"
             >
@@ -96,7 +101,9 @@
                 android:id="@+id/mEdit_Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:paddingTop="0dp"
+                android:lineHeight="5dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -109,6 +116,8 @@
             android:background="@drawable/btn_shape_round"
             android:padding="8dp"
             android:text="LOGIN"
+            android:textSize="20dp"
+            android:fontFamily="serif"
             android:onClick="loginOnClick"/>
 <!--        <Button-->
 <!--            android:id="@+id/btn_Login"-->

@@ -35,8 +35,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = mEditPassword.getText().toString();
         Log.d("mess",phone + "  " + password);
         if(phone.equals("0123456789") && password.equals("123456")) {
-//            Intent success = new Intent(this,)
-            Toast.makeText(this,phone + "  " + password,Toast.LENGTH_LONG).show();
+            Intent success = new Intent(this,ProfileActivity.class);
+            Toast.makeText(this,"login success",Toast.LENGTH_LONG).show();
+            success.putExtra("phone",phone);
+            success.putExtra("name","Thinh");
+            success.putExtra("location","Danang - Vietnam");
+            startActivity(success);
         }
     }
 
