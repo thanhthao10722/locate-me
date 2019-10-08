@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffc61a"
+    android:background="@color/mainBackground"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:text="Locate Me has sent a confirmation code to your phone"
         android:textSize="30dp"
         android:gravity="center"
-        android:background="#ffc61a"
+        android:background="@color/mainBackground"
         android:textColor="#FF020202"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/header"
@@ -102,7 +102,7 @@
         android:layout_below="@+id/txt_Code"/>
     <Button
         android:id="@+id/confirm_button"
-        android:background="#FFFFFF"
+        android:background="@drawable/btn_shape_round"
         android:layout_width="150dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"

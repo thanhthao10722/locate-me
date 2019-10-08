@@ -27,7 +27,7 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="#ffc61a"
+        android:background="@color/mainBackground"
         android:layout_below="@+id/header">
 
         <ImageView
@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/logo"
-        android:background="#ffc61a">
+        android:background="@color/mainBackground">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:id="@+id/txt_Phone"
@@ -69,7 +69,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            android:background="#ffffff">
+            android:background="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mEdit_Phone"
@@ -88,7 +88,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            android:background="#ffffff"
+            android:background="@drawable/edit_text"
             android:hint="Password"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -97,21 +97,33 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btn_Login"
-            android:layout_below="@+id/txt_Pass"
+            android:layout_below="@id/txt_Pass"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_shape_round"
+            android:padding="8dp"
             android:text="LOGIN"
-            android:layout_centerHorizontal="true"
-            android:background="#ffffff"
-            android:textColor="#FF020202"
-            android:textStyle="bold"
-            android:textSize="20dp"
             android:onClick="loginOnClick"/>
+<!--        <Button-->
+<!--            android:id="@+id/btn_Login"-->
+<!--            android:layout_below="@+id/txt_Pass"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginLeft="45dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:text="LOGIN"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:background="#ffffff"-->
+<!--            android:textColor="#FF020202"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20dp"-->
+<!--            android:onClick="loginOnClick"/>-->
         <Button
             android:id="@+id/btn_Register"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -134,7 +146,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
-            android:text="Forgot Password ?"/>
+            android:text="Forgot Password ?"
+            android:onClick="forgotPasswordOnClick"/>
 
     </RelativeLayout>
 </RelativeLayout>

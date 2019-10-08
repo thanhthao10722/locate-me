@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,phone + "  " + password,Toast.LENGTH_LONG).show();
         }
     }
+
+    public void forgotPasswordOnClick(View view){
+        Intent forgotPass = new Intent(this,ForgotActivity.class);
+        this.startActivity(forgotPass);
+    }
     public void backButton(View v) {
         Intent register = new Intent(this,MainActivity.class);
         startActivity(register);
