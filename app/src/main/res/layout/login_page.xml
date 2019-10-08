@@ -23,12 +23,14 @@
             android:textColor="#FF020202">
         </TextView>
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="#ffc61a"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/header"
+        android:layout_marginTop="-1dp"
+        android:background="#ffce00">
 
         <ImageView
             android:id="@+id/map_icon"
@@ -43,15 +45,15 @@
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_below="@+id/map_icon"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="96dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="164dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="serif"
             android:text="LOCATE ME"
             android:textColor="#FF020202"
             android:textSize="40dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -59,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/logo"
-        android:background="#ffc61a">
+        android:background="#ffce00">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:id="@+id/txt_Phone"
@@ -69,7 +71,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mEdit_Phone"
@@ -103,8 +106,6 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="20dp"
             android:text="LOGIN"
             android:layout_centerHorizontal="true"
             android:background="#ffffff"

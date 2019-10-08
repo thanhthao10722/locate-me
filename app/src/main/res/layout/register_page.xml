@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
-        android:background="#ffc61a">
+        android:background="#ffce00">
 
         <!-- Password -->
         <LinearLayout
@@ -97,10 +97,8 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
-        <!-- Birthday -->
         <Button
-            android:id="@+id/btn_Login"
+            android:id="@+id/btn_register"
             android:layout_below="@+id/linear_layout_password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -114,7 +112,6 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:onClick="registerOnClick"/>
-
         <TextView
             android:id="@+id/material_text_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
