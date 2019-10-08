@@ -19,9 +19,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="Change Password"
             android:textSize="28dp"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="80dp"
             android:textColor="#FF020202">
         </TextView>
     </LinearLayout>
@@ -46,19 +46,19 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/user"
+                android:src="@drawable/locked_padlock"
                 android:layout_marginLeft="10dp"/>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_Fullname"
+                android:id="@+id/txt_pass"
                 android:background="@drawable/edit_text"
-                android:hint="Full Name"
+                android:hint="New Password"
                 android:layout_marginLeft="5dp"
                 android:paddingBottom="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mEdit_Fullname"
+                    android:id="@+id/mEdit_newPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -86,21 +86,23 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_Password"
+                android:id="@+id/txt_rePassword"
                 android:background="@drawable/edit_text"
-                android:hint="Password"
+                android:hint="Confirm new password"
                 android:layout_marginLeft="5dp"
                 android:paddingBottom="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mEdit_Password"
+                    android:id="@+id/mEdit_rePassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+        <!-- confirm button -->
         <Button
-            android:id="@+id/btn_register"
+            android:id="@+id/btn_confirm"
             android:layout_below="@+id/linear_layout_password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -108,12 +110,13 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="20dp"
-            android:text="Register"
+            android:text="Change "
             android:background="@drawable/btn_shape_round"
             android:textColor="#FF020202"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:onClick="registerOnClick"/>
+            android:onClick="changingOnClick"/>
+
         <TextView
             android:id="@+id/material_text_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
