@@ -53,7 +53,7 @@ android:layout_height="match_parent"
 
 <Button
     android:id="@+id/send_btn"
-    android:background="@drawable/edit_text"
+    android:background="@drawable/btn_shape_round"
     android:layout_width="150dp"
     android:layout_centerHorizontal="true"
     android:layout_height="wrap_content"
