@@ -53,6 +53,7 @@
             android:layout_marginRight="100dp"
             android:text="LOGIN"
             android:textStyle="bold"
+            android:fontFamily="serif"
             android:textColor="#FF020202"
             android:textSize="20dp"
             android:onClick="moveToLogin"/>
@@ -67,6 +68,7 @@
             android:layout_marginLeft="100dp"
             android:layout_marginRight="100dp"
             android:text="USING MAP"
+            android:fontFamily="serif"
             android:background="@drawable/btn_shape_round"
             android:textColor="#FF020202"
             android:textStyle="bold"
