@@ -115,17 +115,17 @@
             android:layout_below="@+id/linear_layout_password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="45dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:text="Register"
             android:background="@drawable/btn_shape_round"
+            android:text="Register"
             android:textColor="#FF020202"
-            android:textStyle="bold"
             android:textSize="20dp"
             android:fontFamily="serif"
-            android:onClick="registerOnClick"/>
+            android:onClick="registerOnClick"
+            android:layout_centerHorizontal="true"
+            />
         <TextView
             android:id="@+id/material_text_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
