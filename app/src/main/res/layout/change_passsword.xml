@@ -3,52 +3,49 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/android_sta"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:background="#ffffff">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Password"
-            android:textSize="20dp"
-            android:fontFamily="serif"
-
-            android:layout_centerInParent="true"
-            android:textColor="#FF020202">
-        </TextView>
-    </RelativeLayout>
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/canvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:background="@color/mainBackground">
 
-        <RelativeLayout
-            android:id="@+id/changePass"
+        android:background="@color/mainBackground"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_alignParentTop="true"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_back"
+            android:onClick="backButton"
+            android:layout_alignParentLeft="true"/>
+
+
+        <ImageView
+            android:layout_below="@+id/back_button"
+            android:id="@+id/locate_me"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo_locate_me"
+            android:layout_centerInParent="true"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linear_layout_password"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_below="@id/locate_me">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp"
-                android:background="@color/mainBackground"
-                android:id="@+id/txt_Pass"
-                >
+                android:background="@drawable/edit_text_shape">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -57,72 +54,67 @@
                     android:src="@drawable/locked_padlock" />
 
                 <EditText
-                    android:id="@+id/usrusr"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:hint="Username"
-                    android:inputType="text"
-                    android:letterSpacing="0.1"
-                    android:textColor="#fff"
-                    android:textColorHint="#d9e5f3"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#4a5a71"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:background="@color/colorPassword"
-                android:layout_below="@id/txt_Pass">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/locked_padlock" />
-
-                <EditText
-                    android:id="@+id/pswrdd"
+                    android:id="@+id/mEdit_Password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:background="#00000000"
-                    android:hint="Password"
+                    android:hint="New Password"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
-                    android:textColor="#fff"
-                    android:textColorHint="#d9e5f3"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
                     android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#4a5a71"></LinearLayout>
-        </RelativeLayout>
+                android:layout_height="15dp"
+                android:background="@color/mainBackground"/>
 
-        <!-- confirm button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_shape">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
+                    android:id="@+id/mEdit_rePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Confirm New Password"
+                    android:inputType="textPassword"
+                    android:letterSpacing="0.1"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
         <Button
-            android:id="@+id/btn_confirm"
-            android:layout_below="@+id/changePass"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_Login"
+            android:layout_below="@id/linear_layout_password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="20dp"
-            android:text="Change "
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/btn_shape_round"
-            android:textColor="#FF020202"
+            android:padding="8dp"
+            android:text="CHANGE"
+            android:textSize="15dp"
+            android:fontFamily="serif"
             android:textStyle="bold"
-            android:textSize="20dp"
             android:onClick="changingOnClick"/>
 
         <TextView
@@ -133,8 +125,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
-            android:text="Share Your Life"
+            android:text="Share location, Share Your Life"
             android:textColor="#FF020202"/>
-
     </RelativeLayout>
 </RelativeLayout>

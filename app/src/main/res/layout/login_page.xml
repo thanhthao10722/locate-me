@@ -4,56 +4,29 @@
     android:id="@+id/android_sta"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:background="#ffffff">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Login"
-            android:fontFamily="serif"
-            android:textColor="#FF020202"
-            android:textSize="20dp"></TextView>
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="@color/mainBackground"
-        android:layout_below="@+id/header">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:background="@color/mainBackground">
 
         <ImageView
-            android:id="@+id/map_icon"
-            android:layout_width="121dp"
-            android:layout_height="92dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/location"></ImageView>
-
-        <TextView
-            android:id="@+id/locate_me"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_below="@+id/map_icon"
+            android:id="@+id/back_button"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="164dp"
-            android:fontFamily="serif"
-            android:text="LOCATE ME"
-            android:textColor="#FF020202"
-            android:textSize="40dp"
-            android:textStyle="bold"
-            />
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_back"
+            android:onClick="backButton" />
+
+        <ImageView
+            android:layout_below="@+id/back_button"
+            android:id="@+id/locate_me"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo_locate_me"
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,61 +35,92 @@
         android:layout_height="match_parent"
         android:layout_below="@id/logo"
         android:background="@color/mainBackground">
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:id="@+id/txt_Phone"
-            android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
-            android:background="@drawable/edit_text">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mEdit_Phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="0dp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Password -->
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_Pass"
-            android:layout_below="@+id/txt_Phone"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="10dp"
-            android:background="@drawable/edit_text"
-            android:hint="Password"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mEdit_Password"
+            android:orientation="vertical"
+            android:id="@+id/linear_layout_password"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:paddingTop="0dp"
-                android:lineHeight="5dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_shape">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
+                    android:id="@+id/usrusr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Username"
+                    android:inputType="text"
+                    android:letterSpacing="0.1"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/mainBackground"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_shape">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
+                    android:id="@+id/pswrdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:letterSpacing="0.1"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="#4a5a71"/>-->
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_Login"
-            android:layout_below="@id/txt_Pass"
+            android:layout_below="@id/linear_layout_password"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_shape_round"
             android:padding="8dp"
             android:text="LOGIN"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:fontFamily="serif"
             android:onClick="loginOnClick"/>
 <!--        <Button-->
@@ -145,8 +149,7 @@
             android:onClick="moveToRegister"
             android:text="Register"
             android:textColor="#FF020202"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/material_text_button"
@@ -155,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:text="Forgot Password ?"
             android:onClick="forgotPasswordOnClick"/>
 
