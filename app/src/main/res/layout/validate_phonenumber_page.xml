@@ -4,32 +4,20 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
     >
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_alignParentTop="true"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:background="#ffffff">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:textSize="20dp"
-            android:fontFamily="serif"
-            android:layout_centerInParent="true"
-            android:textColor="#FF020202">
-        </TextView>
-    </RelativeLayout>
+        android:src="@drawable/ic_keyboard_arrow_back"
+        android:onClick="backButton"
+        android:layout_alignParentLeft="true"/>
 
     <TextView
         android:id="@+id/message_to_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/back_button"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
@@ -72,18 +60,13 @@
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your code">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/mEdit_Code"
+                android:hint="Enter your code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <Button
@@ -122,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Share Your Life"
-        android:textColor="#FF020202"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:text="Share location, Share Your Life"
+        android:textColor="#FF020202"/>
 </RelativeLayout>
