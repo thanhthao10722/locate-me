@@ -35,77 +35,83 @@
         android:layout_below="@+id/header"
         android:background="@color/mainBackground">
 
-        <!-- Password -->
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/changePass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_above="@+id/linear_layout_password"
-            android:background="@drawable/edit_text">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/locked_padlock"
-                android:layout_marginLeft="10dp"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_pass"
-                android:background="@drawable/edit_text"
-                android:hint="New Password"
-                android:layout_marginLeft="5dp"
-                android:paddingBottom="5dp">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@color/mainBackground"
+                android:id="@+id/txt_Pass"
+                >
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mEdit_newPassword"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
+                    android:id="@+id/usrusr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+                    android:layout_marginLeft="15dp"
+                    android:hint="Username"
+                    android:inputType="text"
+                    android:letterSpacing="0.1"
+                    android:textColor="#fff"
+                    android:textColorHint="#d9e5f3"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4a5a71"></LinearLayout>
 
-
-        <!-- Re-Password -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:id="@+id/linear_layout_password"
-            android:layout_centerInParent="true"
-            android:background="@drawable/edit_text">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/locked_padlock"
-                android:layout_marginLeft="10dp"/>
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_rePassword"
-                android:background="@drawable/edit_text"
-                android:hint="Confirm new password"
-                android:layout_marginLeft="5dp"
-                android:paddingBottom="5dp">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@color/colorPassword"
+                android:layout_below="@id/txt_Pass">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mEdit_rePassword"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
+                    android:id="@+id/pswrdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:letterSpacing="0.1"
+                    android:textColor="#fff"
+                    android:textColorHint="#d9e5f3"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4a5a71"></LinearLayout>
+        </RelativeLayout>
 
         <!-- confirm button -->
         <Button
             android:id="@+id/btn_confirm"
-            android:layout_below="@+id/linear_layout_password"
+            android:layout_below="@+id/changePass"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
