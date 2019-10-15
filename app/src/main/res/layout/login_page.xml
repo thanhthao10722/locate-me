@@ -117,12 +117,13 @@
             android:layout_marginTop="40dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_shape_round"
+            android:background="@drawable/button_background"
             android:padding="8dp"
             android:text="LOGIN"
             android:textSize="15dp"
             android:fontFamily="serif"
-            android:onClick="loginOnClick"/>
+            android:onClick="loginOnClick"
+            />
 <!--        <Button-->
 <!--            android:id="@+id/btn_Login"-->
 <!--            android:layout_below="@+id/txt_Pass"-->

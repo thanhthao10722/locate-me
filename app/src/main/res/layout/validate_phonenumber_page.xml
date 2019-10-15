@@ -89,7 +89,7 @@
         android:layout_below="@+id/resend_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/btn_shape_round"
+        android:background="@drawable/button_background"
         android:onClick="onConfirmButton"
         android:text="Confirm"
         android:textColor="#FF020202"

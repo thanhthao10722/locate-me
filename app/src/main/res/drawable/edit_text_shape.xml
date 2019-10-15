@@ -8,7 +8,6 @@
         android:type="radial" />
     <!--        android:startColor="" />-->
 
-
     <stroke
         android:width="0dp"
         android:color="@android:color/black"/>

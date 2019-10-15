@@ -42,9 +42,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
                 android:orientation="horizontal"
-                android:padding="16dp"
-                android:background="@drawable/edit_text_shape">
+                android:padding="16dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -76,13 +76,13 @@
             android:layout_marginTop="20dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_shape_round"
+            android:background="@drawable/button_background"
             android:padding="8dp"
             android:text="SEND CODE"
             android:textSize="15dp"
             android:fontFamily="serif"
             android:onClick="sendCode"
-            android:shadowColor="#000000"/>
+            />
 
         <TextView
             android:id="@+id/material_text_button"

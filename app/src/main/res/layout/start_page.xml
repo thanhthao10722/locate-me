@@ -30,7 +30,7 @@
 
         <Button
             android:id="@+id/StartP_Login_btn"
-            android:background="@drawable/btn_shape_round"
+            android:background="@drawable/button_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -55,7 +55,7 @@
             android:layout_marginRight="100dp"
             android:text="USING MAP"
             android:fontFamily="serif"
-            android:background="@drawable/btn_shape_round"
+            android:background="@drawable/button_background"
             android:textColor="#FF020202"
             android:textStyle="bold"
             android:textSize="20dp" />
