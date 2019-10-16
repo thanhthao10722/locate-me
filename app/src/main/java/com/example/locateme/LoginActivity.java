@@ -47,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = mEditPhone.getText().toString();
                 String password = mEditPassword.getText().toString();
+                if(phone.matches("") || password.matches("")) {
+                    Toast.makeText(LoginActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
+                }
                 logIn(phone, password);
             }
         });
