@@ -1,4 +1,4 @@
-package model;
+package com.example.locateme.model;
 
 public class User {
     public String phone;

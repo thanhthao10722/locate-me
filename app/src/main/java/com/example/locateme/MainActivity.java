@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import helper.MyDB;
+import com.example.locateme.helper.MyDB;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_INTERNET = 486;
@@ -23,9 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
         requirePermission();
+        db = new MyDB(this);
         db.writeNewUser();
-
-
     }
     public void moveToLogin(View v) {
         Intent login = new Intent(this,LoginActivity.class);

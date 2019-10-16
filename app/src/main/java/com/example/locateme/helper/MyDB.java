@@ -1,13 +1,20 @@
-package helper;
+package com.example.locateme.helper;
 
+import android.content.Context;
+
+import com.example.locateme.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import model.User;
 
 public class MyDB
 {
     private DatabaseReference mDatabase;
+    private Context context;
+
+    public MyDB(Context context) {
+       this.context = context;
+    }
 
     public void writeNewUser(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
