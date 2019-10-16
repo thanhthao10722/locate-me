@@ -101,7 +101,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
                 // Thêm Marker cho Map:
                 MarkerOptions option = new MarkerOptions();
-                option.title("My Location");
+                final MarkerOptions my_location = option.title("My Location");
                 option.snippet("....");
                 option.position(latLng);
                 Marker currentMarker = myMap.addMarker(option);
