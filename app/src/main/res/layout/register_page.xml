@@ -6,27 +6,27 @@
     android:layout_height="match_parent"
     >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/header"
-        android:background="#ffffff">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:textSize="20dp"
-            android:layout_centerInParent="true"
-            android:textColor="#FF020202"
-            android:fontFamily="serif"
-            >
-        </TextView>
-    </RelativeLayout>
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/header"-->
+<!--        android:background="#ffffff">-->
+<!--        <ImageView-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:src="@drawable/ic_keyboard_arrow_back"-->
+<!--            android:onClick="backButton" />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Register"-->
+<!--            android:textSize="20dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:textColor="#FF020202"-->
+<!--            android:fontFamily="serif"-->
+<!--            >-->
+<!--        </TextView>-->
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/canvas"
@@ -35,7 +35,22 @@
         android:layout_below="@+id/header"
         android:background="@color/mainBackground">
 
-        <!-- Password -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_alignParentTop="true"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_back"
+            android:onClick="backButton" />
+
+        <ImageView
+            android:layout_below="@+id/back_button"
+            android:id="@+id/locate_me"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo_locate_me"
+            android:layout_centerInParent="true"/>
+                <!-- Password -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,7 +133,7 @@
             android:layout_marginLeft="45dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/btn_shape_round"
+            android:background="@drawable/button_background"
             android:text="Register"
             android:textColor="#FF020202"
             android:textSize="20dp"
@@ -134,8 +149,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
-            android:text="Share Your Life"
+            android:text="Share location, Share Your Life"
             android:textColor="#FF020202"/>
-
     </RelativeLayout>
 </RelativeLayout>
