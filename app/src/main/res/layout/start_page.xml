@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/locate_me"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/logo_locate_me"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
@@ -70,6 +70,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textSize="20dp"
-        android:text="Share location, Share Your Life"
+        android:text="Share Location, Share Your Life"
         android:textColor="#FF020202"/>
 </RelativeLayout>
