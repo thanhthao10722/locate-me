@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
     private EditText mEditPassword;
