@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.start_page);
         requirePermission();
         db = new MyDB(this);
-        db.writeNewUser();
+//        db.writeNewUser();
     }
     public void moveToLogin(View v) {
         Intent login = new Intent(this,LoginActivity.class);

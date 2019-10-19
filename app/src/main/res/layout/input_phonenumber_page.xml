@@ -81,7 +81,6 @@
             android:text="SEND CODE"
             android:textSize="15dp"
             android:fontFamily="serif"
-            android:onClick="sendCode"
             />
 
         <TextView

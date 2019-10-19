@@ -18,8 +18,8 @@ public class MyDB
 
     public void writeNewUser(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        //String userId = mDatabase.push().getKey();
-        User user = new User("0708539115", "2411", "Thuy Duong", true, "", "", "");
-        mDatabase.child("users").child("0708539115").setValue(user);
+        String userId = mDatabase.push().getKey();
+        User user = new User("0963443189", "1806", "Thanh Thao", "active", "", "", "");
+        mDatabase.child("users").child(userId).setValue(user);
     }
 }
