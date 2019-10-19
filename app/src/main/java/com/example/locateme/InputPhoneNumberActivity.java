@@ -9,21 +9,27 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.example.locateme.helper.MyDB;
+import com.example.locateme.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class InputPhoneNumberActivity extends AppCompatActivity {
@@ -34,6 +40,7 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
     String DELIVERED = "SMS DELIVERED";
     PendingIntent sentPI, deliverPI;
     BroadcastReceiver smsSentReceiver, smsDeliveredReceiver;
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,11 +122,22 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
         unregisterReceiver(smsDeliveredReceiver);
         unregisterReceiver(smsSentReceiver);
     }
+    public boolean isValid(String phoneNo)
+    {
+        if (phoneNo.matches("\\d{10}")) return true;
+            //validating phone number with -, . or spaces
+        else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
+            //validating phone number with extension length from 3 to 5
+        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
+            //validating phone number where area code is in braces ()
+        else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
+            //return false if nothing matches the input
+        else return false;
+    }
     public void SendSMS(View v)
     {
-        String phone = mEdit_phone.getText().toString();
-        Random random = new Random();
-        String code = Integer.toString(random.nextInt(9999));
+        final String phone = mEdit_phone.getText().toString();
+        final String code = Integer.toString((int) Math.floor(((Math.random() * 899999) + 100000)));
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
@@ -127,9 +145,65 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
         }
         else
         {
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(phone, null, code, sentPI, deliverPI);
+            if (isValid(phone))
+            {
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        boolean check = false;
+                        ArrayList<User> listUser = new ArrayList<>();
+                        for(DataSnapshot item : dataSnapshot.getChildren())
+                        {
+                            User user = item.getValue(User.class);
+                            listUser.add(user);
+                        }
+                        for(User user : listUser)
+                        {
+                            if(user.getPhone().equals(phone) & user.getStatus().equals("active"))
+                            {
+                                check = true;
+                            }
+                        }
+                        if(check == true)
+                            Toast.makeText(InputPhoneNumberActivity.this, "Your phone number is registered with another account!", Toast.LENGTH_LONG).show();
+
+                        else
+                        {
+                            StringBuilder sb = new StringBuilder(phone);
+                            String phone_format = sb.deleteCharAt(0).toString();
+                            phone_format = "84" + phone_format;
+                            SmsManager sms = SmsManager.getDefault();
+                            sms.sendTextMessage(phone_format, null, "Your verification passcode is " + code, sentPI, deliverPI);
+                            Intent intent = new Intent(getApplicationContext(), ValidationActivity.class);
+                            intent.putExtra("phone", mEdit_phone.getText().toString());
+                            intent.putExtra("code", code);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+            }
+            else {
+                Toast.makeText(InputPhoneNumberActivity.this, "Your phone number does not exist", Toast.LENGTH_LONG).show();
+            }
         }
+    }
+    public boolean isExisted(ArrayList<User> listUser, String phone)
+    {
+        boolean check = false;
+        for (User user : listUser)
+        {
+            if(user.phone.equals(phone))
+                check = true;
+        }
+        return check;
     }
     public void backButton(View v) {
         finish();

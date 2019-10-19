@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditPhone = (EditText)findViewById(R.id.usrusr);
         mEditPassword = (EditText)findViewById(R.id.pswrdd);
         btnLogin = (Button) findViewById(R.id.btn_Login);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(final String phone, final String password)
     {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -96,35 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public void logIn(final String phone, final String password) {
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.child(phone).exists()) {
-//                    if(!phone.isEmpty()) {
-//                        User user = dataSnapshot.child(phone).getValue(User.class);
-//                        if(user.getPassword().equals(password)) {
-//                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
-//                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-//                            startActivity(intent);
-//                        } else {
-//                            Toast.makeText(LoginActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(LoginActivity.this, "User is not registered", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "User is not register2", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
     public void forgotPasswordOnClick(View view){
         Intent forgotPass = new Intent(this,ForgotActivity.class);

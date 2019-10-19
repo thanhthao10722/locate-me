@@ -1,25 +1,35 @@
 package com.example.locateme.helper;
 
 import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.example.locateme.LoginActivity;
+import com.example.locateme.ProfileActivity;
 import com.example.locateme.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
-public class MyDB
-{
-    private DatabaseReference mDatabase;
+public class MyDB {
+    private DatabaseReference databaseReference;
     private Context context;
 
     public MyDB(Context context) {
-       this.context = context;
+        this.context = context;
     }
 
-    public void writeNewUser(){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        String userId = mDatabase.push().getKey();
-        User user = new User("0963443189", "1806", "Thanh Thao", "active", "", "", "");
-        mDatabase.child("users").child(userId).setValue(user);
+    public void writeNewUser(User user) {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        String userId = databaseReference.push().getKey();
+        databaseReference.child("users").child(userId).setValue(user);
     }
 }
