@@ -2,11 +2,10 @@ package com.example.locateme;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
@@ -30,18 +31,9 @@ public class LoginActivity extends AppCompatActivity {
         mEditPhone = (EditText)findViewById(R.id.usrusr);
         mEditPassword = (EditText)findViewById(R.id.pswrdd);
         btnLogin = (Button) findViewById(R.id.btn_Login);
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-//        Intent intent =getIntent();
-//        if(intent!=null) {
-//            String name = intent.getStringExtra("name");
-//            String phone = intent.getStringExtra("phone");
-//            String password = intent.getStringExtra("password");
-//            if(name != null && phone != null && password != null) {
-//                Toast.makeText(this,phone + "  " + password,Toast.LENGTH_LONG).show();
-//                mEditPhone.setText(phone);
-//                mEditPassword.setText(password);
-//            }
-//        }
+
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,39 +46,44 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-//    public void loginOnClick(View v) {
-//        String phone = mEditPhone.getText().toString();
-//        String password = mEditPassword.getText().toString();
-//        Log.d("mess",phone + "  " + password);
-//        if(phone.equals("0123456789") && password.equals("123456")) {
-//            Intent success = new Intent(this,ProfileActivity.class);
-//            Toast.makeText(this,"login success",Toast.LENGTH_LONG).show();
-//            success.putExtra("phone",phone);
-//            success.putExtra("name","Thinh");
-//            success.putExtra("location","Danang - Vietnam");
-//            startActivity(success);
-//        }
-//    }
 
-    public void logIn(final String phone, final String password) {
+    public void logIn(final String phone, final String password)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(phone).exists()) {
-                    if(!phone.isEmpty()) {
-                        User user = dataSnapshot.child(phone).getValue(User.class);
-                        if(user.getPassword().equals(password)) {
-                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "User is not register1", Toast.LENGTH_LONG).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                boolean check = false;
+                ArrayList<User> listUser = new ArrayList<>();
+                for(DataSnapshot item : dataSnapshot.getChildren())
+                {
+                    User user = item.getValue(User.class);
+                    listUser.add(user);
+                }
+                for(User user : listUser)
+                {
+                    if(user.getStatus().equals("deactive"))
+                    {
+                        Toast.makeText(LoginActivity.this, "Your account is deactive", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(LoginActivity.this, "User is not register2", Toast.LENGTH_LONG).show();
+                    else if(user.getStatus().equals("active"))
+                    {
+                        if(user.getPhone().equals(phone) & user.getPassword().equals(password))
+                        {
+                            check = true;
+                        }
+                    }
+                }
+                if(check == true)
+                {
+                    Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Your password or Your phone number is incorrect.Try again!", Toast.LENGTH_LONG).show();
                 }
             }
 

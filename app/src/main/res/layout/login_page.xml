@@ -121,7 +121,6 @@
             android:text="LOGIN"
             android:textSize="15dp"
             android:fontFamily="serif"
-            android:onClick="loginOnClick"
             />
 <!--        <Button-->
 <!--            android:id="@+id/btn_Login"-->

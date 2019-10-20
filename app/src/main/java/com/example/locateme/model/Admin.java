@@ -1,42 +1,29 @@
 package com.example.locateme.model;
 
-public class User {
-    public String phone;
-    public String password;
-    public String name;
-    public String status;
-    public String _created;
-    public String _deleted;
-    public String _updated;
+public class Admin
+{
+    private String username;
+    private String password;
+    private String name;
+    private String _created;
+    private String _deleted;
+    private String _updated;
 
-    public User()
-    {
-    }
-
-    public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated) {
-        this.phone = phone;
+    public Admin(String username, String password, String name, String _created, String _deleted, String _updated) {
+        this.username = username;
         this.password = password;
         this.name = name;
-        this.status = status;
         this._created = _created;
         this._deleted = _deleted;
         this._updated = _updated;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUsername() {
+        return username;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

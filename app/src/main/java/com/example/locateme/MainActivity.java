@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.start_page);
         requirePermission();
         db = new MyDB(this);
-        db.writeNewUser();
     }
     public void backActivityInterface(View view) {finish();}
     public void moveToLogin(View v) {
