@@ -78,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                         if(user.getPassword().equals(password)) {
                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user",user);
+                            intent.putExtra("login",bundle);
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
