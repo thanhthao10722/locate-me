@@ -5,11 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.example.locateme.helper.MyDB;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,14 +16,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_ANLOCATION = 425;
     private static final int MY_PERMISSION_REQUEST_AFLOCATION = 771;
     public MyDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_page);
         requirePermission();
         db = new MyDB(this);
-        db.writeNewUser();
     }
+    public void backActivityInterface(View view) {finish();}
     public void moveToLogin(View v) {
         Intent login = new Intent(this,LoginActivity.class);
         this.startActivity(login);
@@ -33,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     public void moveToMap(View v) {
         Intent map = new Intent(this,MapActivity.class);
         this.startActivity(map);
-    }
-    public void backButton(View v) {
-        finish();
     }
     public void requirePermission() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {

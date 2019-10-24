@@ -6,28 +6,6 @@
     android:layout_height="match_parent"
     >
 
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/header"-->
-<!--        android:background="#ffffff">-->
-<!--        <ImageView-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="35dp"-->
-<!--            android:src="@drawable/ic_keyboard_arrow_back"-->
-<!--            android:onClick="backButton" />-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Register"-->
-<!--            android:textSize="20dp"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:textColor="#FF020202"-->
-<!--            android:fontFamily="serif"-->
-<!--            >-->
-<!--        </TextView>-->
-<!--    </RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/canvas"
         android:layout_width="match_parent"
@@ -46,92 +24,94 @@
         <ImageView
             android:layout_below="@+id/back_button"
             android:id="@+id/locate_me"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/logo_locate_me"
             android:layout_centerInParent="true"/>
                 <!-- Password -->
+
         <LinearLayout
+            android:layout_below="@id/locate_me"
+            android:id="@+id/linear_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_above="@+id/linear_layout_password"
-            android:background="@drawable/edit_text">
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
 
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/user" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_Fullname"
-                android:background="@drawable/edit_text"
-                android:hint="Full Name"
-                android:layout_marginLeft="5dp"
-                android:paddingRight="5dp"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_shape">
 
-                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/user" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/mEdit_Fullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Username"
+                    android:inputType="text"
+                    android:letterSpacing="0.1"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/mainBackground"/>
 
-
-        <!-- Re-Password -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:id="@+id/linear_layout_password"
-            android:layout_centerInParent="true"
-            android:background="@drawable/edit_text">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="22dp"
-                android:src="@drawable/locked_padlock"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="20dp"
-                />
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_Password"
-                android:background="@drawable/edit_text"
-                android:hint="Password"
-                android:layout_marginLeft="5dp"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                >
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_shape">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/locked_padlock" />
+
+                <EditText
                     android:id="@+id/mEdit_Password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:hint="Password"
                     android:inputType="textPassword"
-                    android:lineHeight="5dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:letterSpacing="0.1"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:background="#4a5a71"/>-->
         </LinearLayout>
+
         <Button
             android:id="@+id/btn_register"
             android:layout_below="@+id/linear_layout_password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/button_background"
             android:text="Register"
@@ -141,6 +121,8 @@
             android:onClick="registerOnClick"
             android:layout_centerHorizontal="true"
             />
+
+
         <TextView
             android:id="@+id/material_text_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"

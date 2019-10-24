@@ -6,7 +6,7 @@ public class User implements Serializable {
     public String phone;
     public String password;
     public String name;
-    public boolean status;
+    public String status;
     public String _created;
     public String _deleted;
     public String _updated;
@@ -15,7 +15,7 @@ public class User implements Serializable {
     {
     }
 
-    public User(String phone, String password, String name, boolean status, String _created, String _deleted, String _updated) {
+    public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated) {
         this.phone = phone;
         this.password = password;
         this.name = name;
@@ -27,6 +27,14 @@ public class User implements Serializable {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setPhone(String phone) {
@@ -47,14 +55,6 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
     public String get_created() {
