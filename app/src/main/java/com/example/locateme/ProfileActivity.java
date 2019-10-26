@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -16,7 +17,7 @@ public class ProfileActivity extends AppCompatActivity {
     RelativeLayout myKonten;
     RelativeLayout overbox;
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
-    Animation formsmall, formnothing ;
+    Animation formsmall, formnothing, turn_off_animation ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         formsmall = AnimationUtils.loadAnimation(this,R.anim.formsmall);
         formnothing = AnimationUtils.loadAnimation(this,R.anim.formnothing);
+        turn_off_animation = AnimationUtils.loadAnimation(this,R.anim.turn_off_animation);
         myKonten.setAlpha(0);
         overbox.setAlpha(0);
 
@@ -46,6 +48,20 @@ public class ProfileActivity extends AppCompatActivity {
                 overbox.startAnimation(formnothing);
                 myKonten.setAlpha(1);
                 myKonten.startAnimation(formsmall);
+            }
+        });
+
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                overbox.startAnimation(formnothing);
+//                myKonten.startAnimation(formsmall);
+
+                overbox.setAlpha(0);
+                myKonten.startAnimation(turn_off_animation);
+                ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
+                ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
+
             }
         });
     }

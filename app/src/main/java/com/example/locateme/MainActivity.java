@@ -5,10 +5,17 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.locateme.helper.MyDB;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_INTERNET = 486;
@@ -23,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.start_page);
         requirePermission();
         db = new MyDB(this);
+
     }
     public void backActivityInterface(View view) {finish();}
     public void moveToLogin(View v) {

@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/linear_layout_password"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp">
 
@@ -121,22 +121,9 @@
             android:text="LOGIN"
             android:textSize="15dp"
             android:fontFamily="serif"
+            android:onClick="loginToMain"
             />
-<!--        <Button-->
-<!--            android:id="@+id/btn_Login"-->
-<!--            android:layout_below="@+id/txt_Pass"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginLeft="45dp"-->
-<!--            android:layout_marginRight="20dp"-->
-<!--            android:text="LOGIN"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:background="#ffffff"-->
-<!--            android:textColor="#FF020202"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="20dp"-->
-<!--            android:onClick="loginOnClick"/>-->
+
         <Button
             android:id="@+id/btn_Register"
             style="@style/Widget.MaterialComponents.Button.TextButton"
