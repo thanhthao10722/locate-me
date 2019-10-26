@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-<<<<<<< HEAD
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(phone).exists()) {
                     if(!phone.isEmpty()) {
@@ -66,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
-=======
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 boolean check = false;
@@ -87,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         if(user.getPhone().equals(phone) & user.getPassword().equals(password))
                         {
                             check = true;
->>>>>>> 3798257d9969ab621b9385a6b69ab8f5aebb71b6
                         }
                     }
                 }

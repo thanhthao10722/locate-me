@@ -2,15 +2,12 @@ package com.example.locateme;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.widget.TextView;
-=======
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
->>>>>>> 3798257d9969ab621b9385a6b69ab8f5aebb71b6
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
@@ -20,34 +17,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import com.example.locateme.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
-<<<<<<< HEAD
-    private TextView name;
-    private TextView phone;
-    private TextView address;
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        name = findViewById(R.id.profile_name);
-        phone = findViewById(R.id.profile_phone);
-        address = findViewById(R.id.profile_location);
-        Intent intent = getIntent();
-        if(intent!= null) {
-            Bundle bundle = intent.getBundleExtra("login");
-            User user = (User)bundle.getSerializable("user");
-            name.setText(user.getName());
-            phone.setText(user.getPhone());
-        }
-=======
     Button btn_Menu;
     RelativeLayout myKonten;
     RelativeLayout overbox;
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     Animation formsmall, formnothing, turn_off_animation ;
-
+    private TextView name;
+    private TextView phone;
+    private TextView address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            name = findViewById(R.id.profile_name);
+            phone = findViewById(R.id.profile_phone);
+            address = findViewById(R.id.profile_location);
+            Intent intent = getIntent();
+            if(intent!= null) {
+                Bundle bundle = intent.getBundleExtra("login");
+                User user = (User)bundle.getSerializable("user");
+                name.setText(user.getName());
+                phone.setText(user.getPhone());
+            }
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
@@ -86,9 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
     public void backButton(View v) {
         finish();
->>>>>>> 3798257d9969ab621b9385a6b69ab8f5aebb71b6
     }
 }
