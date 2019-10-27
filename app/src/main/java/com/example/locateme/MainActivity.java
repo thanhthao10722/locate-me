@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         db = new MyDB(this);
 
     }
-    public void backActivityInterface(View view) {finish();}
     public void moveToLogin(View v) {
         Intent login = new Intent(this,LoginActivity.class);
         this.startActivity(login);

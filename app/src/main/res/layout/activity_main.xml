@@ -27,7 +27,9 @@
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:onClick="moveToMap"
+            tools:ignore="OnClick"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -53,7 +55,8 @@
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="40dp"/>
+            android:layout_marginRight="40dp"
+           />
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -94,7 +97,8 @@
             app:civ_border_width="2dp"
             android:layout_marginLeft="40dp"
             android:layout_marginBottom="30dp"
-            android:onClick="backActivityInterface"/>
+            android:onClick="backToLogin"
+            tools:ignore="OnClick" />
 
     </RelativeLayout>
 
@@ -102,20 +106,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header"
-        android:background="#ffce00">
+        android:background="#ffffff">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Profile"
-            android:textSize="28dp"
-            android:layout_centerInParent="true"
-            android:textColor="#FF020202">
-        </TextView>
+            android:src="@drawable/reply"/>
+<!--            android:onClick="backButton" -->
+            />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Your Profile"-->
+<!--            android:textSize="28dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:textColor="#FF020202">-->
+<!--        </TextView>-->
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -129,6 +134,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/main_Profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
