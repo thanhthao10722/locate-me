@@ -3,6 +3,7 @@ package com.example.locateme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
     RelativeLayout myKonten;
     RelativeLayout overbox;
+    RelativeLayout main_Profile;
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     Animation formsmall, formnothing, turn_off_animation ;
     private TextView name;
@@ -43,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
         overbox = (RelativeLayout) findViewById(R.id.overbox);
+        main_Profile = (RelativeLayout) findViewById(R.id.main_Profile);
+
         civ_Home = (CircleImageView) findViewById(R.id.civ_Home);
         civ_Map = (CircleImageView) findViewById(R.id.civ_Map);
         civ_Friends = (CircleImageView) findViewById(R.id.civ_Friends);
@@ -67,17 +71,43 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        civ_Exit.setOnClickListener(new View.OnClickListener(){
+        civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 overbox.setAlpha(0);
                 myKonten.startAnimation(turn_off_animation);
+                ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
+                ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
 
+            }
+        });
+
+        main_Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                overbox.setAlpha(0);
+                myKonten.startAnimation(turn_off_animation);
+                ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
                 ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
             }
         });
+
     }
     public void backButton(View v) {
         finish();
+
+//    public void backButton(View v) {
+//        finish();
+//    }
+
+    public void backToLogin(View v){
+        Intent backToLogin = new Intent(this, LoginActivity.class);
+        this.startActivity(backToLogin);
     }
+
+    public void moveToMap(View v){
+        Intent moveToMap = new Intent(this, MapActivity.class);
+        this.startActivity(moveToMap);
+    }
+
 }
