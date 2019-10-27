@@ -52,19 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(phone).exists()) {
-                    if(!phone.isEmpty()) {
-                        User user = dataSnapshot.child(phone).getValue(User.class);
-                        if(user.getPassword().equals(password)) {
-                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("user",user);
-                            intent.putExtra("login",bundle);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 boolean check = false;

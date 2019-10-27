@@ -13,7 +13,7 @@ public class ForgotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_passsword);
+        setContentView(R.layout.reset_passsword);
         mEdit_newPassword = (EditText) findViewById(R.id.mEdit_Password);
         mEdit_rePassword = (EditText) findViewById(R.id.mEdit_rePassword);
     }
