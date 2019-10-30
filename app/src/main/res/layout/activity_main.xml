@@ -6,27 +6,135 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
+    <RelativeLayout
+        android:id="@+id/modal_menu"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/edit_text"
+        android:elevation="40dp"
+        android:gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Map"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/map_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
+            android:onClick="moveToMap"
+            tools:ignore="OnClick"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Friends"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/civ_Map"
+            android:src="@drawable/friends_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Home"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/civ_Map"
+            android:src="@drawable/home_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="40dp"
+           />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Suggest"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/civ_Map"
+            android:src="@drawable/suggest_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginBottom="30dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Family"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/civ_Map"
+            android:layout_toLeftOf="@id/civ_Suggest"
+            android:src="@drawable/family_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="30dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/civ_Exit"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/civ_Map"
+            android:layout_toRightOf="@id/civ_Suggest"
+            android:src="@drawable/exit_icon"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="30dp"
+            android:onClick="backToLogin"
+            tools:ignore="OnClick" />
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header"
-        android:background="#ffce00">
+        android:background="#ffffff">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="35dp"
-            android:src="@drawable/reply"
-            android:onClick="backButton" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Profile"
-            android:textSize="28dp"
-            android:layout_centerInParent="true"
-            android:textColor="#FF020202">
-        </TextView>
+            android:src="@drawable/reply"/>
+<!--            android:onClick="backButton" -->
+            />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Your Profile"-->
+<!--            android:textSize="28dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:textColor="#FF020202">-->
+<!--        </TextView>-->
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/overbox"
+        android:layout_below="@+id/header"
+        android:orientation="vertical"
+        android:background="@drawable/overbox"
+        android:elevation="3dp">
+
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/main_Profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
@@ -86,6 +194,7 @@
             android:src="@drawable/location_marker"></ImageView>
 
         <TextView
+            android:id="@+id/profile_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_phone"
@@ -123,17 +232,18 @@
             android:textSize="36dp"
             android:layout_marginBottom="16dp">
         </TextView>
-        <ImageButton
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_Menu"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="19dp"
             android:layout_marginBottom="19dp"
             android:src="@drawable/menu"
-            android:background="#FFFFFF"
+            android:background="@drawable/menu"
             >
-        </ImageButton>
+        </Button>
     </RelativeLayout>
 
 </RelativeLayout>
