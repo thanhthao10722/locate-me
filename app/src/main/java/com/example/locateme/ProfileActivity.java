@@ -3,19 +3,25 @@ package com.example.locateme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.example.locateme.model.User;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -27,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView name;
     private TextView phone;
     private TextView address;
+    DatabaseReference databaseReference;
+    String idUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -36,10 +44,21 @@ public class ProfileActivity extends AppCompatActivity {
             address = findViewById(R.id.profile_location);
             Intent intent = getIntent();
             if(intent!= null) {
-                Bundle bundle = intent.getBundleExtra("login");
-                User user = (User)bundle.getSerializable("user");
-                name.setText(user.getName());
-                phone.setText(user.getPhone());
+                idUser = intent.getStringExtra("id");
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                        databaseReference.child(idUser).addListenerForSingleValueEvent(new ValueEventListener()
+                        {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                            User user = dataSnapshot.getValue(User.class);
+                            name.setText(user.getName());
+                            phone.setText(user.getPhone());
+                        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
             }
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
@@ -96,10 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void backButton(View v) {
         finish();
 
-//    public void backButton(View v) {
-//        finish();
-//    }
-
+    }
     public void backToLogin(View v){
         Intent backToLogin = new Intent(this, LoginActivity.class);
         this.startActivity(backToLogin);

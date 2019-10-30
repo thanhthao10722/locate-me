@@ -168,7 +168,6 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
                         }
                         if(check == true)
                             Toast.makeText(InputPhoneNumberActivity.this, "Your phone number is registered with another account!", Toast.LENGTH_LONG).show();
-
                         else
                         {
                             StringBuilder sb = new StringBuilder(phone);

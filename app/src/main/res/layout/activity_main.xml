@@ -180,7 +180,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif"
-            android:text="phone"
             android:textSize="30dp"
             android:id="@+id/profile_phone">
         </TextView>
