@@ -20,6 +20,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
@@ -59,14 +60,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 boolean check = false;
-                ArrayList<User> listUser = new ArrayList<>();
+                String idUser = null;
+                HashMap<String, User> listUser = new HashMap<>();
+                ArrayList<String> listKey = new ArrayList<>();
                 for(DataSnapshot item : dataSnapshot.getChildren())
                 {
                     User user = item.getValue(User.class);
-                    listUser.add(user);
+                    listUser.put(item.getKey(), user);
+                    listKey.add(item.getKey());
                 }
-                for(User user : listUser)
+
+                for(String key : listKey)
                 {
+                    User user = listUser.get(key);
                     if(user.getStatus().equals("deactive"))
                     {
                         Toast.makeText(LoginActivity.this, "Your account is deactive", Toast.LENGTH_LONG).show();
@@ -76,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(user.getPhone().equals(phone) & user.getPassword().equals(password))
                         {
                             check = true;
+                            idUser = key;
                         }
                     }
                 }
@@ -83,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    intent.putExtra("id", idUser);
                     startActivity(intent);
                 }
                 else
