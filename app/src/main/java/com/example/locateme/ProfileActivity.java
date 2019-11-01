@@ -117,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
+                intent.putExtra("id",idUser);
                 startActivity(intent);
             }
         });
