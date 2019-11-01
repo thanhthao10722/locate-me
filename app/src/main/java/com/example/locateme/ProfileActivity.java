@@ -1,6 +1,9 @@
 package com.example.locateme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,18 +27,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
     RelativeLayout myKonten;
     RelativeLayout overbox;
     RelativeLayout main_Profile;
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
+    CircleImageView mAvatar;
     Animation formsmall, formnothing, turn_off_animation ;
     private TextView name;
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
     String idUser;
+    private boolean isModalOn = false;
+    private final int GALLERY_REQUEST = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -79,6 +90,16 @@ public class ProfileActivity extends AppCompatActivity {
         myKonten.setAlpha(0);
         overbox.setAlpha(0);
 
+        mAvatar = findViewById(R.id.profile_image);
+
+        mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
+        });
 
         btn_Menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,29 +108,33 @@ public class ProfileActivity extends AppCompatActivity {
                 overbox.startAnimation(formnothing);
                 myKonten.setAlpha(1);
                 myKonten.startAnimation(formsmall);
+                isModalOn = true;
             }
         });
 
+
         civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                overbox.setAlpha(0);
-                myKonten.startAnimation(turn_off_animation);
-                ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
-                ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
-
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
+                startActivity(intent);
             }
         });
 
         main_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                overbox.setAlpha(0);
-                myKonten.startAnimation(turn_off_animation);
-                ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
-                ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
+                if(isModalOn) {
+                    overbox.setAlpha(0);
+                    myKonten.startAnimation(turn_off_animation);
+                    ViewCompat.animate(overbox).setStartDelay(1000).alpha(0).start();
+                    ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
+                    isModalOn = false;
+                }
             }
         });
+
+
 
     }
     public void backButton(View v) {
@@ -125,5 +150,24 @@ public class ProfileActivity extends AppCompatActivity {
         Intent moveToMap = new Intent(this, MapActivity.class);
         this.startActivity(moveToMap);
     }
-
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (reqCode) {
+                case GALLERY_REQUEST :
+                {
+                    try {
+                        final Uri imageUri = data.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        mAvatar.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }break;
+            }
+        }else {
+        }
+    }
 }
