@@ -2,6 +2,7 @@ package com.example.locateme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
@@ -39,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = mEditPhone.getText().toString();
                 String password = mEditPassword.getText().toString();
+                Log.d("Error DMM","Login");
                 if(phone.matches("") || password.matches("")) {
                     Toast.makeText(LoginActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
                 }
@@ -49,20 +52,26 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(final String phone, final String password)
     {
+        Log.d("Error DMM","Login");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 boolean check = false;
-                ArrayList<User> listUser = new ArrayList<>();
+                String idUser = null;
+                HashMap<String, User> listUser = new HashMap<>();
+                ArrayList<String> listKey = new ArrayList<>();
                 for(DataSnapshot item : dataSnapshot.getChildren())
                 {
                     User user = item.getValue(User.class);
-                    listUser.add(user);
+                    listUser.put(item.getKey(), user);
+                    listKey.add(item.getKey());
                 }
-                for(User user : listUser)
+
+                for(String key : listKey)
                 {
+                    User user = listUser.get(key);
                     if(user.getStatus().equals("deactive"))
                     {
                         Toast.makeText(LoginActivity.this, "Your account is deactive", Toast.LENGTH_LONG).show();
@@ -72,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(user.getPhone().equals(phone) & user.getPassword().equals(password))
                         {
                             check = true;
+                            idUser = key;
                         }
                     }
                 }
@@ -79,15 +89,16 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    intent.putExtra("id", idUser);
                     startActivity(intent);
                 }
                 else
                 {
                     Toast.makeText(LoginActivity.this, "Your password or Your phone number is incorrect.Try again!", Toast.LENGTH_LONG).show();
                 }
-            }
+            }            @Override
 
-            @Override
+
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
