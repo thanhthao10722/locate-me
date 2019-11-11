@@ -26,18 +26,25 @@ public class ChatroomListActivity extends AppCompatActivity {
     private ChatroomAdapter adapter;
     private ArrayList<Chatroom> list;
     private DatabaseReference dbReference;
+    private String userId;
     private FloatingActionButton mAddChatroom_Btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom_list);
-        setProperties();
-        setChatroomAdapter();
+        Intent intent = getIntent();
+        if(intent != null) {
+            userId = intent.getStringExtra("user_id");
+            setProperties();
+            setEvent();
+            setChatroomAdapter();
+        }else {
+            finish();
+        }
     }
 
     public void dataInit() {
         Chatroom cr1 = new Chatroom("abc01","Hoi Tam Ke");
-        cr1.addMembers(new User());
         list.add(cr1);
     }
 
