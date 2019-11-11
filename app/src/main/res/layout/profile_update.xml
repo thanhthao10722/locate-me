@@ -81,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:background="#00000000"
-                android:inputType="textPassword"
                 android:letterSpacing="0.1"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
@@ -121,26 +120,32 @@
                 android:textSize="16dp"
                 android:hint="Your address"/>
         </LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/update_address_area"
+        android:id="@+id/button_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true">
 
         <Button
             android:id="@+id/btn_update"
-            android:layout_below="@id/update_address_area"
-            android:layout_marginTop="40dp"
             android:layout_width="150dp"
             android:layout_height="54dp"
             android:background="@drawable/button_background"
+            android:layout_marginTop="10dp"
             android:padding="6dp"
             android:text="UPDATE"
             android:textSize="17dp"
             android:fontFamily="serif"
-            android:textStyle="bold"
-            android:onClick="changingOnClick"
-            android:layout_marginLeft="50dp"/>
+            android:textStyle="bold"/>
+
+        <!--android:onClick="changeOnClick"-->
         <Button
-            android:id="@+id/btn_change_password"
-            android:layout_below="@id/update_address_area"
+            android:id="@+id/btn_changePassword"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
@@ -149,9 +154,11 @@
             android:textSize="15dp"
             android:fontFamily="serif"
             android:textStyle="bold"
-            android:onClick="changingOnClick"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/btn_update"/>
+<!--            android:onClick="changingOnClick"-->
+
+    </LinearLayout>
 
         <TextView
             android:id="@+id/material_text_button"

@@ -21,21 +21,22 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyD88L0bwJNJNjA7OJmu91-miJSEKvsqfBw" />
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".Chatroom.MainActivityChat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".InputPhoneNumberActivity" />
-        <activity android:name=".ValidationActivity" />
-        <activity android:name=".ForgotActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".InputPhoneNumberActivity"></activity>
+        <activity android:name=".ValidationActivity"></activity>
+        <activity android:name=".ForgotActivity"></activity>
+        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".UpdateProfileActivity"></activity>
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

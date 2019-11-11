@@ -11,10 +11,6 @@ public class User implements Serializable {
     public String _deleted;
     public String _updated;
 
-    public User()
-    {
-    }
-
     public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated) {
         this.phone = phone;
         this.password = password;
@@ -24,6 +20,7 @@ public class User implements Serializable {
         this._deleted = _deleted;
         this._updated = _updated;
     }
+
 
     public String getPhone() {
         return phone;
