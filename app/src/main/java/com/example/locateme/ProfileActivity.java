@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.example.locateme.Chatroom.ChatroomListActivity;
 import com.example.locateme.model.User;
 
 import com.google.firebase.database.DataSnapshot;
@@ -134,7 +135,14 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
+        civ_Friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
+                intent.putExtra("user_id",idUser);
+                startActivity(intent);
+            }
+        });
 
 
     }
