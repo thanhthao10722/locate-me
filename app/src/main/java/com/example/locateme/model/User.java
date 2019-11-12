@@ -11,6 +11,18 @@ public class User implements Serializable {
     public String _deleted;
     public String _updated;
 
+    public User() {}
+
+//    public User(User user) {
+//        this.phone = user.phone;
+//        this.password = user.password;
+//        this.name = user.name;
+//        this.status = user.status;
+//        this._created = user._created;
+//        this._deleted = user._deleted;
+//        this._updated = user._updated;
+//    }
+
     public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated) {
         this.phone = phone;
         this.password = password;

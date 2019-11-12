@@ -1,5 +1,6 @@
 package com.example.locateme.Chatroom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ public class MainActivityChat extends AppCompatActivity {
     boolean myMessage = true;
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
+    private String chatroomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +28,22 @@ public class MainActivityChat extends AppCompatActivity {
         setContentView(R.layout.layout_chatroom);
 
         ChatBubbles = new ArrayList<>();
+        loadIntent();
+        setProperties();
+        setEvent();
+    }
+        public void setProperties() {
+            listView = (ListView) findViewById(R.id.list_msg);
+            btnSend = findViewById(R.id.btn_chat_send);
+            editText = (EditText) findViewById(R.id.msg_type);
 
-        listView = (ListView) findViewById(R.id.list_msg);
-        btnSend = findViewById(R.id.btn_chat_send);
-        editText = (EditText) findViewById(R.id.msg_type);
+            //set ListView adapter first
+            loadChatHistory();
+            adapter = new MessageAdapter(this, R.layout.left_chat_bubble, ChatBubbles);
+            listView.setAdapter(adapter);
+        }
 
-        //set ListView adapter first
-        adapter = new MessageAdapter(this, R.layout.left_chat_bubble, ChatBubbles);
-        listView.setAdapter(adapter);
-
+        public void setEvent(){
         //event for button SEND
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,5 +64,19 @@ public class MainActivityChat extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void loadChatHistory() {
+
+    }
+
+    public void loadIntent(){
+        Intent intent = getIntent();
+        if(intent != null){
+            chatroomId = intent.getStringExtra("chatroomId");
+        } else {
+            Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 }
