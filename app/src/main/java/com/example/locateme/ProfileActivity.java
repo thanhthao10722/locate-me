@@ -1,10 +1,12 @@
 package com.example.locateme;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,17 +21,26 @@ import androidx.core.view.ViewCompat;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.Chatroom.ChatroomListActivity;
 import com.example.locateme.model.User;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -46,6 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
     String idUser;
     private boolean isModalOn = false;
     private final int GALLERY_REQUEST = 1001;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private Uri filePath;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                         {
-                            User user = dataSnapshot.getValue(User.class);
+                            user = dataSnapshot.getValue(User.class);
                             name.setText(user.getName());
                             phone.setText(user.getPhone());
+                            loadImage();
                         }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -96,9 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                chooseImage();
             }
         });
 
@@ -144,7 +158,56 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+    }
 
+    private void chooseImage() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+    }
+
+    private void uploadImage() {
+        if(filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfileActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+    }
+
+    private void loadImage() {
+        StorageReference uri = storageReference.child("images/"+user.getPhone()+"/profile.png");
+        Glide.with(this /* context */)
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .error(R.drawable.user)
+                .into(mAvatar);
     }
     public void backButton(View v) {
         finish();
@@ -167,13 +230,14 @@ public class ProfileActivity extends AppCompatActivity {
                 case GALLERY_REQUEST :
                 {
                     try {
-                        final Uri imageUri = data.getData();
-                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        filePath = data.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(filePath);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         mAvatar.setImageBitmap(selectedImage);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                    uploadImage();
                 }break;
             }
         }else {
