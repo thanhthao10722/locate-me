@@ -17,10 +17,11 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Chatroom.AddChatroomActivity"></activity>
         <activity android:name=".Chatroom.ChatroomListActivity" />
+        <activity android:name=".Chatroom.MainActivityChat" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyD88L0bwJNJNjA7OJmu91-miJSEKvsqfBw" />
-        <activity android:name=".Chatroom.MainActivityChat">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
