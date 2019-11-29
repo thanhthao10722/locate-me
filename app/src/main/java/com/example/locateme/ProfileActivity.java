@@ -246,10 +246,10 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
 
     }
-    public void backToLogin(View v){
-        Intent backToLogin = new Intent(this, LoginActivity.class);
-        this.startActivity(backToLogin);
-    }
+//    public void backToLogin(View v){
+//        Intent backToLogin = new Intent(this, LoginActivity.class);
+//        this.startActivity(backToLogin);
+//    }
 
     public void moveToMap(View v){
         Intent moveToMap = new Intent(this, MapActivity.class);
