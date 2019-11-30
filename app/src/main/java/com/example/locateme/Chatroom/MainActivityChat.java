@@ -9,6 +9,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.locateme.R;
+import com.example.locateme.helper.MyDB;
+import com.example.locateme.model.Chat;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +26,14 @@ public class MainActivityChat extends AppCompatActivity {
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
+    private MyDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_chatroom);
+
+        db = new MyDB(this);
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -52,7 +60,13 @@ public class MainActivityChat extends AppCompatActivity {
                     Toast.makeText(MainActivityChat.this, "Please input some text...", Toast.LENGTH_SHORT).show();
                 } else {
                     //add message to list
-                    ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), myMessage);
+                    ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), false);
+
+                    Chat chat = new Chat();
+                    chat.chatId = chatroomId;
+                    chat.message = editText.getText().toString();
+                    db.writeNewMesseage(chat);
+
                     ChatBubbles.add(ChatBubble);
                     adapter.notifyDataSetChanged();
                     editText.setText("");
