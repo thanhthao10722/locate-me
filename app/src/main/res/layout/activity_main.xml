@@ -147,17 +147,34 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             />
-        <EditText
-            android:id="@+id/profile_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_image"
-            android:fontFamily="sans-serif"
-            android:text="Name"
-            android:textSize="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true">
-        </EditText>
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/profile_name_layout">
+            <EditText
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="#00000000"
+                android:hint="Username"
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:fontFamily="sans-serif"
+                android:textSize="35sp" />
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/edit"/>
+
+        </LinearLayout>
+
+
 
         <ImageView
             android:id="@+id/icon_phone"

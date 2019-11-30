@@ -6,10 +6,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.locateme.helper.MyDB;
 import com.example.locateme.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     public MyDB db;
     Date date;
     SimpleDateFormat formatter;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone").toString();
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
+        mAuth = FirebaseAuth.getInstance();
         db = new MyDB(this);
     }
     public void backButton(View v) {
@@ -55,8 +62,22 @@ public class RegisterActivity extends AppCompatActivity {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
             User user = new User(phone, password, name, "active", formatter.format(date), "", "");
-            db.writeNewUser(user);
-            Toast.makeText(RegisterActivity.this, "Create account successfully", Toast.LENGTH_LONG).show();
+            //db.writeNewUser(user);
+            mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(RegisterActivity.this, "Create user successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Fail!", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("NewUser",user);
+            success.putExtra("Success",bundle);
             startActivity(success);
         }
     }

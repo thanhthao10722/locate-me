@@ -12,6 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.locateme.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +29,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
     private EditText mEditPassword;
     private Button btnLogin;
-    DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
+    private User newUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditPhone = (EditText)findViewById(R.id.usrusr);
         mEditPassword = (EditText)findViewById(R.id.pswrdd);
         btnLogin = (Button) findViewById(R.id.btn_Login);
-
-
-
+        mAuth = FirebaseAuth.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,61 +53,88 @@ public class LoginActivity extends AppCompatActivity {
                 logIn(phone, password);
             }
         });
+        Intent intent = getIntent();
+        if(intent!=null) {
+            Bundle bundle = intent.getBundleExtra("Success");
+            if(bundle!=null) {
+                newUser = (User)bundle.getSerializable("NewUser");
+            }
+        }
     }
 
     public void logIn(final String phone, final String password)
     {
-        Log.d("Error DMM","Login");
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                boolean check = false;
-                String idUser = null;
-                HashMap<String, User> listUser = new HashMap<>();
-                ArrayList<String> listKey = new ArrayList<>();
-                for(DataSnapshot item : dataSnapshot.getChildren())
-                {
-                    User user = item.getValue(User.class);
-                    listUser.put(item.getKey(), user);
-                    listKey.add(item.getKey());
-                }
 
-                for(String key : listKey)
-                {
-                    User user = listUser.get(key);
-                    if(user.getStatus().equals("deactive"))
-                    {
-                        Toast.makeText(LoginActivity.this, "Your account is deactive", Toast.LENGTH_LONG).show();
-                    }
-                    else if(user.getStatus().equals("active"))
-                    {
-                        if(user.getPhone().equals(phone) & user.getPassword().equals(password))
+        mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful())
                         {
-                            check = true;
-                            idUser = key;
+                            final String uId = mAuth.getCurrentUser().getUid();
+                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
+                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                            /*databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                {
+                                    boolean check = false;
+                                    String idUser = null;
+                                    HashMap<String, User> listUser = new HashMap<>();
+                                    ArrayList<String> listKey = new ArrayList<>();
+                                    for(DataSnapshot item : dataSnapshot.getChildren())
+                                    {
+                                        User user = item.getValue(User.class);
+                                        listUser.put(item.getKey(), user);
+                                        listKey.add(item.getKey());
+                                    }
+
+                                    for(String key : listKey)
+                                    {
+                                        User user = listUser.get(key);
+                                        if(user.getStatus().equals("active"))
+                                        {
+                                            if(user.getPhone().equals(phone) & user.getPassword().equals(password))
+                                            {
+                                                check = true;
+                                                idUser = key;
+                                            }
+                                        }
+                                    }
+                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                    intent.putExtra("idUser", idUser);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });*/
+
+                            databaseReference.child(uId).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists()) {
+                                        if(newUser!=null) {
+                                            databaseReference.child(uId).setValue(newUser);
+                                        }
+                                    }
+                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
                         }
                     }
-                }
-                if(check == true)
-                {
-                    Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    intent.putExtra("id", idUser);
-                    startActivity(intent);
-                }
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "Your password or Your phone number is incorrect.Try again!", Toast.LENGTH_LONG).show();
-                }
-            }            @Override
-
-
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                });
     }
 
     public void forgotPasswordOnClick(View view){
