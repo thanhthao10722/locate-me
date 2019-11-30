@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MyDB {
@@ -32,4 +33,6 @@ public class MyDB {
         String userId = databaseReference.push().getKey();
         databaseReference.child("users").child(userId).setValue(user);
     }
+
+
 }
