@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -50,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     CircleImageView mAvatar;
     Animation formsmall, formnothing, turn_off_animation ;
-    private TextView name;
+    private EditText name;
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
@@ -128,12 +129,32 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    finish();
+                }
+            }
+        });
+
+        civ_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    moveToMap(v);
+                }
+            }
+        });
+
         civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
-                intent.putExtra("id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
+                    intent.putExtra("id",idUser);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -152,14 +173,36 @@ public class ProfileActivity extends AppCompatActivity {
         civ_Friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
-                intent.putExtra("user_id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
+                    intent.putExtra("user_id",idUser);
+                    startActivity(intent);
+                }
+
             }
         });
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isModalOn) {
+                    name.setEnabled(true);
+                    String changeName = name.getText().toString();
+                    if(changeName.equals("")) {
+                        Toast.makeText(ProfileActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
+                    } else {
 
+                    }
+                }
+            }
+        });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+    }
+
+    private void updateName(String id, String name) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(id);
+
+
     }
 
     private void chooseImage() {
