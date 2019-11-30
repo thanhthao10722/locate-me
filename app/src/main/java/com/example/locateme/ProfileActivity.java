@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,8 +25,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.Chatroom.ChatroomListActivity;
 import com.example.locateme.model.User;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,12 +39,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -61,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private Uri filePath;
     private User user;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +75,25 @@ public class ProfileActivity extends AppCompatActivity {
             phone = findViewById(R.id.profile_phone);
             address = findViewById(R.id.profile_location);
             Intent intent = getIntent();
+            idUser = intent.getStringExtra("idUser");
+            mAuth = FirebaseAuth.getInstance();
+            final FirebaseUser current_user = mAuth.getCurrentUser();
             if(intent!= null) {
-                idUser = intent.getStringExtra("id");
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
                         databaseReference.child(idUser).addListenerForSingleValueEvent(new ValueEventListener()
                         {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                        {
-                            user = dataSnapshot.getValue(User.class);
-                            name.setText(user.getName());
-                            phone.setText(user.getPhone());
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                            {
+                                user = dataSnapshot.getValue(User.class);
+                                name.setText(user.getName());
+                                phone.setText(user.getPhone());
+                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(user.getName()).build();
+                                current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                    }
+                                });
                             loadImage();
                         }
                     @Override
@@ -174,12 +187,30 @@ public class ProfileActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
+            final StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
             ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                    {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
+                            StorageMetadata data = taskSnapshot.getMetadata();
+                            Task<Uri> url = ref.getDownloadUrl();
+                            url.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final String image = uri.toString();
+                                    final FirebaseUser current_user = mAuth.getCurrentUser();
+                                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
+                                    current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            });
+
                             Toast.makeText(ProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -202,8 +233,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        StorageReference uri = storageReference.child("images/"+user.getPhone()+"/profile.png");
+        FirebaseUser user = mAuth.getCurrentUser();
+        String uri = user.getPhotoUrl().toString();
         Glide.with(this /* context */)
+                .asDrawable()
                 .load(uri)
                 .apply(RequestOptions.circleCropTransform())
                 .error(R.drawable.user)
@@ -213,10 +246,10 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
 
     }
-    public void backToLogin(View v){
-        Intent backToLogin = new Intent(this, LoginActivity.class);
-        this.startActivity(backToLogin);
-    }
+//    public void backToLogin(View v){
+//        Intent backToLogin = new Intent(this, LoginActivity.class);
+//        this.startActivity(backToLogin);
+//    }
 
     public void moveToMap(View v){
         Intent moveToMap = new Intent(this, MapActivity.class);
