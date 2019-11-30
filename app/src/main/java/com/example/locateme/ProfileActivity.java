@@ -1,11 +1,17 @@
 package com.example.locateme;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -23,8 +29,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.Chatroom.ChatroomListActivity;
+import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.User;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +53,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -54,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     CircleImageView mAvatar;
     Animation formsmall, formnothing, turn_off_animation ;
-    private TextView name;
+    private EditText name;
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
@@ -66,19 +78,85 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri filePath;
     private User user;
     private FirebaseAuth mAuth;
+    private MapUtil map;
+    private boolean isNameChanging = false;
+    private RelativeLayout name_layout;
+    SimpleDateFormat formatter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            name = findViewById(R.id.profile_name);
-            phone = findViewById(R.id.profile_phone);
-            address = findViewById(R.id.profile_location);
-            Intent intent = getIntent();
-            idUser = intent.getStringExtra("idUser");
-            mAuth = FirebaseAuth.getInstance();
-            final FirebaseUser current_user = mAuth.getCurrentUser();
-            if(intent!= null) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name = findViewById(R.id.profile_name);
+        phone = findViewById(R.id.profile_phone);
+        address = findViewById(R.id.profile_location);
+        mAuth = FirebaseAuth.getInstance();
+        idUser = mAuth.getCurrentUser().getUid();
+        map = new MapUtil(ProfileActivity.this);
+        name_layout=findViewById(R.id.profile_name_layout);
+        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        name_layout.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Change your name here");
+
+                    final EditText input = new EditText(ProfileActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, int which)
+                        {
+                            final String newName = input.getText().toString();
+                            final FirebaseUser current_user = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
+                            current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                }
+                            });
+                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                            databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        User user = new User();
+                                        user = dataSnapshot.getValue(User.class);
+                                        user.setName(newName);
+                                        user.set_updated(formatter.format(new Date()));
+                                        databaseReference.child(current_user.getUid()).setValue(user);
+                                        name.setText(newName);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            dialog.cancel();
+                        }
+
+                    });
+
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    builder.show();
+                }
+            });
+
+        final FirebaseUser current_user = mAuth.getCurrentUser();
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
                         databaseReference.child(idUser).addListenerForSingleValueEvent(new ValueEventListener()
                         {
@@ -95,12 +173,13 @@ public class ProfileActivity extends AppCompatActivity {
                                     }
                                 });
                             loadImage();
+                            String location = map.getAddress();
+                            address.setText(location);
                         }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-            }
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
@@ -140,13 +219,38 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        name.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    finish();
+                }
+            }
+        });
+
+        civ_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    moveToMap(v);
+                }
+            }
+        });
 
         civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
-                intent.putExtra("id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this,ChatroomListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -160,17 +264,36 @@ public class ProfileActivity extends AppCompatActivity {
                     ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
                     isModalOn = false;
                 }
+                if(isNameChanging) {
+                    name.setEnabled(false);
+                    isNameChanging = false;
+                }
             }
         });
         civ_Friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
-                intent.putExtra("user_id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this, PhoneDirectoriesActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
-
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isModalOn) {
+                    isNameChanging = true;
+                    name.setEnabled(true);
+                    String changeName = name.getText().toString();
+                    if(changeName.equals("")) {
+                        Toast.makeText(ProfileActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
+                    } else {
+                    }
+                }
+            }
+        });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
@@ -205,7 +328,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
+//                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -234,13 +357,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadImage() {
         FirebaseUser user = mAuth.getCurrentUser();
-        String uri = user.getPhotoUrl().toString();
-        Glide.with(this /* context */)
-                .asDrawable()
-                .load(uri)
-                .apply(RequestOptions.circleCropTransform())
-                .error(R.drawable.user)
-                .into(mAvatar);
+        if (user.getPhotoUrl() != null)
+        {
+            String uri = user.getPhotoUrl().toString();
+            Glide.with(this /* context */)
+                    .asDrawable()
+                    .load(uri)
+                    .apply(RequestOptions.circleCropTransform())
+                    .error(R.drawable.user)
+                    .into(mAvatar);
+        }
     }
     public void backButton(View v) {
         finish();
@@ -275,5 +401,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }else {
         }
+    }
+
+    private void updateName() {
+
     }
 }

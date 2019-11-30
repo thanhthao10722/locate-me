@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/telephone" />
 
-            <EditText
+            <TextView
                 android:id="@+id/mEdit_Phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +52,8 @@
                 android:textColor="#000000"
                 android:textColorHint="#000000"
                 android:textSize="16dp"
-                android:hint="Phone number"/>
+                android:hint="Phone number"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +109,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/location_marker" />
 
-            <EditText
+            <TextView
                 android:id="@+id/mEdit_Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
