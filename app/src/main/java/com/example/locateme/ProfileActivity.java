@@ -178,6 +178,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        name.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
 
         civ_Exit.setOnClickListener(new View.OnClickListener() {
             @Override
