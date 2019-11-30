@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+    private User newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                 logIn(phone, password);
             }
         });
+        Intent intent = getIntent();
+        if(intent!=null) {
+            Bundle bundle = intent.getBundleExtra("Success");
+            if(bundle!=null) {
+                newUser = (User)bundle.getSerializable("NewUser");
+            }
+        }
     }
 
     public void logIn(final String phone, final String password)
@@ -63,9 +71,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
+                            final String uId = mAuth.getCurrentUser().getUid();
                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            /*databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                                 {
@@ -100,8 +109,25 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                 }
-                            });
+                            });*/
 
+                            databaseReference.child(uId).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists()) {
+                                        if(newUser!=null) {
+                                            databaseReference.child(uId).setValue(newUser);
+                                        }
+                                    }
+                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
                         }
                         else {

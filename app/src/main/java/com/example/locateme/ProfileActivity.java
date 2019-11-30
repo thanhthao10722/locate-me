@@ -74,11 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
             name = findViewById(R.id.profile_name);
             phone = findViewById(R.id.profile_phone);
             address = findViewById(R.id.profile_location);
-            Intent intent = getIntent();
-            idUser = intent.getStringExtra("idUser");
             mAuth = FirebaseAuth.getInstance();
-            final FirebaseUser current_user = mAuth.getCurrentUser();
-            if(intent!= null) {
+            idUser = mAuth.getCurrentUser().getUid();
+
+        final FirebaseUser current_user = mAuth.getCurrentUser();
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
                         databaseReference.child(idUser).addListenerForSingleValueEvent(new ValueEventListener()
                         {
@@ -100,7 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-            }
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
