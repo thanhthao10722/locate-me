@@ -77,8 +77,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     public void backButton(View v){
-        Intent intent = new Intent(this,ProfileActivity.class);
-        this.startActivity(intent);
+        finish();
     }
 
     public void loadData() {

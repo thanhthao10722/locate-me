@@ -24,7 +24,7 @@ public class ChatroomListActivity extends AppCompatActivity {
     private ListView mLv_Chatroom;
     private ImageView mBackButton;
     private ChatroomAdapter adapter;
-    private ArrayList<Chatroom> list;
+    private ArrayList<Chatroom> list = new ArrayList<Chatroom>();
     private DatabaseReference dbReference;
     private String userId;
     private FloatingActionButton mAddChatroom_Btn;
@@ -83,6 +83,9 @@ public class ChatroomListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String chatroomId = list.get(position).getId();
+                Intent intent = new Intent(ChatroomListActivity.this,MainActivityChat.class);
+                intent.putExtra("chatroomId",chatroomId);
+                startActivity(intent);
             }
         });
     }
