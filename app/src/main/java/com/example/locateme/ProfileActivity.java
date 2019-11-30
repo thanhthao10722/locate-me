@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -209,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
+//                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -238,13 +239,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadImage() {
         FirebaseUser user = mAuth.getCurrentUser();
-        String uri = user.getPhotoUrl().toString();
-        Glide.with(this /* context */)
-                .asDrawable()
-                .load(uri)
-                .apply(RequestOptions.circleCropTransform())
-                .error(R.drawable.user)
-                .into(mAvatar);
+        if (user.getPhotoUrl() != null)
+        {
+            String uri = user.getPhotoUrl().toString();
+            Glide.with(this /* context */)
+                    .asDrawable()
+                    .load(uri)
+                    .apply(RequestOptions.circleCropTransform())
+                    .error(R.drawable.user)
+                    .into(mAvatar);
+        }
     }
     public void backButton(View v) {
         finish();
