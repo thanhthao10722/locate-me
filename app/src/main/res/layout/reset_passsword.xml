@@ -13,13 +13,14 @@
         android:background="@color/mainBackground"
         android:layout_centerInParent="true">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/back_button"
             android:layout_alignParentTop="true"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_keyboard_arrow_back"
             android:onClick="backButton"
+            android:background="@color/mainBackground"
             android:layout_alignParentLeft="true"/>
 
 
@@ -39,7 +40,6 @@
             android:layout_below="@+id/locate_me"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="50dp"
             android:id="@+id/mEdit_Phone_Area">
 
             <ImageView

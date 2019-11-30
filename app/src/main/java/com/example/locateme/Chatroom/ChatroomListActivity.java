@@ -66,15 +66,15 @@ public class ChatroomListActivity extends AppCompatActivity {
                 int i = 0;
                 for(DataSnapshot item : dataSnapshot.getChildren())
                 {
-                    if(item.getKey().toString().equals(uId)) {
-                        User user = item.getValue(User.class);
-                        users.add(user);
+                    User user = item.getValue(User.class);
+                    users.add(user);
+                    Log.d("GETKEY",item.getKey());
+                    if(item.getKey().equals(uId)) {
                         currentPhone = user.getPhone();
                         Log.d("TEST", users.get(i++).getPhone());
                     }
                 }
                 dialog.dismiss();
-                Log.d("currentPhone", currentPhone);
                 loadIntent();
             }
 
@@ -101,19 +101,18 @@ public class ChatroomListActivity extends AppCompatActivity {
 
 
     public void dataInit() {
+        Log.d("currentPhone", currentPhone);
         ArrayList<String> phonesInDirectory = new ArrayList<>();
         phonesInDirectory.add("0708539115");
         phonesInDirectory.add("0963443189");
         phonesInDirectory.add("0905406660");
         for (User user : users) {
-            if(phonesInDirectory.contains(user.phone)) {
+            if(phonesInDirectory.contains(user.phone) && !phonesInDirectory.contains(currentPhone)) {
                 Chatroom cr = new Chatroom(currentPhone
-                        + " - " + user.phone, user.name);
-                Log.d("SYSTEM.OUT.USER", user.name);
+                        + "_" + user.phone, user.name);
                 listFriend.add(cr);
             }
         }
-        Log.d("SYSTEM.OUT", listFriend.toString());
     }
 
     public void setProperties() {
