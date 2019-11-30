@@ -66,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     CircleImageView mAvatar;
     Animation formsmall, formnothing, turn_off_animation ;
-    private EditText name;
+    private TextView name;
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
@@ -244,6 +244,24 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    finish();
+                }
+            }
+        });
+
+        civ_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    moveToMap(v);
+                }
+            }
+        });
+
         civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -312,8 +330,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             final StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
             ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                    {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
@@ -402,7 +419,6 @@ public class ProfileActivity extends AppCompatActivity {
         }else {
         }
     }
-
     private void updateName() {
 
     }
