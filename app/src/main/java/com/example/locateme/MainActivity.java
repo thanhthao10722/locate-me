@@ -1,6 +1,7 @@
 package com.example.locateme;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_ACLOCATION = 526;
     private static final int MY_PERMISSION_REQUEST_ANLOCATION = 425;
     private static final int MY_PERMISSION_REQUEST_AFLOCATION = 771;
+    private static final int MY_PERMISSION_REQUEST_READCONTACTS = 717;
     public MyDB db;
 
     @Override
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(map);
     }
     public void requirePermission() {
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_CONTACTS},MY_PERMISSION_REQUEST_READCONTACTS);
+        }
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.INTERNET},MY_PERMISSION_REQUEST_INTERNET);
         }
@@ -98,6 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    finish();
+                }
+            }
+            case MY_PERMISSION_REQUEST_READCONTACTS: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                }else {
                     finish();
                 }
             }

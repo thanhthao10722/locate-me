@@ -22,12 +22,13 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
     private GoogleMap myMap;
     private ProgressDialog myProgress;
+    public static Location currentLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-
+        loadLocation();
         //progress bar
         myProgress = new ProgressDialog(this);
         myProgress.setTitle("Map Loading...");
@@ -72,23 +73,26 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         return null;
     }
 
-    private void showMyLocationViaAnyTools() {
+    private void loadLocation() {
         LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         String locationProvider = this.getLocationProvider();
 
         if(locationProvider != null) {
             final long MIN_TIME_BW_UPDATES = 1000;
             final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-            Location myLocation = null;
             try {
-                locationManager.requestLocationUpdates(locationProvider,MIN_TIME_BW_UPDATES,MIN_DISTANCE_CHANGE_FOR_UPDATES,(LocationListener)this);
-                myLocation = locationManager.getLastKnownLocation(locationProvider);
-            }catch (SecurityException e) {
+                locationManager.requestLocationUpdates(locationProvider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                currentLocation = locationManager.getLastKnownLocation(locationProvider);
+            } catch (SecurityException e) {
                 e.printStackTrace();
                 return;
             }
-            if(myLocation != null) {
-                LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+        }
+    }
+
+    private void showMyLocationViaAnyTools() {
+            if(currentLocation != null) {
+                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -107,7 +111,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
                 Marker currentMarker = myMap.addMarker(option);
                 currentMarker.showInfoWindow();
             }
-        }
     }
 
     @Override
@@ -128,5 +131,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+    public static LatLng retrieveLocation() {
+        if(currentLocation != null) {
+            return new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        }
+        else
+            return new LatLng(16.073605,108.150019);
     }
 }

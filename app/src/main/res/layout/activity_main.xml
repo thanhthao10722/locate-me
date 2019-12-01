@@ -28,7 +28,6 @@
             app:civ_border_width="2dp"
             android:layout_marginBottom="40dp"
             android:layout_marginTop="30dp"
-            android:onClick="moveToMap"
             tools:ignore="OnClick"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -97,7 +96,6 @@
             app:civ_border_width="2dp"
             android:layout_marginLeft="40dp"
             android:layout_marginBottom="30dp"
-            android:onClick="backToLogin"
             tools:ignore="OnClick" />
 
     </RelativeLayout>
@@ -149,22 +147,40 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             />
-        <EditText
-            android:id="@+id/profile_name"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:background="#00000000"
-            android:hint="Username"
-            android:inputType="text"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
-            android:fontFamily="sans-serif"
-            android:textSize="35sp" />
+            android:id="@+id/profile_name_layout">
+            <EditText
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="#00000000"
+                android:hint="Username"
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:fontFamily="sans-serif"
+                android:textSize="35sp" />
+            <ImageView
+                android:layout_marginTop="15dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/edit"
+                android:layout_toRightOf="@+id/profile_name"
+                />
+
+        </RelativeLayout>
+
+
 
         <ImageView
             android:id="@+id/icon_phone"
@@ -184,11 +200,12 @@
         </TextView>
 
         <ImageView
+            android:id="@+id/location_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@+id/icon_phone"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="58dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="23dp"
             android:src="@drawable/location_marker"></ImageView>
 
@@ -199,9 +216,11 @@
             android:layout_below="@+id/profile_phone"
             android:fontFamily="sans-serif"
             android:text="location"
-            android:textSize="26dp"
-            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/location_icon"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="15dp"
+            android:textAlignment="center"
             ></TextView>
         <TextView
             android:layout_above="@+id/line"

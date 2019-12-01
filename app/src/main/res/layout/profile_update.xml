@@ -52,7 +52,8 @@
                 android:textColor="#000000"
                 android:textColorHint="#000000"
                 android:textSize="16dp"
-                android:hint="Phone number"/>
+                android:hint="Phone number"
+                />
         </LinearLayout>
 
         <LinearLayout

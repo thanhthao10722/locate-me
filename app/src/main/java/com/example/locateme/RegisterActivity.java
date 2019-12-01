@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
             User user = new User(phone, password, name, "active", formatter.format(date), "", "");
-            db.writeNewUser(user);
+            //db.writeNewUser(user);
             mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -75,6 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                     });
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("NewUser",user);
+            success.putExtra("Success",bundle);
             startActivity(success);
         }
     }
