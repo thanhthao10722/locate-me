@@ -74,6 +74,7 @@ public class ChangePasswordActivity extends AppCompatActivity
                                 if(newPassword.equals(validation))
                                 {
                                     user.setPassword(newPassword);
+
                                     databaseReference.child(current_user.getUid()).setValue(user);
                                     current_user.updatePassword(newPassword)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
