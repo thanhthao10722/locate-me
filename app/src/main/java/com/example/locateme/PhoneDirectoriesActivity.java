@@ -30,7 +30,7 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
     private void initComponent() {
         contactsList = new ArrayList<Contact>();
         adapter = new ContactAdapter(this,R.layout.contact_adapter,contactsList);
-    mListViewContacts = findViewById(R.id.contact_list);
+        mListViewContacts = findViewById(R.id.contact_list);
         mListViewContacts.setAdapter(adapter);
 }
 
