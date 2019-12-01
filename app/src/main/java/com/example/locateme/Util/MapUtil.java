@@ -26,7 +26,10 @@ public class MapUtil implements LocationListener {
     private Context context;
     public MapUtil(Context context) {
         this.context = context;
-        loadLocation();
+        while(currentLocation == null)
+        {
+            loadLocation();
+        }
     }
     private String getLocationProvider() {
 
@@ -64,13 +67,11 @@ public class MapUtil implements LocationListener {
         String add = "";
         Geocoder geocoder = new Geocoder(this.context, Locale.getDefault());
         try {
-            if(currentLocation != null)
-            {
-                List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
-                Address obj = addresses.get(0);
-                String[] list = obj.getAddressLine(0).split(",");
-                add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + list[4];
-            }
+            List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+            Address obj = addresses.get(0);
+            String[] list = obj.getAddressLine(0).split(",");
+            add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + list[4];
+
         } catch (IOException e) {
             e.printStackTrace();
             Log.d("Exception", e.getMessage());
