@@ -53,6 +53,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,19 +81,22 @@ public class ProfileActivity extends AppCompatActivity {
     private MapUtil map;
     private boolean isNameChanging = false;
     private RelativeLayout name_layout;
+    SimpleDateFormat formatter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            name = findViewById(R.id.profile_name);
-            phone = findViewById(R.id.profile_phone);
-            address = findViewById(R.id.profile_location);
-            mAuth = FirebaseAuth.getInstance();
-            idUser = mAuth.getCurrentUser().getUid();
-            map = new MapUtil(ProfileActivity.this);
-            name_layout=findViewById(R.id.profile_name_layout);
-            name_layout.setOnClickListener(new View.OnClickListener()
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name = findViewById(R.id.profile_name);
+        phone = findViewById(R.id.profile_phone);
+        address = findViewById(R.id.profile_location);
+        mAuth = FirebaseAuth.getInstance();
+        idUser = mAuth.getCurrentUser().getUid();
+        map = new MapUtil(ProfileActivity.this);
+        name_layout=findViewById(R.id.profile_name_layout);
+        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        name_layout.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v) {
@@ -104,10 +109,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which)
+                        public void onClick(final DialogInterface dialog, int which)
                         {
                             final String newName = input.getText().toString();
                             final FirebaseUser current_user = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
+                            current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                }
+                            });
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
                             databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -117,15 +128,9 @@ public class ProfileActivity extends AppCompatActivity {
                                     {
                                         User user = new User();
                                         user = dataSnapshot.getValue(User.class);
-
                                         user.setName(newName);
+                                        user.set_updated(formatter.format(new Date()));
                                         databaseReference.child(current_user.getUid()).setValue(user);
-                                        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
-                                        current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                            }
-                                        });
                                         name.setText(newName);
                                     }
                                 }
@@ -135,9 +140,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 }
                             });
+                            dialog.cancel();
                         }
 
                     });
+
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

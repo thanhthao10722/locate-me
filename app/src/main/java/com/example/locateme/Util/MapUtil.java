@@ -70,7 +70,7 @@ public class MapUtil implements LocationListener {
             List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
             Address obj = addresses.get(0);
             String[] list = obj.getAddressLine(0).split(",");
-            add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + list[4];
+            add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + obj.getCountryName();
 
         } catch (IOException e) {
             e.printStackTrace();
