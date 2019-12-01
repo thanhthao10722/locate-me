@@ -74,42 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                             final String uId = mAuth.getCurrentUser().getUid();
                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-                            /*databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                                {
-                                    boolean check = false;
-                                    String idUser = null;
-                                    HashMap<String, User> listUser = new HashMap<>();
-                                    ArrayList<String> listKey = new ArrayList<>();
-                                    for(DataSnapshot item : dataSnapshot.getChildren())
-                                    {
-                                        User user = item.getValue(User.class);
-                                        listUser.put(item.getKey(), user);
-                                        listKey.add(item.getKey());
-                                    }
-
-                                    for(String key : listKey)
-                                    {
-                                        User user = listUser.get(key);
-                                        if(user.getStatus().equals("active"))
-                                        {
-                                            if(user.getPhone().equals(phone) & user.getPassword().equals(password))
-                                            {
-                                                check = true;
-                                                idUser = key;
-                                            }
-                                        }
-                                    }
-                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                    intent.putExtra("idUser", idUser);
-                                    startActivity(intent);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                }
-                            });*/
 
                             databaseReference.child(uId).addValueEventListener(new ValueEventListener() {
                                 @Override

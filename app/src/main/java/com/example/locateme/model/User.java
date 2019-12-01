@@ -33,6 +33,10 @@ public class User implements Serializable {
         this._updated = _updated;
     }
 
+    public User(String name) {
+        this.name = name;
+    }
+
 
     public String getPhone() {
         return phone;

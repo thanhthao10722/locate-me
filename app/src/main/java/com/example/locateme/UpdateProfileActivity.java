@@ -38,8 +38,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEdit_Address = findViewById(R.id.mEdit_Address);
         mButton_Update = findViewById(R.id.btn_update);
         mButton_Password = findViewById(R.id.btn_changePassword);
+        Intent intent = getIntent();
+        if (intent != null) {
+            userId = intent.getStringExtra("id");
+            loadData();
+        }
         setEvent();
-        loadData();
+
     }
     public void setmButton_Update() {
         //update message
@@ -58,8 +63,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     }
     public void setmButton_Password() {
-        Intent intent = new Intent(this,ChangePasswordActivity.class);
-        this.startActivity(intent);
+        Intent sent_intent = new Intent(this,ChangePasswordActivity.class);
+        sent_intent.putExtra("id", userId);
+        this.startActivity(sent_intent);
     }
     public void setEvent() {
         mButton_Password.setOnClickListener(new View.OnClickListener() {
@@ -81,24 +87,22 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            userId = intent.getStringExtra("id");
-            FirebaseDatabase.getInstance().getReference().child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    currentUser = dataSnapshot.getValue(User.class);
-                    mEdit_Name.setText(currentUser.getName());
-                    mEdit_Phone.setText(currentUser.getPhone());
-                    originalName = currentUser.getName();
-                    originalPhone = currentUser.getPhone();
-                }
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+                mEdit_Name.setText(currentUser.getName());
+                mEdit_Phone.setText(currentUser.getPhone());
+                originalName = currentUser.getName();
+                originalPhone = currentUser.getPhone();
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
+
     }
 }
