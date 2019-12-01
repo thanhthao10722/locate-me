@@ -17,6 +17,8 @@ import com.example.locateme.model.Chatroom;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.example.locateme.helper.MyDB;
+import com.example.locateme.model.Chat;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,11 +34,14 @@ public class MainActivityChat extends AppCompatActivity {
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
+    private MyDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_chatroom);
+
+        db = new MyDB(this);
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -64,6 +69,12 @@ public class MainActivityChat extends AppCompatActivity {
                 } else {
                     //add message to list
                     ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), false);
+
+                    Chat chat = new Chat();
+                    chat.chatId = chatroomId;
+                    chat.message = editText.getText().toString();
+                    db.writeNewMesseage(chat);
+
                     ChatBubbles.add(ChatBubble);
                     adapter.notifyDataSetChanged();
                     editText.setText("");

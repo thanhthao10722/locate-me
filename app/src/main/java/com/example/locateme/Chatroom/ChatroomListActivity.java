@@ -68,10 +68,9 @@ public class ChatroomListActivity extends AppCompatActivity {
                 {
                     User user = item.getValue(User.class);
                     users.add(user);
-                    Log.d("GETKEY",item.getKey());
+
                     if(item.getKey().equals(uId)) {
                         currentPhone = user.getPhone();
-                        Log.d("TEST", users.get(i++).getPhone());
                     }
                 }
                 dialog.dismiss();
@@ -103,16 +102,18 @@ public class ChatroomListActivity extends AppCompatActivity {
     public void dataInit() {
         Log.d("currentPhone", currentPhone);
         ArrayList<String> phonesInDirectory = new ArrayList<>();
-        phonesInDirectory.add("0708539115");
+        phonesInDirectory.add("0865389417");
         phonesInDirectory.add("0963443189");
-        phonesInDirectory.add("0905406660");
+        phonesInDirectory.add("0935336719");
         for (User user : users) {
-            if(phonesInDirectory.contains(user.phone) && !phonesInDirectory.contains(currentPhone)) {
+            Log.d("TEST", user.phone);
+//            if(phonesInDirectory.contains(user.phone) && !phonesInDirectory.contains(currentPhone)) {
                 Chatroom cr = new Chatroom(currentPhone
-                        + "_" + user.phone, user.name);
+                        + "-" + user.phone, user.name);
                 listFriend.add(cr);
-            }
+//            }
         }
+        Log.d("lsFR", listFriend.toString());
     }
 
     public void setProperties() {
@@ -170,9 +171,6 @@ public class ChatroomListActivity extends AppCompatActivity {
                 String chatroomId = listFriend.get(position).getId();
                 Intent intent = new Intent(ChatroomListActivity.this,MainActivityChat.class);
                 intent.putExtra("chatroomId",chatroomId);
-                Chat chat = new Chat();
-                chat.chatId = chatroomId;
-                db.writeNewMesseage(chat);
                 startActivity(intent);
             }
         });

@@ -243,6 +243,23 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    finish();
+                }
+            }
+        });
+
+        civ_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    moveToMap(v);
+                }
+            }
+        });
         civ_Family.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
