@@ -174,19 +174,26 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
+        civ_Exit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         civ_Family.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this,ChatroomListActivity.class);
+                    Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                 }
             }
         });
         civ_Home.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if(isModalOn) {

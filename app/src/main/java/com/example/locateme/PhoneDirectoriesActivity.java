@@ -1,15 +1,12 @@
 package com.example.locateme;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.locateme.Adapter.ContactAdapter;
 import com.example.locateme.model.Contact;
 import com.example.locateme.model.User;
@@ -33,7 +30,6 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
     private ContactAdapter adapter;
     private FirebaseAuth mAuth;
     DatabaseReference databaseReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +93,6 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
                         }
                     }
                 }
-                System.out.print("================="+ suggestionList);
                 adapter.notifyDataSetChanged();
 
             }
@@ -114,4 +109,5 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
 
     private void addFriend(View v) {
     }
+
 }
