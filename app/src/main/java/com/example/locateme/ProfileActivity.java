@@ -9,9 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -244,7 +242,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        civ_Home.setOnClickListener(new View.OnClickListener() {
+        civ_Family.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isModalOn) {
@@ -270,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        civ_Friends.setOnClickListener(new View.OnClickListener() {
+        civ_Suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {
@@ -329,6 +327,25 @@ public class ProfileActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
 //                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                                    databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                        {
+                                            if(dataSnapshot.exists())
+                                            {
+                                                User user = new User();
+                                                user = dataSnapshot.getValue(User.class);
+                                                user.setPhotourl(image);
+                                                user.set_updated(formatter.format(new Date()));
+                                                databaseReference.child(current_user.getUid()).setValue(user);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
                                         }
                                     });
                                 }

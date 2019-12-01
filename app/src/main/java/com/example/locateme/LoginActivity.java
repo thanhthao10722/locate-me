@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(!dataSnapshot.exists()) {
                                         if(newUser!=null) {
+                                            newUser.setId(uId);
                                             databaseReference.child(uId).setValue(newUser);
                                         }
                                     }
