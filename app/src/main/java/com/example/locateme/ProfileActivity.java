@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                     builder.setTitle("Change your name here");
 
                     final EditText input = new EditText(ProfileActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
                     builder.setView(input);
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -213,8 +213,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
-                    intent.putExtra("id",idUser);
+                    Intent intent = new Intent(ProfileActivity.this,ChatroomListActivity.class);
                     startActivity(intent);
                 }
             }
@@ -368,5 +367,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }else {
         }
+    }
+
+    private void updateName() {
+
     }
 }

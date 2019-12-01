@@ -26,7 +26,9 @@ public class MapUtil implements LocationListener {
     private Context context;
     public MapUtil(Context context) {
         this.context = context;
-        loadLocation();
+        while(currentLocation == null) {
+            loadLocation();
+        }
     }
     private String getLocationProvider() {
 

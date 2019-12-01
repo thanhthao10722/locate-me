@@ -37,7 +37,6 @@
         <activity android:name=".ValidationActivity" />
         <activity android:name=".ForgotActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".UpdateProfileActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".Chatroom.AddChatroomActivity" />
         <activity android:name=".Chatroom.ChatroomListActivity" />
