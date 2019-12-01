@@ -1,12 +1,17 @@
 package com.example.locateme;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -48,6 +53,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -57,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView civ_Home, civ_Map,civ_Friends, civ_Family, civ_Suggest, civ_Exit;
     CircleImageView mAvatar;
     Animation formsmall, formnothing, turn_off_animation ;
-    private TextView name;
+    private EditText name;
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
@@ -70,6 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
     private User user;
     private FirebaseAuth mAuth;
     private MapUtil map;
+    private boolean isNameChanging = false;
+    private RelativeLayout name_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +90,36 @@ public class ProfileActivity extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
             idUser = mAuth.getCurrentUser().getUid();
             map = new MapUtil(ProfileActivity.this);
+            name_layout=findViewById(R.id.profile_name_layout);
+            name_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Change your name here");
+
+                    final EditText input = new EditText(ProfileActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String newName = input.getText().toString();
+                            //Update name
+
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    builder.show();
+                }
+            });
 
         final FirebaseUser current_user = mAuth.getCurrentUser();
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
@@ -152,12 +191,32 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        civ_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    finish();
+                }
+            }
+        });
+
+        civ_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isModalOn) {
+                    moveToMap(v);
+                }
+            }
+        });
+
         civ_Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
-                intent.putExtra("id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
+                    intent.putExtra("id",idUser);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -171,17 +230,37 @@ public class ProfileActivity extends AppCompatActivity {
                     ViewCompat.animate(myKonten).setStartDelay(1000).alpha(0).start();
                     isModalOn = false;
                 }
+                if(isNameChanging) {
+                    name.setEnabled(false);
+                    isNameChanging = false;
+                }
             }
         });
         civ_Friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
-                intent.putExtra("user_id",idUser);
-                startActivity(intent);
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
+                    intent.putExtra("user_id",idUser);
+                    startActivity(intent);
+                }
+
             }
         });
-
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isModalOn) {
+                    isNameChanging = true;
+                    name.setEnabled(true);
+                    String changeName = name.getText().toString();
+                    if(changeName.equals("")) {
+                        Toast.makeText(ProfileActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
+                    } else {
+                    }
+                }
+            }
+        });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
