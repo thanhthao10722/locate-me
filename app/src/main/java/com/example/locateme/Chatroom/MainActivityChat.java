@@ -7,8 +7,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.locateme.R;
+import com.example.locateme.model.Chat;
+import com.example.locateme.model.Chatroom;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +31,7 @@ public class MainActivityChat extends AppCompatActivity {
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +80,42 @@ public class MainActivityChat extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             chatroomId = intent.getStringExtra("chatroomId");
+            dbReference = dbReference.child(chatroomId);
         } else {
             Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
             finish();
         }
     }
     public void receiveNewMessage(String message) {
-        ChatBubble ChatBubble = new ChatBubble(message, true);
-        ChatBubbles.add(ChatBubble);
-        adapter.notifyDataSetChanged();
+        dbReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Chat chat = dataSnapshot.getValue(Chat.class);
+                ChatBubble ChatBubble = new ChatBubble(chat.message, true);
+                ChatBubbles.add(ChatBubble);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
+
 }

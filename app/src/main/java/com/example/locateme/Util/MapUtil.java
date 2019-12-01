@@ -24,30 +24,34 @@ import static android.content.Context.LOCATION_SERVICE;
 public class MapUtil implements LocationListener {
     public Location currentLocation = null;
     private Context context;
+
     public MapUtil(Context context) {
         this.context = context;
-        while(currentLocation == null)
-        {
+        while (currentLocation == null) {
             loadLocation();
         }
     }
+
     private String getLocationProvider() {
 
-        LocationManager locationManager = (LocationManager)context.getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria,true);
+        String provider = locationManager.getBestProvider(criteria, true);
         boolean enabled = locationManager.isProviderEnabled(provider);
-        if(enabled) return provider;
+        if (enabled)
+            return provider;
         return null;
     }
+
     private void loadLocation() {
-        LocationManager locationManager = (LocationManager)context.getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         String locationProvider = this.getLocationProvider();
-        if(locationProvider != null) {
+        if (locationProvider != null) {
             final long MIN_TIME_BW_UPDATES = 1000;
             final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
             try {
-                locationManager.requestLocationUpdates(locationProvider, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                locationManager.requestLocationUpdates(locationProvider, MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
                 currentLocation = locationManager.getLastKnownLocation(locationProvider);
             } catch (SecurityException e) {
                 e.printStackTrace();
@@ -55,19 +59,19 @@ public class MapUtil implements LocationListener {
             }
         }
     }
+
     public LatLng getLocation() {
-        if(currentLocation != null) {
-            return new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        }
-        else
-            return new LatLng(16.073605,108.150019);
+        if (currentLocation != null) {
+            return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        } else
+            return new LatLng(16.073605, 108.150019);
     }
-    public String getAddress()
-    {
+
+    public String getAddress() {
         String add = "";
         Geocoder geocoder = new Geocoder(this.context, Locale.getDefault());
         try {
-            List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+        List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
             Address obj = addresses.get(0);
             String[] list = obj.getAddressLine(0).split(",");
             add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + obj.getCountryName();
@@ -78,6 +82,7 @@ public class MapUtil implements LocationListener {
         }
         return add;
     }
+
     @Override
     public void onLocationChanged(Location location) {
 

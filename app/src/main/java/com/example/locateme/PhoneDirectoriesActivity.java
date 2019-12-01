@@ -1,5 +1,6 @@
 package com.example.locateme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -11,6 +12,11 @@ import android.widget.ListView;
 
 import com.example.locateme.Adapter.ContactAdapter;
 import com.example.locateme.model.Contact;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -19,6 +25,7 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
     private ArrayList<Contact> contactsList;
     private ListView mListViewContacts;
     private ContactAdapter adapter;
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,4 +53,5 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
 
     private void addFriend(View v) {
     }
+
 }

@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:id="@+id/modal_menu"
-        android:layout_width="350dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/edit_text"
@@ -114,6 +114,7 @@
             android:textColor="#FF020202">
         </TextView>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -122,19 +123,23 @@
         android:orientation="vertical"
         android:background="@drawable/overbox"
         android:elevation="3dp">
-
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="@color/mainBackground">
 
     <RelativeLayout
         android:id="@+id/main_Profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/rectangle">
+        android:background="@drawable/background_rectangle">
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -147,6 +152,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -155,13 +161,12 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:id="@+id/profile_name_layout">
-            <EditText
+            <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:background="#00000000"
                 android:hint="Username"
@@ -170,14 +175,6 @@
                 android:textColorHint="#000000"
                 android:fontFamily="sans-serif"
                 android:textSize="35sp" />
-            <ImageView
-                android:layout_marginTop="15dp"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@drawable/edit"
-                android:layout_toRightOf="@+id/profile_name"
-                />
-
         </RelativeLayout>
 
 
@@ -187,14 +184,15 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="58dp"
-            android:src="@drawable/telephone_old"></ImageView>
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/telephone_old"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif"
+            android:textColorHint="#000000"
             android:textSize="26dp"
             android:id="@+id/profile_phone">
         </TextView>
@@ -207,7 +205,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="23dp"
-            android:src="@drawable/location_marker"></ImageView>
+            android:src="@drawable/location_marker"/>
 
         <TextView
             android:id="@+id/profile_location"
@@ -215,25 +213,24 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_phone"
             android:fontFamily="sans-serif"
-            android:text="location"
             android:textSize="20dp"
+            android:textColorHint="#000000"
             android:layout_toRightOf="@+id/location_icon"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="15dp"
-            android:textAlignment="center"
-            ></TextView>
+            android:textAlignment="center"/>
+
         <TextView
             android:layout_above="@+id/line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Tiểu sử"
-            android:textSize="30dp"
+            android:textSize="25sp"
             android:layout_marginBottom="16dp">
         </TextView>
         <View
             android:id="@+id/line"
-            android:layout_width="190dp"
+            android:layout_width="150dp"
             android:layout_height="2dp"
             android:background="@android:color/darker_gray"
             android:layout_above="@+id/footer_text"
@@ -247,7 +244,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="View Profile"
-            android:textSize="36dp"
+            android:textSize="25sp"
             android:layout_marginBottom="16dp">
         </TextView>
         <Button
@@ -263,5 +260,5 @@
             >
         </Button>
     </RelativeLayout>
-
+    </RelativeLayout>
 </RelativeLayout>
