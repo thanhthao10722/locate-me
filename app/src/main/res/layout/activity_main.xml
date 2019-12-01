@@ -179,11 +179,12 @@
         </TextView>
 
         <ImageView
+            android:id="@+id/location_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@+id/icon_phone"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="58dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="23dp"
             android:src="@drawable/location_marker"></ImageView>
 
@@ -194,9 +195,11 @@
             android:layout_below="@+id/profile_phone"
             android:fontFamily="sans-serif"
             android:text="location"
-            android:textSize="26dp"
-            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/location_icon"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="15dp"
+            android:textAlignment="center"
             ></TextView>
         <TextView
             android:layout_above="@+id/line"

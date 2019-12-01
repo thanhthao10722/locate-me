@@ -24,8 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.Chatroom.ChatroomListActivity;
+import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.User;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri filePath;
     private User user;
     private FirebaseAuth mAuth;
+    private MapUtil map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
             address = findViewById(R.id.profile_location);
             mAuth = FirebaseAuth.getInstance();
             idUser = mAuth.getCurrentUser().getUid();
+            map = new MapUtil(ProfileActivity.this);
 
         final FirebaseUser current_user = mAuth.getCurrentUser();
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
@@ -95,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity {
                                     }
                                 });
                             loadImage();
+                            String location = map.getAddress();
+                            address.setText(location);
                         }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

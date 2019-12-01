@@ -2,15 +2,22 @@ package com.example.locateme.Util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -52,7 +59,24 @@ public class MapUtil implements LocationListener {
         else
             return new LatLng(16.073605,108.150019);
     }
-
+    public String getAddress()
+    {
+        String add = "";
+        Geocoder geocoder = new Geocoder(this.context, Locale.getDefault());
+        try {
+            if(currentLocation != null)
+            {
+                List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+                Address obj = addresses.get(0);
+                String[] list = obj.getAddressLine(0).split(",");
+                add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + list[4];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("Exception", e.getMessage());
+        }
+        return add;
+    }
     @Override
     public void onLocationChanged(Location location) {
 
