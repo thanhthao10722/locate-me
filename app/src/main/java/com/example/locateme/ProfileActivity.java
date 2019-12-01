@@ -267,8 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
-                    intent.putExtra("user_id",idUser);
+                    Intent intent = new Intent(ProfileActivity.this, PhoneDirectoriesActivity.class);
                     startActivity(intent);
                 }
 
