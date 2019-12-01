@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UpdateProfileActivity extends AppCompatActivity {
-    private EditText mEdit_Phone;
+    private TextView mEdit_Phone;
     private EditText mEdit_Name;
-    private EditText mEdit_Address;
+    private TextView mEdit_Address;
     private Button mButton_Update;
     private Button mButton_Password;
     private User currentUser;
