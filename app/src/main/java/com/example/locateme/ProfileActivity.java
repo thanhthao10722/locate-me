@@ -91,7 +91,8 @@ public class ProfileActivity extends AppCompatActivity {
             idUser = mAuth.getCurrentUser().getUid();
             map = new MapUtil(ProfileActivity.this);
             name_layout=findViewById(R.id.profile_name_layout);
-            name_layout.setOnClickListener(new View.OnClickListener() {
+            name_layout.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
@@ -103,12 +104,39 @@ public class ProfileActivity extends AppCompatActivity {
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String newName = input.getText().toString();
-                            //Update name
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            final String newName = input.getText().toString();
+                            final FirebaseUser current_user = mAuth.getCurrentUser();
+                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                            databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        User user = new User();
+                                        user = dataSnapshot.getValue(User.class);
 
+                                        user.setName(newName);
+                                        databaseReference.child(current_user.getUid()).setValue(user);
+                                        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
+                                        current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                            }
+                                        });
+                                        name.setText(newName);
+                                    }
+                                }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
+
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override

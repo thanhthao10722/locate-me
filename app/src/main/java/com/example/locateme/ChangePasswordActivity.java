@@ -58,7 +58,8 @@ public class ChangePasswordActivity extends AppCompatActivity
             Toast.makeText(this,"Please fill all the fields",Toast.LENGTH_LONG).show();
         }else
             {
-                final FirebaseUser current_user = mAuth.getCurrentUser();databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                final FirebaseUser current_user = mAuth.getCurrentUser();
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
 
                 databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
