@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/shadow"/>
     <item
-        android:drawable="@drawable/btn_shape_round"
+        android:drawable="@drawable/background_rectangle"
         android:bottom="5dp"
         android:right="4dp"
         />

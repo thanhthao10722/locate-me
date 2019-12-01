@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 
 import com.example.locateme.LoginActivity;
 import com.example.locateme.ProfileActivity;
+import com.example.locateme.model.Chat;
 import com.example.locateme.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.utilities.Utilities;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,5 +36,11 @@ public class MyDB {
         databaseReference.child("users").child(userId).setValue(user);
     }
 
-
+    public void writeNewMesseage(Chat chatMessageModel) {
+        DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference()
+                .child("messages").child(chatMessageModel.chatId);
+        String key = messageRef.push().getKey();
+        chatMessageModel.messageId = key;
+        messageRef.child(key).setValue(chatMessageModel);
+    }
 }

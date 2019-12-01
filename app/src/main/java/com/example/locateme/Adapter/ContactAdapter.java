@@ -71,11 +71,11 @@ public class ContactAdapter extends BaseAdapter
         view = LayoutInflater.from(context).inflate(R.layout.contact_adapter, viewGroup, false);
         // ánh xạ view
         TextView txtName = view.findViewById(R.id.txt_name);
-        TextView txtDes = view.findViewById(R.id.txt_Phone);
+        TextView txtPhone = view.findViewById(R.id.txt_phone);
         ImageView image = view.findViewById(R.id.img_view);
         Contact contact = list.get(i);
         txtName.setText(contact.getName());
-        txtDes.setText(contact.getPhone());
+        txtPhone.setText(contact.getPhone());
         Glide.with(context /* context */)
                 .asDrawable()
                 .load(contact.getImageSource())
