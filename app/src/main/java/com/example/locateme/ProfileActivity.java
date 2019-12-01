@@ -243,8 +243,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
-        civ_Home.setOnClickListener(new View.OnClickListener() {
+        civ_Family.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isModalOn) {
@@ -270,7 +269,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        civ_Friends.setOnClickListener(new View.OnClickListener() {
+        civ_Suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {

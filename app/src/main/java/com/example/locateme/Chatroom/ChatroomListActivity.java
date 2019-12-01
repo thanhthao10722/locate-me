@@ -77,6 +77,7 @@ public class ChatroomListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChatroomListActivity.this,AddChatroomActivity.class);
+                startActivity(intent);
             }
         });
         mLv_Chatroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -17,7 +17,6 @@ public class MainActivityChat extends AppCompatActivity {
     private ListView listView;
     private View btnSend;
     private EditText editText;
-    boolean myMessage = true;
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
@@ -52,15 +51,10 @@ public class MainActivityChat extends AppCompatActivity {
                     Toast.makeText(MainActivityChat.this, "Please input some text...", Toast.LENGTH_SHORT).show();
                 } else {
                     //add message to list
-                    ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), myMessage);
+                    ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), false);
                     ChatBubbles.add(ChatBubble);
                     adapter.notifyDataSetChanged();
                     editText.setText("");
-                    if (myMessage) {
-                        myMessage = false;
-                    } else {
-                        myMessage = true;
-                    }
                 }
             }
         });
@@ -78,5 +72,10 @@ public class MainActivityChat extends AppCompatActivity {
             Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+    public void receiveNewMessage(String message) {
+        ChatBubble ChatBubble = new ChatBubble(message, true);
+        ChatBubbles.add(ChatBubble);
+        adapter.notifyDataSetChanged();
     }
 }
