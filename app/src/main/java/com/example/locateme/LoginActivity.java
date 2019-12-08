@@ -22,9 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
     private EditText mEditPassword;
@@ -71,9 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful())
                         {
                             final String uId = mAuth.getCurrentUser().getUid();
-                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-
                             databaseReference.child(uId).addListenerForSingleValueEvent(   new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                                             databaseReference.child(uId).setValue(newUser);
                                         }
                                     }
-                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                    startActivity(intent);
+                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                    LoginActivity.this.startActivity(intent);
                                 }
 
                                 @Override
