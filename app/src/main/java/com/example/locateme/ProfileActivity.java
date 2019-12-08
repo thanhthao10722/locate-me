@@ -9,9 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -70,7 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView phone;
     private TextView address;
     DatabaseReference databaseReference;
-    String idUser;
     private boolean isModalOn = false;
     private final int GALLERY_REQUEST = 1001;
     private FirebaseStorage storage;
@@ -82,6 +79,8 @@ public class ProfileActivity extends AppCompatActivity {
     private boolean isNameChanging = false;
     private RelativeLayout name_layout;
     SimpleDateFormat formatter;
+    private String image;
+    private FirebaseUser current_user;
 
 
     @Override
@@ -92,94 +91,33 @@ public class ProfileActivity extends AppCompatActivity {
         phone = findViewById(R.id.profile_phone);
         address = findViewById(R.id.profile_location);
         mAuth = FirebaseAuth.getInstance();
-        idUser = mAuth.getCurrentUser().getUid();
         map = new MapUtil(ProfileActivity.this);
         name_layout=findViewById(R.id.profile_name_layout);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        name_layout.setOnClickListener(new View.OnClickListener()
+        current_user = mAuth.getCurrentUser();
+        databaseReference.child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-                    builder.setTitle("Change your name here");
-
-                    final EditText input = new EditText(ProfileActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
-                    builder.setView(input);
-
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(final DialogInterface dialog, int which)
-                        {
-                            final String newName = input.getText().toString();
-                            final FirebaseUser current_user = mAuth.getCurrentUser();
-                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
-                            current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                }
-                            });
-                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-                            databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                                {
-                                    if(dataSnapshot.exists())
-                                    {
-                                        User user = new User();
-                                        user = dataSnapshot.getValue(User.class);
-                                        user.setName(newName);
-                                        user.set_updated(formatter.format(new Date()));
-                                        databaseReference.child(current_user.getUid()).setValue(user);
-                                        name.setText(newName);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                            dialog.cancel();
-                        }
-
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    builder.show();
-                }
-            });
-
-        final FirebaseUser current_user = mAuth.getCurrentUser();
-                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-                        databaseReference.child(idUser).addListenerForSingleValueEvent(new ValueEventListener()
-                        {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                            {
-                                user = dataSnapshot.getValue(User.class);
-                                name.setText(user.getName());
-                                phone.setText(user.getPhone());
-                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(user.getName()).build();
-                                current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                    }
-                                });
-                            loadImage();
-                            String location = map.getAddress();
-                            address.setText(location);
-                        }
+                user = dataSnapshot.getValue(User.class);
+                name.setText(user.getName());
+                phone.setText(user.getPhone());
+                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(user.getName()).build();
+                current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onComplete(@NonNull Task<Void> task) {
                     }
                 });
+                loadImage();
+            String location = map.getAddress();
+            address.setText(location);
+        }
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+    }
+});
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
@@ -219,13 +157,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        name.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
-
         civ_Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,20 +174,13 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        civ_Exit.setOnClickListener(new View.OnClickListener() {
+        civ_Exit.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {
-                    finish();
-                }
-            }
-        });
-
-        civ_Map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isModalOn) {
-                    moveToMap(v);
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -264,7 +188,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this,ChatroomListActivity.class);
+                    Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        civ_Home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isModalOn) {
+                    Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                 }
             }
@@ -296,20 +229,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isModalOn) {
-                    isNameChanging = true;
-                    name.setEnabled(true);
-                    String changeName = name.getText().toString();
-                    if(changeName.equals("")) {
-                        Toast.makeText(ProfileActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
-                    } else {
-                    }
-                }
-            }
-        });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
@@ -320,35 +239,74 @@ public class ProfileActivity extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
     }
 
-    private void uploadImage() {
-        if(filePath != null) {
+    private void uploadImage()
+    {
+        if(filePath != null)
+        {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
             final StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
             ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                    {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                        {
                             progressDialog.dismiss();
                             StorageMetadata data = taskSnapshot.getMetadata();
                             Task<Uri> url = ref.getDownloadUrl();
                             url.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
-                                    final String image = uri.toString();
+                                public void onSuccess(Uri uri)
+                                {
+                                    image = uri.toString();
                                     final FirebaseUser current_user = mAuth.getCurrentUser();
                                     UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
                                     current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-//                                            Toast.makeText(ProfileActivity.this, image, Toast.LENGTH_LONG).show();
                                         }
                                     });
+                                    databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                        {
+                                            if(dataSnapshot.exists())
+                                            {
+                                                User user = dataSnapshot.getValue(User.class);
+                                                user.setPhotourl(image);
+                                                user.set_updated(formatter.format(new Date()));
+                                                databaseReference.child(current_user.getUid()).setValue(user);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                                 }
                             });
+                            databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                                {
+                                    if(dataSnapshot.exists())
+                                    {
+                                        User user = new User();
+                                        user = dataSnapshot.getValue(User.class);
+                                        user.setPhotourl(image);
+                                        user.set_updated(formatter.format(new Date()));
+                                        databaseReference.child(current_user.getUid()).setValue(user);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                                }
+                            });
                             Toast.makeText(ProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -370,7 +328,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void loadImage() {
+    private void loadImage()
+    {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user.getPhotoUrl() != null)
         {

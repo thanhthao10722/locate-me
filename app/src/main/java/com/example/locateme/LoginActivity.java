@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(final String phone, final String password)
     {
-
         mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -80,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(!dataSnapshot.exists()) {
                                         if(newUser!=null) {
+                                            newUser.setId(uId);
                                             databaseReference.child(uId).setValue(newUser);
                                         }
                                     }
