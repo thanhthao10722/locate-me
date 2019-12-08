@@ -103,6 +103,8 @@ public class ChangePasswordActivity extends AppCompatActivity
 
                     }
                 });
+            Intent intent = new Intent(ChangePasswordActivity.this, ProfileActivity.class);
+            startActivity(intent);
 
 
         }

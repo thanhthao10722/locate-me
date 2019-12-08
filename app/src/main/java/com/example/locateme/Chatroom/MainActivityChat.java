@@ -7,14 +7,27 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.locateme.R;
+import com.example.locateme.model.Chat;
+import com.example.locateme.model.Chatroom;
+import com.example.locateme.model.Message;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.example.locateme.helper.MyDB;
 import com.example.locateme.model.Chat;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivityChat extends AppCompatActivity {
@@ -22,10 +35,10 @@ public class MainActivityChat extends AppCompatActivity {
     private ListView listView;
     private View btnSend;
     private EditText editText;
-    boolean myMessage = true;
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
     private MyDB db;
 
     @Override
@@ -39,6 +52,7 @@ public class MainActivityChat extends AppCompatActivity {
         loadIntent();
         setProperties();
         setEvent();
+        receiveNewMessage();
     }
         public void setProperties() {
             listView = (ListView) findViewById(R.id.list_msg);
@@ -60,21 +74,27 @@ public class MainActivityChat extends AppCompatActivity {
                     Toast.makeText(MainActivityChat.this, "Please input some text...", Toast.LENGTH_SHORT).show();
                 } else {
                     //add message to list
-                    ChatBubble ChatBubble = new ChatBubble(editText.getText().toString(), false);
 
-                    Chat chat = new Chat();
-                    chat.chatId = chatroomId;
-                    chat.message = editText.getText().toString();
-                    db.writeNewMesseage(chat);
+                    String chatId = dbReference.child(chatroomId).push().getKey();
 
-                    ChatBubbles.add(ChatBubble);
-                    adapter.notifyDataSetChanged();
-                    editText.setText("");
-                    if (myMessage) {
-                        myMessage = false;
-                    } else {
-                        myMessage = true;
-                    }
+                    Message message = new Message();
+                    message.setId(chatId);
+                    message.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    message.setContent(editText.getText().toString());
+                    dbReference.child(chatroomId).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), false);
+                                ChatBubbles.add(chatBubble);
+                                adapter.notifyDataSetChanged();
+                                editText.setText("");
+                            }else {
+
+                            }
+                        }
+                    });
+
                 }
             }
         });
@@ -88,9 +108,44 @@ public class MainActivityChat extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             chatroomId = intent.getStringExtra("chatroomId");
+            dbReference = dbReference.child(chatroomId);
         } else {
             Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+    private void receiveNewMessage() {
+        dbReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                addNewMessageToListview(dataSnapshot.getValue(Message.class));
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                addNewMessageToListview(dataSnapshot.getValue(Message.class));
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void addNewMessageToListview(Message message) {
+        ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
+        ChatBubbles.add(ChatBubble);
+        adapter.notifyDataSetChanged();
     }
 }

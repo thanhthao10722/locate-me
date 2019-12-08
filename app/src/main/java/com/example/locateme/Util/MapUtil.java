@@ -82,6 +82,21 @@ public class MapUtil implements LocationListener {
         }
         return add;
     }
+    public String getSubAddress(){
+        String add = "";
+        Geocoder geocoder = new Geocoder(this.context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+            Address obj = addresses.get(0);
+            String[] list = obj.getAddressLine(0).split(",");
+            add = add + obj.getAdminArea() + ", " + obj.getCountryName();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("Exception", e.getMessage());
+        }
+        return add;
+    }
 
     @Override
     public void onLocationChanged(Location location) {

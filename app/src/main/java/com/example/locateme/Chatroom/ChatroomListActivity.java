@@ -131,7 +131,24 @@ public class ChatroomListActivity extends AppCompatActivity {
     }
 
     public void getChatroomList() {
-        dbReference = FirebaseDatabase.getInstance().getReference();
+        dbReference = FirebaseDatabase.getInstance().getReference().child("chatrooms");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    for( DataSnapshot i : dataSnapshot.getChildren()) {
+                        Chatroom chatroom =  i.getValue(Chatroom.class);
+                        listFriend.add(chatroom);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void setEvent() {
@@ -145,6 +162,7 @@ public class ChatroomListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChatroomListActivity.this,AddChatroomActivity.class);
+                startActivity(intent);
             }
         });
         mLv_Chatroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {

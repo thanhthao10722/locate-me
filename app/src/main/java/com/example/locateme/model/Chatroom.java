@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Chatroom implements Serializable {
     private String id;
     private String name;
-    private ArrayList<User> members;
+    private ArrayList<String> members;
     public Chatroom(String id,String name) {
         this.id = id;
         this.name = name;
-        this.members = new ArrayList<User>();
+        this.members = new ArrayList<String>();
     }
 
     public String getId() {
@@ -29,16 +29,16 @@ public class Chatroom implements Serializable {
         this.name = name;
     }
 
-    public ArrayList<User> getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<User> members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
 
-    public void addMembers(User member) {
-        this.members.add(member);
+    public void addMembers(String memberId) {
+        this.members.add(memberId);
     }
 
     public int getMemNumber() {

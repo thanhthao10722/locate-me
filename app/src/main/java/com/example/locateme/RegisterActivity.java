@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
-            User user = new User(phone, password, name, "active", formatter.format(date), "", "");
+            User user = new User(phone, password, name, "active", formatter.format(date), "", "", "");
             mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
