@@ -269,41 +269,8 @@ public class ProfileActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                         }
                                     });
-                                    databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                                        {
-                                            if(dataSnapshot.exists())
-                                            {
-                                                User user = dataSnapshot.getValue(User.class);
-                                                user.setPhotourl(image);
-                                                user.set_updated(formatter.format(new Date()));
-                                                databaseReference.child(current_user.getUid()).setValue(user);
-                                            }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-
-                                }
-                            });
-                            databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                                {
-                                    if(dataSnapshot.exists())
-                                    {
-                                        User user = new User();
-                                        user = dataSnapshot.getValue(User.class);
-                                        user.setPhotourl(image);
-                                        user.set_updated(formatter.format(new Date()));
-                                        databaseReference.child(current_user.getUid()).setValue(user);
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    databaseReference.child(current_user.getUid()).child("photourl").setValue(image);
+                                    databaseReference.child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
 
                                 }
                             });
@@ -333,14 +300,14 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user.getPhotoUrl() != null)
         {
-            String uri = user.getPhotoUrl().toString();
-            Glide.with(this /* context */)
-                    .asDrawable()
-                    .load(uri)
-                    .apply(RequestOptions.circleCropTransform())
-                    .error(R.drawable.user)
-                    .into(mAvatar);
-        }
+        String uri = user.getPhotoUrl().toString();
+        Glide.with(this /* context */)
+                .asDrawable()
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .error(R.drawable.user)
+                .into(mAvatar);
+    }
     }
     public void backButton(View v) {
         finish();

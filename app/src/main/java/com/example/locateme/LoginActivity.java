@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
 
-                            databaseReference.child(uId).addValueEventListener(new ValueEventListener() {
+                            databaseReference.child(uId).addListenerForSingleValueEvent(   new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(!dataSnapshot.exists()) {
