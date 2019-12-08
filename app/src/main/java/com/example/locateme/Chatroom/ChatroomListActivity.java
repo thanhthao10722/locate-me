@@ -39,6 +39,7 @@ public class ChatroomListActivity extends AppCompatActivity {
     private String userId;
     private FloatingActionButton mAddChatroom_Btn;
     private DatabaseReference databaseReference;
+    private ArrayList<String> friends;
     private ArrayList<User> users;
     private ProgressDialog dialog;
     private MyDB db;
@@ -58,6 +59,7 @@ public class ChatroomListActivity extends AppCompatActivity {
         dialog.setMessage("Wait...");
         dialog.setCancelable(true);
         dialog.show();
+        friends = new ArrayList<>();
         users = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -71,6 +73,7 @@ public class ChatroomListActivity extends AppCompatActivity {
 
                     if(item.getKey().equals(uId)) {
                         currentPhone = user.getPhone();
+                        friends = user.getFriends();
                     }
                 }
                 dialog.dismiss();
@@ -100,18 +103,15 @@ public class ChatroomListActivity extends AppCompatActivity {
 
 
     public void dataInit() {
-        Log.d("currentPhone", currentPhone);
-        ArrayList<String> phonesInDirectory = new ArrayList<>();
-        phonesInDirectory.add("0865389417");
-        phonesInDirectory.add("0963443189");
-        phonesInDirectory.add("0935336719");
-        for (User user : users) {
-            Log.d("TEST", user.phone);
-//            if(phonesInDirectory.contains(user.phone) && !phonesInDirectory.contains(currentPhone)) {
-                Chatroom cr = new Chatroom(currentPhone
-                        + "-" + user.phone, user.name);
-                listFriend.add(cr);
-//            }
+
+            for (String friend : friends) {
+            DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference();
+            String key = messageRef.push().getKey();
+
+            messageRef.child("users").child(uId).child("chatIds").setValue(key);
+            messageRef.child("users").child(friend).child("chatIds").setValue(key);
+            Chatroom cr = new Chatroom(key, user.name);
+            listFriend.add(cr);
         }
         Log.d("lsFR", listFriend.toString());
     }

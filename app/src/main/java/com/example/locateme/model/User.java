@@ -12,7 +12,6 @@ public class User implements Serializable {
     public String _updated;
     public String photourl;
     public String id;
-    public String chatIds;
 
 
     public User() {}
@@ -113,13 +112,5 @@ public class User implements Serializable {
 
     public void set_updated(String _updated) {
         this._updated = _updated;
-    }
-
-    public String getChatIds() {
-        return chatIds;
-    }
-
-    public void setChatIds(String chatIds) {
-        this.chatIds = chatIds;
     }
 }
