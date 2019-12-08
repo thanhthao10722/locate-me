@@ -38,7 +38,7 @@ public class MainActivityChat extends AppCompatActivity {
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
-    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("posts");
     private MyDB db;
 
     @Override
