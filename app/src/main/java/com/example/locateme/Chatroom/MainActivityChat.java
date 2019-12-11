@@ -1,11 +1,14 @@
 package com.example.locateme.Chatroom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,10 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.locateme.FriendListActivity;
 import com.example.locateme.MainActivity;
 import com.example.locateme.MapActivity;
+import com.example.locateme.NoticeDialog;
 import com.example.locateme.R;
+import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.Chat;
 import com.example.locateme.model.Chatroom;
 import com.example.locateme.model.Message;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +52,11 @@ public class MainActivityChat extends AppCompatActivity {
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
     private Button mAddToChatroomBtn;
+    private ImageButton btnLocation;
+    private NoticeDialog noticeDialog;
+    private MapUtil mapUtil;
+    private Double lat = 0.0;
+    private Double lng = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +74,11 @@ public class MainActivityChat extends AppCompatActivity {
         public void setProperties() {
             listView = (ListView) findViewById(R.id.list_msg);
             btnSend = findViewById(R.id.btn_chat_send);
+            btnLocation = findViewById(R.id.btn_location);
             editText = (EditText) findViewById(R.id.msg_type);
             mAddToChatroomBtn = findViewById(R.id.add_friend_to_chatroom);
+            noticeDialog = new NoticeDialog(this);
+            mapUtil = new MapUtil(this);
             //set ListView adapter first
             loadChatHistory();
             adapter = new MessageAdapter(this, R.layout.left_chat_bubble, ChatBubbles);
@@ -91,9 +105,6 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), true);
-                                ChatBubbles.add(chatBubble);
-                                adapter.notifyDataSetChanged();
                                 editText.setText("");
                             }else {
 
@@ -110,6 +121,34 @@ public class MainActivityChat extends AppCompatActivity {
                 Intent intent = new Intent(MainActivityChat.this, FriendListActivity.class);
                 intent.putExtra("ChatroomId",chatroomId);
                 startActivity(intent);
+            }
+        });
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                noticeDialog.setNotification("Bạn muốn chia sẻ vị trí hiện tại ?", "Đồng ý", "Hủy", null);
+                noticeDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        String chatId = dbReference.child(chatroomId).push().getKey();
+                        LatLng latLng = mapUtil.getLocation();
+                        lat = latLng.latitude;
+                        lng = latLng.longitude;
+
+                        Message message = new Message();
+                        message.setId(chatId);
+                        message.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        message.setContent(mapUtil.getAddress());
+                        message.setLatitude(lat);
+                        message.setLongitude(lng);
+                        dbReference.child(chatId).setValue(message);
+
+//                        ChatBubble ChatBubble = new ChatBubble(mapUtil.getAddress(), false);
+//                        ChatBubbles.add(ChatBubble);
+//                        adapter.notifyDataSetChanged();
+                    }
+                });
+                noticeDialog.show();
             }
         });
     }
@@ -132,11 +171,13 @@ public class MainActivityChat extends AppCompatActivity {
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("new message",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("new message2",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
@@ -157,7 +198,12 @@ public class MainActivityChat extends AppCompatActivity {
         });
     }
     private void addNewMessageToListview(Message message) {
+        Log.d("TESST", message.getUserId());
         if(!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            ChatBubble ChatBubble = new ChatBubble(message.getContent(), false);
+            ChatBubbles.add(ChatBubble);
+            adapter.notifyDataSetChanged();
+        }else {
             ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
             ChatBubbles.add(ChatBubble);
             adapter.notifyDataSetChanged();
