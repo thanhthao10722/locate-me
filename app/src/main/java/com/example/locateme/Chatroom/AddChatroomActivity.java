@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.example.locateme.R;
 
-public class AddChatroomActivity extends AppCompatActivity {
+public class    AddChatroomActivity extends AppCompatActivity {
 
     private ImageView mBackButton,mOkButton;
     private EditText mEdit_Chatroom;
