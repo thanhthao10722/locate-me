@@ -13,6 +13,8 @@ public class Chatroom implements Serializable {
         this.members = new ArrayList<String>();
     }
 
+    public Chatroom() {}
+
     public String getId() {
         return id;
     }
@@ -40,8 +42,5 @@ public class Chatroom implements Serializable {
     public void addMembers(String memberId) {
         this.members.add(memberId);
     }
-
-    public int getMemNumber() {
-        return this.members.size();
-    }
+    
 }

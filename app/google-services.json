@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "592979527791-2rrr4cpg803fumvdgagm8poqmucfk6as.apps.googleusercontent.com",
+          "client_id": "592979527791-1gg923jq5betigpn0bn3cr80tgn2qfqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.locateme",
+            "certificate_hash": "708cf3dfe1562301ace6f42dd3c19bc7c2b11aed"
+          }
+        },
+        {
+          "client_id": "592979527791-e20udjljfl3r6kua7ummj7eurtrkf5ng.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.locateme",

@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_ANLOCATION = 425;
     private static final int MY_PERMISSION_REQUEST_AFLOCATION = 771;
     private static final int MY_PERMISSION_REQUEST_READCONTACTS = 717;
+    private static final int MY_PERMISSION_REQUEST_WES = 712;
+
     public MyDB db;
 
     @Override
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(map);
     }
     public void requirePermission() {
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSION_REQUEST_WES);
+        }
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_CONTACTS},MY_PERMISSION_REQUEST_READCONTACTS);
         }
@@ -62,11 +67,25 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
         switch (requestCode) {
+            case MY_PERMISSION_REQUEST_WES : {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    requirePermission();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    finish();
+                }
+                break;
+            }
             case MY_PERMISSION_REQUEST_INTERNET: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    requirePermission();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -78,40 +97,47 @@ public class MainActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    requirePermission();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     finish();
                 }
+                break;
             }
             case MY_PERMISSION_REQUEST_AFLOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    requirePermission();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     finish();
                 }
+                break;
             }
             case MY_PERMISSION_REQUEST_ANLOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    requirePermission();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     finish();
                 }
+                break;
+
             }
             case MY_PERMISSION_REQUEST_READCONTACTS: {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 }else {
                     finish();
                 }
+                break;
             }
         }
     }

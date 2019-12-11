@@ -59,30 +59,31 @@ public class ChatroomListActivity extends AppCompatActivity {
         dialog.setCancelable(true);
         dialog.show();
         users = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int i = 0;
-                for(DataSnapshot item : dataSnapshot.getChildren())
-                {
-                    User user = item.getValue(User.class);
-                    users.add(user);
+        loadIntent();
 
-                    if(item.getKey().equals(uId)) {
-                        currentPhone = user.getPhone();
-                    }
-                }
-                dialog.dismiss();
-                loadIntent();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                int i = 0;
+//                for(DataSnapshot item : dataSnapshot.getChildren())
+//                {
+//                    User user = item.getValue(User.class);
+//                    users.add(user);
+//
+//                    if(item.getKey().equals(uId)) {
+//                        currentPhone = user.getPhone();
+//                    }
+//                }
+//                dialog.dismiss();
+//                loadIntent();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
     }
 
@@ -130,18 +131,30 @@ public class ChatroomListActivity extends AppCompatActivity {
 
     }
 
+    private void checkId(DataSnapshot i) {
+        for ( DataSnapshot y : i.child("users").getChildren()) {
+            if(y.getKey().equals(uId))
+            {
+                Chatroom chatroom =  new Chatroom();
+                chatroom.setName(i.child("name").getValue().toString());
+                chatroom.setId(i.getKey());
+                listFriend.add(chatroom);
+            }
+        }
+    }
+
     public void getChatroomList() {
-        dbReference = FirebaseDatabase.getInstance().getReference().child("chatrooms");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for( DataSnapshot i : dataSnapshot.getChildren()) {
-                        Chatroom chatroom =  i.getValue(Chatroom.class);
-                        listFriend.add(chatroom);
+                        checkId(i);
                     }
                     adapter.notifyDataSetChanged();
                 }
+                dialog.dismiss();
             }
 
             @Override
