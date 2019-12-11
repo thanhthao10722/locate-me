@@ -75,9 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String image;
     private FirebaseUser current_user;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    protected void loadUser() {
         databaseReference.child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
@@ -103,12 +101,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(getBaseContext(),"Thang oc cho",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -121,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         current_user = mAuth.getCurrentUser();
+        loadUser();
 
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
@@ -226,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
     }
 
     private void chooseImage() {
