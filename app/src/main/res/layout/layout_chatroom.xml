@@ -7,16 +7,22 @@
     <RelativeLayout
         android:id="@+id/taskBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="0dp"
         android:background="@color/background_material_light">
 
         <ImageView
-            android:id="@+id/back_button"
             android:layout_alignParentTop="true"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_keyboard_arrow_back"
+            android:layout_height="35dp"
+            android:id="@+id/add_friend_to_chatroom"
+            android:src="@drawable/add_friend_1"
+            android:layout_alignParentLeft="true"
+            android:foregroundGravity="center"
+            android:text="Add friend"
+            android:backgroundTint="@color/mainBackground"
+            android:textSize="20dp"
+            android:layout_marginTop="5dp"
             />
 
         <TextView
@@ -24,17 +30,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="NAME"
-            android:textSize="30sp"
+            android:text="Name"
+            android:textSize="25sp"
             android:fontFamily="sans-serif"
             android:textColor="#000000"/>
 
         <ImageButton
             android:id="@+id/btn_location"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_share_black_24dp"/>
+            android:background="@drawable/share"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -44,7 +52,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:backgroundTint="@color/mainBackground">
 
         <EditText
             android:id="@+id/msg_type"
@@ -71,31 +80,12 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="false"
             android:layout_alignParentTop="false"
-            android:layout_below="@+id/meLbl"
             android:layout_marginBottom="20dp"
             android:layout_above="@+id/msg_type"
             android:layout_marginTop="10dp"
             android:listSelector="@android:color/transparent"
             android:transcriptMode="alwaysScroll"
             android:divider="@null" />
-
-        <TextView
-            android:id="@+id/meLbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:text="User "
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"/>
-
-        <Button
-            android:id="@+id/add_friend_to_chatroom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Add friend"
-            android:backgroundTint="@color/mainBackground"
-            android:textSize="20dp"/>
 
     </RelativeLayout>
 </LinearLayout>

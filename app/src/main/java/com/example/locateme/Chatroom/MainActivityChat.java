@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class  MainActivityChat extends AppCompatActivity {
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
-    private Button mAddToChatroomBtn;
+    private ImageView mAddToChatroomBtn;
     private ImageButton btnLocation;
     private NoticeDialog noticeDialog;
     private MapUtil mapUtil;
