@@ -45,9 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@color/background_floating_material_dark"
+            android:background="@color/mainBackground"
             android:text="Send"
-            android:textColor="@color/background_material_light" />
+            android:textColor="@color/background_material_dark" />
 
         <ListView
             android:id="@+id/list_msg"
@@ -77,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="Add friend"
+            android:backgroundTint="@color/mainBackground"
             android:textSize="20dp" />
 
     </RelativeLayout>

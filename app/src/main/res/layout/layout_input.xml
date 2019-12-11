@@ -16,8 +16,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
-        android:background="@color/background_floating_material_dark"
+        android:background="@color/mainBackground"
         android:text="Send"
-        android:textColor="@color/background_material_light" />
+        android:textColor="@color/background_material_dark" />
 </LinearLayout>
 

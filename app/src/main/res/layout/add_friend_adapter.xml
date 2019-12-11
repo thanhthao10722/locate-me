@@ -49,8 +49,9 @@
            android:textSize="9dp"
            android:layout_marginRight="7dp"
            android:background="@drawable/background_rectangle"
-           android:backgroundTint="#FFEB3B"
-           android:onClick="acceptFriend"/>
+           android:backgroundTint="@color/mainBackground"
+           android:onClick="acceptFriend"
+           android:textStyle="bold"/>
         <Button
             android:id="@+id/btn_decline"
             android:layout_width="60dp"
@@ -63,6 +64,7 @@
             android:backgroundTint="#DBDBE2"
             android:layout_marginRight="2dp"
             android:onClick="declineFriend"
+            android:textStyle="bold"
             />
 
 

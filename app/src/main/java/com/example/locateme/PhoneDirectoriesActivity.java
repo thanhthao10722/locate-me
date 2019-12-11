@@ -124,13 +124,15 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
                    if(friendList.contains(userList.get(i).getId()))
                    {
                        userList.remove(userList.get(i));
+                       i--;
                    }
                 }
                 for (int i = 0; i<userList.size(); i++)
                 {
-                    if (!contactList.contains(userList.get(i).getPhone()) || userList.get(i).getId().equals(current_user.getUid()))
+                    if (userList.get(i).getId().equals(current_user.getUid()) || !contactList.contains(userList.get(i).getPhone()))
                     {
                         userList.remove(userList.get(i));
+                        i--;
                     }
                 }
                 adapter.notifyDataSetChanged();
