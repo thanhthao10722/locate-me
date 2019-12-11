@@ -1,6 +1,5 @@
 package com.example.locateme;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,7 +26,6 @@ import com.example.locateme.Chatroom.ChatroomListActivity;
 import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.User;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,8 +48,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btn_Menu;
@@ -79,9 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String image;
     private FirebaseUser current_user;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    protected void loadUser() {
         databaseReference.child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
@@ -107,12 +101,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(getBaseContext(),"Thang oc cho",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -125,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         current_user = mAuth.getCurrentUser();
+        loadUser();
 
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
@@ -230,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
     }
 
     private void chooseImage() {

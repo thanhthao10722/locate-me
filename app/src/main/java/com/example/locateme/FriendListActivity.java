@@ -67,7 +67,11 @@ public class FriendListActivity extends AppCompatActivity {
                         friendsId.add(i.getKey());
                     }
                     loadFriendList();
+                } else {
+                    dialog.dismiss();
+
                 }
+
             }
 
             @Override

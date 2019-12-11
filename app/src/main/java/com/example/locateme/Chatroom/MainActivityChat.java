@@ -2,6 +2,7 @@ package com.example.locateme.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,6 +46,7 @@ public class MainActivityChat extends AppCompatActivity {
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
+    private Button btn_friendLabel;
     private Button mAddToChatroomBtn;
 
     @Override
@@ -53,6 +55,18 @@ public class MainActivityChat extends AppCompatActivity {
         setContentView(R.layout.layout_chatroom);
 
         db = new MyDB(this);
+
+//        btn_friendLabel = findViewById(R.id.add_friend_to_chatroom);
+//
+//        btn_friendLabel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DatabaseReference dbChatListRef = FirebaseDatabase.getInstance().getReference();
+//                String keyFriend = dbChatListRef.child("users").child("uid_current_user").child("friend").child("UID_CLICK").getKey();
+//
+//                dbChatListRef.child("chatlist").child(chatroomId).child("users").child(keyFriend).setValue(1);
+//            }
+//        });
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -91,9 +105,6 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), false);
-                                ChatBubbles.add(chatBubble);
-                                adapter.notifyDataSetChanged();
                                 editText.setText("");
                             }else {
 
@@ -132,6 +143,7 @@ public class MainActivityChat extends AppCompatActivity {
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("new message",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
@@ -157,7 +169,12 @@ public class MainActivityChat extends AppCompatActivity {
         });
     }
     private void addNewMessageToListview(Message message) {
+        Log.d("TESST", message.getUserId());
         if(!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            ChatBubble ChatBubble = new ChatBubble(message.getContent(), false);
+            ChatBubbles.add(ChatBubble);
+            adapter.notifyDataSetChanged();
+        }else {
             ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
             ChatBubbles.add(ChatBubble);
             adapter.notifyDataSetChanged();

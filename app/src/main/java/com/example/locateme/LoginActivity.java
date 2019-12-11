@@ -27,8 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEditPassword;
     private Button btnLogin;
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
-    private User newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +47,9 @@ public class LoginActivity extends AppCompatActivity {
                 logIn(phone, password);
             }
         });
-        Intent intent = getIntent();
-        if(intent!=null) {
-            Bundle bundle = intent.getBundleExtra("Success");
-            if(bundle!=null) {
-                newUser = (User)bundle.getSerializable("NewUser");
-            }
-        }
     }
 
-    public void logIn(final String phone, final String password)
+    private void logIn(final String phone, final String password)
     {
         mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -66,33 +57,17 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-                            final String uId = mAuth.getCurrentUser().getUid();
-                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-                            databaseReference.child(uId).addListenerForSingleValueEvent(   new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(!dataSnapshot.exists()) {
-                                        if(newUser!=null) {
-                                            newUser.setId(uId);
-                                            databaseReference.child(uId).setValue(newUser);
-                                        }
-                                    }
-                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-                                    startActivity(intent);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
+                            moveToProfilePage();
                         }
                         else {
                             Toast.makeText(LoginActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+    private void moveToProfilePage() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     public void forgotPasswordOnClick(View view){
@@ -110,6 +85,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this,"Thang oc cho",Toast.LENGTH_LONG).show();
+        Log.d("PAUSEERROR","ERROR");
     }
 }
