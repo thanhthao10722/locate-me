@@ -2,6 +2,7 @@ package com.example.locateme.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -104,9 +105,6 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), false);
-                                ChatBubbles.add(chatBubble);
-                                adapter.notifyDataSetChanged();
                                 editText.setText("");
                             }else {
 
@@ -145,6 +143,7 @@ public class MainActivityChat extends AppCompatActivity {
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("new message",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
@@ -170,7 +169,12 @@ public class MainActivityChat extends AppCompatActivity {
         });
     }
     private void addNewMessageToListview(Message message) {
+        Log.d("TESST", message.getUserId());
         if(!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            ChatBubble ChatBubble = new ChatBubble(message.getContent(), false);
+            ChatBubbles.add(ChatBubble);
+            adapter.notifyDataSetChanged();
+        }else {
             ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
             ChatBubbles.add(ChatBubble);
             adapter.notifyDataSetChanged();
