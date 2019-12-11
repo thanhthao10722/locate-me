@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.R;
-import com.example.locateme.model.AddFriend;
 import com.example.locateme.model.User;
 
 import java.util.ArrayList;
