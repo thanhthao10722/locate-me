@@ -16,7 +16,9 @@
         android:id="@+id/searchbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/back_button">
+        android:layout_below="@+id/back_button"
+        android:focusable="true"
+        app:iconifiedByDefault="false">
     </androidx.appcompat.widget.SearchView>
 
     <ListView

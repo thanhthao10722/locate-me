@@ -85,6 +85,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("PAUSEERROR","ERROR");
+        moveToProfilePage();
     }
 }

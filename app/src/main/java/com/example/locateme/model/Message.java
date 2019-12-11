@@ -6,6 +6,25 @@ public class Message {
     private String content;
     private Double latitude;
     private Double longitude;
+    private String userName;
+    private boolean isLatLng;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean isLatLng() {
+        return isLatLng;
+    }
+
+    public void setLatLng(boolean latLng) {
+        isLatLng = latLng;
+    }
+
 
     public String getId() {
         return id;
