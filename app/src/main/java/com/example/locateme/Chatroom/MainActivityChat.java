@@ -45,7 +45,6 @@ public class MainActivityChat extends AppCompatActivity {
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
-    private Button btn_friendLabel;
     private Button mAddToChatroomBtn;
 
     @Override
@@ -54,18 +53,6 @@ public class MainActivityChat extends AppCompatActivity {
         setContentView(R.layout.layout_chatroom);
 
         db = new MyDB(this);
-
-//        btn_friendLabel = findViewById(R.id.add_friend_to_chatroom);
-//
-//        btn_friendLabel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DatabaseReference dbChatListRef = FirebaseDatabase.getInstance().getReference();
-//                String keyFriend = dbChatListRef.child("users").child("uid_current_user").child("friend").child("UID_CLICK").getKey();
-//
-//                dbChatListRef.child("chatlist").child(chatroomId).child("users").child(keyFriend).setValue(1);
-//            }
-//        });
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -104,7 +91,7 @@ public class MainActivityChat extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), false);
+                                ChatBubble chatBubble = new ChatBubble(editText.getText().toString(), true);
                                 ChatBubbles.add(chatBubble);
                                 adapter.notifyDataSetChanged();
                                 editText.setText("");
