@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.locateme.Adapter.AddToChatroomAdapter;
@@ -28,6 +31,7 @@ public class FriendListActivity extends AppCompatActivity {
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("users");
     private ProgressDialog dialog;
     private String chatroomId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,5 +96,12 @@ public class FriendListActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void addToChatroom(View v) {
+        DatabaseReference dbChatListRef = FirebaseDatabase.getInstance().getReference();
+        int pos =  mLvFriendList.getPositionForView(v);
+        String keyFriend = dbChatListRef.child("users").child(userId).child("friend")
+                .child(friendList.get(pos).getId()).getKey();
+        dbChatListRef.child("chatlist").child(chatroomId).child("users").child(keyFriend).setValue(1);
     }
 }

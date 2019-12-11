@@ -36,5 +36,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
         android:src="@drawable/ic_add_black_24dp"
-        android:id="@+id/add_to_chatroom_button"/>
+        android:id="@+id/add_to_chatroom_button"
+        android:onClick="addToChatroom"/>
 </RelativeLayout>
