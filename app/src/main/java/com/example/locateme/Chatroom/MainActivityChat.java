@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -11,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.locateme.FriendListActivity;
+import com.example.locateme.MainActivity;
+import com.example.locateme.MapActivity;
 import com.example.locateme.R;
 import com.example.locateme.model.Chat;
 import com.example.locateme.model.Chatroom;
@@ -40,6 +45,7 @@ public class MainActivityChat extends AppCompatActivity {
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
+    private Button mAddToChatroomBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class MainActivityChat extends AppCompatActivity {
             listView = (ListView) findViewById(R.id.list_msg);
             btnSend = findViewById(R.id.btn_chat_send);
             editText = (EditText) findViewById(R.id.msg_type);
-
+            mAddToChatroomBtn = findViewById(R.id.add_friend_to_chatroom);
             //set ListView adapter first
             loadChatHistory();
             adapter = new MessageAdapter(this, R.layout.left_chat_bubble, ChatBubbles);
@@ -96,6 +102,14 @@ public class MainActivityChat extends AppCompatActivity {
                     });
 
                 }
+            }
+        });
+        mAddToChatroomBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivityChat.this, FriendListActivity.class);
+                intent.putExtra("ChatroomId",chatroomId);
+                startActivity(intent);
             }
         });
     }
