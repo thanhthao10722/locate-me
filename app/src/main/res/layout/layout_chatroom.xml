@@ -71,12 +71,12 @@
             android:text="User 1"
             android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/friendLabel"
+        <Button
+            android:id="@+id/add_friend_to_chatroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="User 2"
+            android:text="Add friend"
             android:textSize="20dp" />
 
     </RelativeLayout>

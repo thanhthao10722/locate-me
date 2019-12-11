@@ -19,7 +19,6 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_Map"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
@@ -31,7 +30,6 @@
             tools:ignore="OnClick"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/civ_Friends"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -44,7 +42,6 @@
             android:layout_marginLeft="40dp"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/civ_Home"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -58,7 +55,6 @@
            />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/civ_Suggest"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -70,7 +66,6 @@
             android:layout_marginBottom="30dp"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/civ_Family"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -84,7 +79,6 @@
             android:layout_marginBottom="30dp"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/civ_Exit"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -142,7 +136,6 @@
         android:background="@drawable/background_rectangle">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="140dp"
             android:layout_height="140dp"

@@ -17,6 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,24 +67,57 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
-
-            User user = new User(phone, password, name, "active", formatter.format(date), "", "", "", new Friend(), new Friend(),  new Friend());
+            final User user = new User(phone, password, name, "active", formatter.format(date), "", "", "", new Friend(), new Friend(),  new Friend());
             mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, "Create user successfully", Toast.LENGTH_LONG).show();
+                                createUserInDatabase(user);
                             } else {
                                 Toast.makeText(RegisterActivity.this, "Fail!", Toast.LENGTH_LONG).show();
 
                             }
                         }
                     });
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("NewUser",user);
-            success.putExtra("Success",bundle);
-            startActivity(success);
         }
+    }
+    private void createUserInDatabase(final User newUser) {
+        mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful())
+                        {
+                            final String uId = mAuth.getCurrentUser().getUid();
+                            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                            databaseReference.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists()) {
+                                        if(newUser!=null) {
+                                            newUser.setId(uId);
+                                            databaseReference.child(uId).setValue(newUser);
+                                        }
+                                    }
+                                    moveToLogin();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        else {
+                            Toast.makeText(RegisterActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+    private void moveToLogin() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }

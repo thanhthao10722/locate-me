@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -11,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.locateme.FriendListActivity;
+import com.example.locateme.MainActivity;
+import com.example.locateme.MapActivity;
 import com.example.locateme.R;
 import com.example.locateme.model.Chat;
 import com.example.locateme.model.Chatroom;
@@ -38,8 +43,10 @@ public class MainActivityChat extends AppCompatActivity {
     private List<ChatBubble> ChatBubbles;
     private ArrayAdapter<ChatBubble> adapter;
     private String chatroomId;
-    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("posts");
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private MyDB db;
+    private Button btn_friendLabel;
+    private Button mAddToChatroomBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,18 @@ public class MainActivityChat extends AppCompatActivity {
         setContentView(R.layout.layout_chatroom);
 
         db = new MyDB(this);
+
+//        btn_friendLabel = findViewById(R.id.add_friend_to_chatroom);
+//
+//        btn_friendLabel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DatabaseReference dbChatListRef = FirebaseDatabase.getInstance().getReference();
+//                String keyFriend = dbChatListRef.child("users").child("uid_current_user").child("friend").child("UID_CLICK").getKey();
+//
+//                dbChatListRef.child("chatlist").child(chatroomId).child("users").child(keyFriend).setValue(1);
+//            }
+//        });
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -58,7 +77,7 @@ public class MainActivityChat extends AppCompatActivity {
             listView = (ListView) findViewById(R.id.list_msg);
             btnSend = findViewById(R.id.btn_chat_send);
             editText = (EditText) findViewById(R.id.msg_type);
-
+            mAddToChatroomBtn = findViewById(R.id.add_friend_to_chatroom);
             //set ListView adapter first
             loadChatHistory();
             adapter = new MessageAdapter(this, R.layout.left_chat_bubble, ChatBubbles);
@@ -81,7 +100,7 @@ public class MainActivityChat extends AppCompatActivity {
                     message.setId(chatId);
                     message.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     message.setContent(editText.getText().toString());
-                    dbReference.child(chatroomId).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    dbReference.child(chatId).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
@@ -98,6 +117,14 @@ public class MainActivityChat extends AppCompatActivity {
                 }
             }
         });
+        mAddToChatroomBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivityChat.this, FriendListActivity.class);
+                intent.putExtra("ChatroomId",chatroomId);
+                startActivity(intent);
+            }
+        });
     }
 
     public void loadChatHistory() {
@@ -108,7 +135,7 @@ public class MainActivityChat extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             chatroomId = intent.getStringExtra("chatroomId");
-            dbReference = dbReference.child(chatroomId);
+            dbReference = dbReference.child(chatroomId).child("content");
         } else {
             Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
             finish();
@@ -143,8 +170,10 @@ public class MainActivityChat extends AppCompatActivity {
         });
     }
     private void addNewMessageToListview(Message message) {
-        ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
-        ChatBubbles.add(ChatBubble);
-        adapter.notifyDataSetChanged();
+        if(!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            ChatBubble ChatBubble = new ChatBubble(message.getContent(), true);
+            ChatBubbles.add(ChatBubble);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

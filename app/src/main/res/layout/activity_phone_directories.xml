@@ -5,8 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PhoneDirectoriesActivity">
+
+    <TextView
+        android:id="@+id/txt_requestPending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact list "
+        android:textSize="28dp"
+        android:textColor="#FF020202"
+        android:gravity="center"/>
+
     <ListView
         android:id="@+id/contact_list"
+        android:layout_below="@+id/txt_requestPending"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="7dp"/>
