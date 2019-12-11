@@ -1,5 +1,6 @@
 package com.example.locateme;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -106,8 +107,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(getBaseContext(),"Thang oc cho",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(getBaseContext(),"Activity is in foreground, active",Toast.LENGTH_LONG).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         name = findViewById(R.id.profile_name);

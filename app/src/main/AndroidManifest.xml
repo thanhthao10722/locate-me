@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".PhoneDirectoriesActivity"></activity>
+        <activity android:name=".FriendListActivity"></activity>
+        <activity android:name=".PhoneDirectoriesActivity" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -33,7 +35,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".UpdateProfileActivity"/>
+        <activity android:name=".UpdateProfileActivity" />
         <activity android:name=".InputPhoneNumberActivity" />
         <activity android:name=".ValidationActivity" />
         <activity android:name=".ForgotActivity" />

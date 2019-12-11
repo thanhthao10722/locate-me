@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = mEditPhone.getText().toString();
                 String password = mEditPassword.getText().toString();
-                Log.d("Error DMM","Login");
                 if(phone.matches("") || password.matches("")) {
                     Toast.makeText(LoginActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
                 }
@@ -107,5 +106,10 @@ public class LoginActivity extends AppCompatActivity {
     public void moveToRegister(View v) {
         Intent register = new Intent(this,InputPhoneNumberActivity.class);
         startActivity(register);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"Thang oc cho",Toast.LENGTH_LONG).show();
     }
 }

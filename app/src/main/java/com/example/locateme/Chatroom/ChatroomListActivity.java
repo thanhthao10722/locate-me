@@ -154,6 +154,7 @@ public class ChatroomListActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }
+                dialog.dismiss();
             }
 
             @Override
