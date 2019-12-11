@@ -22,9 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
     private EditText mEditPassword;
@@ -46,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = mEditPhone.getText().toString();
                 String password = mEditPassword.getText().toString();
-                Log.d("Error DMM","Login");
                 if(phone.matches("") || password.matches("")) {
                     Toast.makeText(LoginActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
                 }
@@ -71,9 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful())
                         {
                             final String uId = mAuth.getCurrentUser().getUid();
-                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_LONG).show();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-
                             databaseReference.child(uId).addListenerForSingleValueEvent(   new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                                             databaseReference.child(uId).setValue(newUser);
                                         }
                                     }
-                                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                    startActivity(intent);
+                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                    LoginActivity.this.startActivity(intent);
                                 }
 
                                 @Override
@@ -112,5 +106,10 @@ public class LoginActivity extends AppCompatActivity {
     public void moveToRegister(View v) {
         Intent register = new Intent(this,InputPhoneNumberActivity.class);
         startActivity(register);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"Thang oc cho",Toast.LENGTH_LONG).show();
     }
 }

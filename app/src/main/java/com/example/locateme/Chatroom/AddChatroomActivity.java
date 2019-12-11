@@ -8,11 +8,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.locateme.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class    AddChatroomActivity extends AppCompatActivity {
 
     private ImageView mBackButton,mOkButton;
     private EditText mEdit_Chatroom;
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
+    private String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,9 @@ public class    AddChatroomActivity extends AppCompatActivity {
     }
 
     public void addToChatroomList() {
+        String newNode = dbReference.push().getKey();
+        dbReference.child(newNode).child("name").setValue(mEdit_Chatroom.getText().toString());
+        dbReference.child(newNode).child("users").child(uId).setValue(1);
         finish();
     }
 }

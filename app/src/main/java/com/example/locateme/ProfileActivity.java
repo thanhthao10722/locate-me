@@ -1,15 +1,12 @@
 package com.example.locateme;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -82,20 +79,9 @@ public class ProfileActivity extends AppCompatActivity {
     private String image;
     private FirebaseUser current_user;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        name = findViewById(R.id.profile_name);
-        phone = findViewById(R.id.profile_phone);
-        address = findViewById(R.id.profile_location);
-        mAuth = FirebaseAuth.getInstance();
-        map = new MapUtil(ProfileActivity.this);
-        name_layout=findViewById(R.id.profile_name_layout);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        current_user = mAuth.getCurrentUser();
+    protected void onStart() {
+        super.onStart();
         databaseReference.child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
@@ -111,13 +97,35 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
                 loadImage();
-            String location = map.getAddress();
-            address.setText(location);
-        }
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
+                String location = map.getAddress();
+                address.setText(location);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
-});
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(getBaseContext(),"Thang oc cho",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        name = findViewById(R.id.profile_name);
+        phone = findViewById(R.id.profile_phone);
+        address = findViewById(R.id.profile_location);
+        mAuth = FirebaseAuth.getInstance();
+        map = new MapUtil(ProfileActivity.this);
+        name_layout=findViewById(R.id.profile_name_layout);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        current_user = mAuth.getCurrentUser();
+
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
 
         myKonten = (RelativeLayout) findViewById(R.id.modal_menu);
@@ -174,21 +182,12 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-        civ_Exit.setOnClickListener(new View.OnClickListener()
+        civ_Family.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        civ_Family.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isModalOn) {
-                    Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
+                    Intent intent = new Intent(ProfileActivity.this, ChatroomListActivity.class);
                     startActivity(intent);
                 }
             }

@@ -35,12 +35,11 @@ public class ChatroomAdapter extends ArrayAdapter<Chatroom> {
             viewHolder = new ViewHolder();
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.chatroom_name);
             viewHolder.tvMemNumber = (TextView) convertView.findViewById(R.id.chatroom_member);
+            Chatroom chatroom = list.get(position);
+            viewHolder.tvName.setText(chatroom.getName());
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Chatroom chatroom = list.get(position);
-        viewHolder.tvName.setText(chatroom.getName());
-        viewHolder.tvMemNumber.setText(chatroom.getMemNumber()+" members");
         return convertView;
     }
     public class ViewHolder {
