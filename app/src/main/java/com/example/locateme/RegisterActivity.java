@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.locateme.helper.MyDB;
+import com.example.locateme.model.Friend;
 import com.example.locateme.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,7 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
-            User user = new User(phone, password, name, "active", formatter.format(date), "", "", "");
+
+            User user = new User(phone, password, name, "active", formatter.format(date), "", "", "", new Friend(), new Friend(),  new Friend());
             mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
