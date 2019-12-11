@@ -1,15 +1,20 @@
 package com.example.locateme;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+
 import com.example.locateme.Adapter.ContactAdapter;
 import com.example.locateme.model.Contact;
 import com.example.locateme.model.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,16 +35,20 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
     private ContactAdapter adapter;
     private FirebaseAuth mAuth;
     DatabaseReference databaseReference;
+    private FloatingActionButton btn_addFriend;
+    ;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_directories);
-        initComponent();
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_phone_directories);
+            initComponent();
         mAuth = FirebaseAuth.getInstance();
         loadContacts();
     }
 
     private void initComponent() {
+        btn_addFriend = findViewById(R.id.btn_addFriend);
         contactList = new ArrayList<Contact>();
         userList = new ArrayList<User>();
         suggestionList = new ArrayList<Contact>();
@@ -58,15 +67,14 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
         }
         FirebaseUser current_user = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        databaseReference.child(current_user.getUid()).child("friend").addListenerForSingleValueEvent(new ValueEventListener()
-        {
+        databaseReference.child(current_user.getUid()).child("friend").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for(DataSnapshot item: dataSnapshot.getChildren())
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren())
                     friendList.add(item.getValue(String.class));
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -74,11 +82,10 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot item: dataSnapshot.getChildren())
+                for (DataSnapshot item : dataSnapshot.getChildren())
                     userList.add(item.getValue(User.class));
                 for (User user : userList) {
-                    if (friendList.contains(user.getId()))
-                    {
+                    if (friendList.contains(user.getId())) {
                         userList.remove(user);
                     }
 
@@ -101,13 +108,11 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-
-
-
     }
 
-    private void addFriend(View v) {
+    public void onClickAddFriend(View v) {
+        Intent intent = new Intent(PhoneDirectoriesActivity.this, AddFriendActivity.class);
+        startActivity(intent);
     }
 
 }

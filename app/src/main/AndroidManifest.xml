@@ -44,6 +44,7 @@
         <activity android:name=".Chatroom.AddChatroomActivity" />
         <activity android:name=".Chatroom.ChatroomListActivity" />
         <activity android:name=".Chatroom.MainActivityChat" />
+        <activity android:name=".AddFriendActivity"/>
     </application>
 
 </manifest>
