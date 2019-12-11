@@ -4,6 +4,25 @@ public class Message {
     private String id;
     private String userId;
     private String content;
+    private String userName;
+    private boolean isLatLng;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean isLatLng() {
+        return isLatLng;
+    }
+
+    public void setLatLng(boolean latLng) {
+        isLatLng = latLng;
+    }
+
 
     public String getId() {
         return id;

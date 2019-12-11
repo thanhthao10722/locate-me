@@ -99,24 +99,6 @@ public class ChatroomListActivity extends AppCompatActivity {
         }
     }
 
-
-    public void dataInit() {
-        Log.d("currentPhone", currentPhone);
-        ArrayList<String> phonesInDirectory = new ArrayList<>();
-        phonesInDirectory.add("0865389417");
-        phonesInDirectory.add("0963443189");
-        phonesInDirectory.add("0935336719");
-        for (User user : users) {
-            Log.d("TEST", user.phone);
-//            if(phonesInDirectory.contains(user.phone) && !phonesInDirectory.contains(currentPhone)) {
-                Chatroom cr = new Chatroom(currentPhone
-                        + "-" + user.phone, user.name);
-                listFriend.add(cr);
-//            }
-        }
-        Log.d("lsFR", listFriend.toString());
-    }
-
     public void setProperties() {
         this.mLv_Chatroom = findViewById(R.id.Chatroom_listview);
         this.mBackButton = findViewById(R.id.back_button);
@@ -124,7 +106,6 @@ public class ChatroomListActivity extends AppCompatActivity {
     }
 
     public void setChatroomAdapter() {
-        dataInit();
         getChatroomList();
         adapter = new ChatroomAdapter(this,R.layout.chatroom_adapter,listFriend);
         mLv_Chatroom.setAdapter(adapter);
