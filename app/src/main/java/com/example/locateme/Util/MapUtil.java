@@ -60,11 +60,35 @@ public class MapUtil implements LocationListener {
         }
     }
 
+    public double getLatitude() {
+        return currentLocation.getLatitude();
+    }
+
+    public double getLongitude() {
+        return currentLocation.getLongitude();
+    }
+
     public LatLng getLocation() {
         if (currentLocation != null) {
             return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         } else
             return new LatLng(16.073605, 108.150019);
+    }
+
+    public static String getAddressViaLatLng(Context context,double latitude,double longitude) {
+        String add = "";
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            Address obj = addresses.get(0);
+            String[] list = obj.getAddressLine(0).split(",");
+            add = add + list[0] + ", " + list[1] + ", " + list[2] + ", " + obj.getAdminArea() + ", " + obj.getCountryName();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("Exception", e.getMessage());
+        }
+        return add;
     }
 
     public String getAddress() {

@@ -160,7 +160,6 @@ public class MainActivityChat extends AppCompatActivity {
         dbReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("new message",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
@@ -185,7 +184,7 @@ public class MainActivityChat extends AppCompatActivity {
             }
         });
     }
-    private void addNewMessageToListview(Message message) {
+    private void giaddNewMessageToListview(Message message) {
         if(!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             ChatBubbles.add(message);
             adapter.notifyDataSetChanged();

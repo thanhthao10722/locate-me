@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locateme.R;
+import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.Message;
 import com.google.firebase.auth.FirebaseAuth;
 
