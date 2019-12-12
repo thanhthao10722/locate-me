@@ -8,14 +8,17 @@
     <ImageView
     android:id="@+id/back_button"
     android:layout_alignParentTop="true"
-    android:layout_width="50dp"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_keyboard_arrow_back"
+        android:layout_marginTop="20dp"
+    android:layout_width="70dp"
+    android:layout_height="50dp"
+    android:src="@drawable/left_arrow"
     />
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchbox"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_below="@+id/back_button"
         android:focusable="true"
         app:iconifiedByDefault="false">
@@ -36,7 +39,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
+        android:backgroundTint="@color/mainBackground"
         android:src="@drawable/ic_add_black_24dp">
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </RelativeLayout>

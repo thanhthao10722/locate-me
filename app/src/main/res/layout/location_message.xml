@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:background="@drawable/left_message_background"
-        android:onClick="drawLocation"
         >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/location_message_content"
-            android:textSize="17dp"/>
+            android:textSize="17dp"
+            android:background="@drawable/left_message_background"
+            />
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.example.locateme;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -47,6 +48,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     });
     }
 
+    private void loadIntent() {
+        Intent intent = getIntent();
+        if(!intent.getStringExtra("Flag").equals(null)){
+            double latitude = intent.getDoubleExtra("Latitude",0.0);
+            double longitude = intent.getDoubleExtra("Longitude",0.0);
+            drawMarker(latitude,longitude);
+
+        }
+    }
+
     private void onMyMapReady(GoogleMap googleMap) {
         //retrieve Google Map object
         myMap = googleMap;
@@ -56,6 +67,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
             public void onMapLoaded() {
                 myProgress.dismiss();
                 showMyLocationViaAnyTools();
+                loadIntent();
             }
         });
         myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -91,26 +103,46 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     }
 
     private void showMyLocationViaAnyTools() {
-            if(currentLocation != null) {
-                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+//            if(currentLocation != null) {
+//                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+//
+//                CameraPosition cameraPosition = new CameraPosition.Builder()
+//                        .target(latLng)             // Sets the center of the map to location user
+//                        .zoom(15)                   // Sets the zoom
+//                        .bearing(90)                // Sets the orientation of the camera to east
+//                        .tilt(0)                   // Sets the tilt of the camera
+//                        .build();                   // Creates a CameraPosition from the builder
+//                myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//
+//                // Thêm Marker cho Map:
+//                MarkerOptions option = new MarkerOptions();
+//                final MarkerOptions my_location = option.title("My Location");
+//                option.snippet("....");
+//                option.position(latLng);
+//                Marker currentMarker = myMap.addMarker(option);
+//                currentMarker.showInfoWindow();
+//            }
+    }
 
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(latLng)             // Sets the center of the map to location user
-                        .zoom(15)                   // Sets the zoom
-                        .bearing(90)                // Sets the orientation of the camera to east
-                        .tilt(0)                   // Sets the tilt of the camera
-                        .build();                   // Creates a CameraPosition from the builder
-                myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    private void drawMarker(double lat,double lng) {
+        LatLng latLng = new LatLng(lat, lng);
 
-                // Thêm Marker cho Map:
-                MarkerOptions option = new MarkerOptions();
-                final MarkerOptions my_location = option.title("My Location");
-                option.snippet("....");
-                option.position(latLng);
-                Marker currentMarker = myMap.addMarker(option);
-                currentMarker.showInfoWindow();
-            }
+        MarkerOptions option = new MarkerOptions();
+        final MarkerOptions friend_location = option.title("Friend Location");
+        option.snippet("....");
+        option.position(latLng);
+        Marker currentMarker = myMap.addMarker(option);
+        currentMarker.showInfoWindow();
+        myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng)             // Sets the center of the map to location user
+                .zoom(15)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(0)                   // Sets the tilt of the camera
+                .build();                   // Creates a CameraPosition from the builder
+        myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override

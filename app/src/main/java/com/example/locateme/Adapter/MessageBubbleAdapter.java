@@ -1,6 +1,7 @@
 package com.example.locateme.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locateme.MapActivity;
 import com.example.locateme.R;
 import com.example.locateme.Util.MapUtil;
 import com.example.locateme.model.Message;
@@ -36,15 +38,18 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
         if(viewType == SELF_MESSAGE) {
             View view = LayoutInflater.from(context).inflate(R.layout.right_message,parent,false);
             return new MessageBubbleAdapter.ViewHolder(view);
-        } else {
+        } else if(viewType == OTHER_MESSAGE){
             View view = LayoutInflater.from(context).inflate(R.layout.left_message,parent,false);
+            return new MessageBubbleAdapter.ViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.location_message,parent,false);
             return new MessageBubbleAdapter.ViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Message message = messagesList.get(position);
+        final Message message = messagesList.get(position);
         if(getItemViewType(position) == SELF_MESSAGE) {
             holder.tv_Content = holder.view.findViewById(R.id.right_message_content);
             holder.tv_Content.setText(message.getContent());
@@ -56,6 +61,16 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
         } else {
             holder.tv_Content = holder.view.findViewById(R.id.location_message_content);
             holder.tv_Content.setText(message.getContent());
+            holder.tv_Content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("Flag", "LOCATION");
+                    intent.putExtra("Latitude", message.getLatitude());
+                    intent.putExtra("Longitude", message.getLongitude());
+                    context.startActivity(intent);
+                }
+            });
             holder.tv_Name = holder.view.findViewById(R.id.left_message_user);
             holder.tv_Name.setText(message.getUserName());
         }
