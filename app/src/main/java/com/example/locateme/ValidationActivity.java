@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ public class ValidationActivity extends AppCompatActivity {
     private EditText mEdit_Code;
     private String phone;
     private String code;
+    private TextView noti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +42,14 @@ public class ValidationActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(ValidationActivity.this, "Your OTP code is not correct. Please try again!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(ValidationActivity.this, "Your OTP code is not correct. Please try again!", Toast.LENGTH_LONG).show();
+                noti.setText("Your OTP code is not correct. Please try again.");
             }
         }
         else
         {
-            Toast.makeText(ValidationActivity.this, "Please enter code to validate your account", Toast.LENGTH_LONG);
+//            Toast.makeText(ValidationActivity.this, "Please enter code to validate your account", Toast.LENGTH_LONG);
+            noti.setText("Please enter code to validate your account.");
         }
     }
 }

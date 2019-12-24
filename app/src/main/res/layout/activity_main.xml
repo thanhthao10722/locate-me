@@ -212,41 +212,21 @@
             android:layout_marginTop="15dp"
             android:textAlignment="center"/>
 
-        <TextView
-            android:layout_above="@+id/line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Tiểu sử"
-            android:textSize="25sp"
-            android:layout_marginBottom="16dp">
-        </TextView>
         <View
             android:id="@+id/line"
             android:layout_width="150dp"
             android:layout_height="2dp"
             android:background="@android:color/darker_gray"
-            android:layout_above="@+id/footer_text"
             android:layout_centerHorizontal="true"
         />
 
-        <TextView
-            android:id="@+id/footer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="View Profile"
-            android:textSize="25sp"
-            android:layout_marginBottom="16dp">
-        </TextView>
+
         <Button
             android:id="@+id/btn_Menu"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="19dp"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="19dp"
             android:src="@drawable/menu"
             android:background="@drawable/menu"
