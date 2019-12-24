@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/bubble_in">
+        android:background="@drawable/right_message_background">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/right_message_content"
             android:textColor="@color/colorPrimaryDark"
-            android:text="Hello"
+            android:text="Hello 12312321312321w213213"
             android:textSize="18dp"
             android:padding="8dp"
         />

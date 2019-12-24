@@ -11,16 +11,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.locateme.Adapter.ChatroomAdapter;
 import com.example.locateme.R;
 import com.example.locateme.helper.MyDB;
-import com.example.locateme.model.Chat;
 import com.example.locateme.model.Chatroom;
-import com.example.locateme.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,16 +33,13 @@ public class ChatroomListActivity extends AppCompatActivity {
     private ImageView mBackButton;
     private ChatroomAdapter adapter;
     private ArrayList<Chatroom> listFriend = new ArrayList<Chatroom>();
-    private DatabaseReference dbReference;
     private String userId;
     private FloatingActionButton mAddChatroom_Btn;
     private DatabaseReference databaseReference;
-    private ArrayList<User> users;
     private ProgressDialog dialog;
     private MyDB db;
     private final String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private String currentPhone = "";
-
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,33 +53,7 @@ public class ChatroomListActivity extends AppCompatActivity {
         dialog.setMessage("Wait...");
         dialog.setCancelable(true);
         dialog.show();
-        users = new ArrayList<>();
         loadIntent();
-
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                int i = 0;
-//                for(DataSnapshot item : dataSnapshot.getChildren())
-//                {
-//                    User user = item.getValue(User.class);
-//                    users.add(user);
-//
-//                    if(item.getKey().equals(uId)) {
-//                        currentPhone = user.getPhone();
-//                    }
-//                }
-//                dialog.dismiss();
-//                loadIntent();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
     }
 
     private void loadIntent() {
@@ -103,13 +72,27 @@ public class ChatroomListActivity extends AppCompatActivity {
         this.mLv_Chatroom = findViewById(R.id.Chatroom_listview);
         this.mBackButton = findViewById(R.id.back_button);
         mAddChatroom_Btn = findViewById(R.id.add_chatroom_button);
+        searchView = findViewById(R.id.searchbox);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("Filter",newText);
+                adapter.getFilter().filter(newText);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
     }
 
     public void setChatroomAdapter() {
         getChatroomList();
         adapter = new ChatroomAdapter(this,R.layout.chatroom_adapter,listFriend);
         mLv_Chatroom.setAdapter(adapter);
-
     }
 
     private void checkId(DataSnapshot i) {

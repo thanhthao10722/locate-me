@@ -41,10 +41,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class  MainActivityChat extends AppCompatActivity {
 
     private RecyclerView messageView;
-    private View btnSend;
+    private CircleImageView btnSend;
     private EditText editText;
     private ArrayList<Message> ChatBubbles;
     private MessageBubbleAdapter adapter;

@@ -21,8 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".FriendListActivity"></activity>
-        <activity android:name=".PhoneDirectoriesActivity" />
+
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -48,6 +47,8 @@
         <activity android:name=".Chatroom.ChatroomListActivity" />
         <activity android:name=".Chatroom.MainActivityChat" />
         <activity android:name=".AddFriendActivity"/>
+        <activity android:name=".FriendListActivity"></activity>
+        <activity android:name=".PhoneDirectoriesActivity" />
     </application>
 
 </manifest>
