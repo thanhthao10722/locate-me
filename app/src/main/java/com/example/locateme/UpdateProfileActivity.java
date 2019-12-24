@@ -71,7 +71,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     public void setmButton_Update() {
         final String name = mEdit_Name.getText().toString();
         if(name.equals(""))
-            Toast.makeText(this,"Please fill all the blank", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Please fill all the blanks", Toast.LENGTH_LONG).show();
         else
             {
                 databaseReference.child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener()

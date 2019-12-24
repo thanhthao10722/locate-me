@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEditPassword;
     private Button btnLogin;
     private FirebaseAuth mAuth;
+    private TextView error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         mEditPassword = (EditText)findViewById(R.id.pswrdd);
         btnLogin = (Button) findViewById(R.id.btn_Login);
         mAuth = FirebaseAuth.getInstance();
+        error = findViewById(R.id.error);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String phone = mEditPhone.getText().toString();
                 String password = mEditPassword.getText().toString();
-                if(phone.matches("") || password.matches("")) {
-                    Toast.makeText(LoginActivity.this, "The data is missing!", Toast.LENGTH_LONG).show();
-                }
                 logIn(phone, password);
             }
         });
@@ -60,7 +60,18 @@ public class LoginActivity extends AppCompatActivity {
                             moveToProfilePage();
                         }
                         else {
-                            Toast.makeText(LoginActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
+                            if(phone.matches("") || password.matches("")) {
+                                error.setText("");
+//                                Toast.makeText(LoginActivity.this, "Please fill all the blanks", Toast.LENGTH_LONG).show();
+                                error.setText("Please fill all the blanks");
+                            }
+                            else
+                            {
+                                error.setText("");
+//                                Toast.makeText(LoginActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
+                                error.setText("Your password or phone number is incorrect.");
+                            }
+
                         }
                     }
                 });

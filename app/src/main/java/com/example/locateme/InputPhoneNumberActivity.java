@@ -13,6 +13,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
     String SENT = "SMS SENT";
     String DELIVERED = "SMS DELIVERED";
     PendingIntent sentPI, deliverPI;
+    TextView noti;
     BroadcastReceiver smsSentReceiver, smsDeliveredReceiver;
     DatabaseReference databaseReference;
     @Override
@@ -47,6 +49,7 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.input_phonenumber_page);
         btn_send = findViewById(R.id.btn_sendCode);
         mEdit_phone =  findViewById(R.id.mEdit_Phone);
+        noti = findViewById(R.id.noti);
 
         sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
         deliverPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
@@ -167,7 +170,8 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
                             }
                         }
                         if(check == true)
-                            Toast.makeText(InputPhoneNumberActivity.this, "Your phone number is registered with another account!", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(InputPhoneNumberActivity.this, "Your phone number is registered with another account!", Toast.LENGTH_LONG).show();
+                            noti.setText("Your phone number is registered with another account.");
                         else
                         {
                             StringBuilder sb = new StringBuilder(phone);
@@ -190,7 +194,8 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
                 });
             }
             else {
-                Toast.makeText(InputPhoneNumberActivity.this, "Your phone number does not exist", Toast.LENGTH_LONG).show();
+//                Toast.makeText(InputPhoneNumberActivity.this, "Your phone number does not exist", Toast.LENGTH_LONG).show();
+                noti.setText("Your phone number does not exist.");
             }
         }
     }
