@@ -177,7 +177,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="70dp"
             android:src="@drawable/telephone_old"/>
 
         <TextView
@@ -192,11 +192,11 @@
 
         <ImageView
             android:id="@+id/location_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_below="@+id/icon_phone"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="23dp"
             android:src="@drawable/location_marker"/>
 
