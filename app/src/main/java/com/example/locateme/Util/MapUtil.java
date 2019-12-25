@@ -27,13 +27,10 @@ public class MapUtil implements LocationListener {
 
     public MapUtil(Context context) {
         this.context = context;
-        while (currentLocation == null) {
-            loadLocation();
-        }
+        loadLocation();
     }
 
     private String getLocationProvider() {
-
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -46,6 +43,7 @@ public class MapUtil implements LocationListener {
     private void loadLocation() {
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         String locationProvider = this.getLocationProvider();
+        Log.d("Event",locationProvider);
         if (locationProvider != null) {
             final long MIN_TIME_BW_UPDATES = 1000;
             final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
