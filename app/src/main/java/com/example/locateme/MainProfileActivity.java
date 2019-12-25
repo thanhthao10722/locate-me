@@ -125,12 +125,13 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                     }
                 });
                 loadImage();
-                Log.d("Event","loadUSer2");
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        loadingDialog.dismiss();
     }
 
     private void chooseImage() {
@@ -239,23 +240,23 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     @Override
     public void onButtonClick(int id) {
         switch (id) {
-            case R.id.chat_profile_lnLayout: {
+            case R.id.btn_chat_profile: {
                 Intent intent = new Intent(MainProfileActivity.this, ChatroomListActivity.class);
                 startActivity(intent);
             }break;
-            case R.id.add_friend_lnLayout: {
+            case R.id.btn_add_friend: {
                 Intent intent = new Intent(MainProfileActivity.this, PhoneDirectoriesActivity.class);
                 startActivity(intent);
             }break;
-            case R.id.update_profile_lnLayout: {
+            case R.id.btn_update_profile: {
                 Intent intent = new Intent(MainProfileActivity.this, UpdateProfileActivity.class);
                 startActivity(intent);
             }break;
-            case R.id.map_lnLayout: {
+            case R.id.btn_map: {
                 Intent intent = new Intent(MainProfileActivity.this, MapActivity.class);
                 startActivity(intent);
             }break;
-            case R.id.signout_lnLayout: {
+            case R.id.btn_signout: {
                 finish();
                 mAuth.signOut();
             }break;

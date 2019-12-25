@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class BottomSheetModal extends BottomSheetDialogFragment {
     private ActionListener mActionListioner;
-    LinearLayout mChatButton,mAddFriendButton,mUpdateProfileButton,mMapButton,mSignoutButton;
+    Button mChatButton,mAddFriendButton,mUpdateProfileButton,mMapButton,mSignoutButton;
 
     @Nullable
     @Override
@@ -37,11 +39,11 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
     }
 
     private void loadProperties(View view) {
-        mChatButton = view.findViewById(R.id.chat_profile_lnLayout);
-        mAddFriendButton = view.findViewById(R.id.add_friend_lnLayout);
-        mMapButton = view.findViewById(R.id.map_lnLayout);
-        mUpdateProfileButton = view.findViewById(R.id.update_profile_lnLayout);
-        mSignoutButton = view.findViewById(R.id.signout_lnLayout);
+        mChatButton = view.findViewById(R.id.btn_chat_profile);
+        mAddFriendButton = view.findViewById(R.id.btn_add_friend);
+        mMapButton = view.findViewById(R.id.btn_map);
+        mUpdateProfileButton = view.findViewById(R.id.btn_update_profile);
+        mSignoutButton = view.findViewById(R.id.btn_signout);
     }
 
     private void setOnClickListener(View view) {
@@ -49,7 +51,7 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mActionListioner != null) {
-                    mActionListioner.onButtonClick(R.id.chat_profile_lnLayout);
+                    mActionListioner.onButtonClick(R.id.btn_chat_profile);
                 }
             }
         });
@@ -57,7 +59,7 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mActionListioner != null) {
-                    mActionListioner.onButtonClick(R.id.add_friend_lnLayout);
+                    mActionListioner.onButtonClick(R.id.btn_add_friend);
                 }
             }
         });
@@ -65,7 +67,7 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mActionListioner != null) {
-                    mActionListioner.onButtonClick(R.id.update_profile_lnLayout);
+                    mActionListioner.onButtonClick(R.id.btn_update_profile);
                 }
             }
         });
@@ -73,7 +75,7 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mActionListioner != null) {
-                    mActionListioner.onButtonClick(R.id.map_lnLayout);
+                    mActionListioner.onButtonClick(R.id.btn_map);
                 }
             }
         });
@@ -81,7 +83,7 @@ public class BottomSheetModal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mActionListioner != null) {
-                    mActionListioner.onButtonClick(R.id.signout_lnLayout);
+                    mActionListioner.onButtonClick(R.id.btn_signout);
                 }
             }
         });
