@@ -12,9 +12,6 @@ public class User implements Serializable {
     public String _updated;
     public String photourl;
     public String id;
-    public Friend friend;
-    public Friend friendrequest;
-    public Friend invatationsent;
 
     public User() {}
 
@@ -28,7 +25,7 @@ public class User implements Serializable {
 //        this._updated = user._updated;
 //    }
 
-    public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated, String id, Friend friend, Friend request, Friend sent) {
+    public User(String phone, String password, String name, String status, String _created, String _deleted, String _updated, String id) {
         this.phone = phone;
         this.password = password;
         this.name = name;
@@ -37,9 +34,6 @@ public class User implements Serializable {
         this._deleted = _deleted;
         this._updated = _updated;
         this.id = id;
-        this.friend = friend;
-        this.friendrequest = request;
-        this.invatationsent = sent;
     }
 
     public User(String name) {
@@ -77,14 +71,6 @@ public class User implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Friend getFriend() {
-        return friend;
-    }
-
-    public void setFriend(Friend friend) {
-        this.friend = friend;
     }
 
     public String getName() {

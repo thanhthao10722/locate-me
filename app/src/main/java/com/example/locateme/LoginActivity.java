@@ -9,19 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.locateme.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.locateme.Chatroom.ChatroomListActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEditPhone;
@@ -51,33 +46,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void logIn(final String phone, final String password)
     {
-        mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful())
-                        {
-                            moveToProfilePage();
-                        }
-                        else {
-                            if(phone.matches("") || password.matches("")) {
-                                error.setText("");
-//                                Toast.makeText(LoginActivity.this, "Please fill all the blanks", Toast.LENGTH_LONG).show();
-                                error.setText("Please fill all the blanks");
-                            }
-                            else
-                            {
-                                error.setText("");
-//                                Toast.makeText(LoginActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
-                                error.setText("Your password or phone number is incorrect.");
-                            }
-
-                        }
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                Intent intent = new Intent(LoginActivity.this, MainProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-    private void moveToProfilePage() {
-        Intent intent = new Intent(this, ProfileActivity.class);
+    public void moveToProfilePage() {
+        Intent intent = new Intent(this, MainProfileActivity.class);
         startActivity(intent);
     }
 
@@ -92,10 +70,5 @@ public class LoginActivity extends AppCompatActivity {
     public void moveToRegister(View v) {
         Intent register = new Intent(this,InputPhoneNumberActivity.class);
         startActivity(register);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        moveToProfilePage();
     }
 }
