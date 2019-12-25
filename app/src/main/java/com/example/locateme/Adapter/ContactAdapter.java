@@ -1,16 +1,20 @@
 package com.example.locateme.Adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.locateme.R;
 import com.example.locateme.model.Contact;
+import com.example.locateme.model.User;
 
 import java.util.List;
 
@@ -19,13 +23,13 @@ public class ContactAdapter extends BaseAdapter
 {
     public Context context;
     public int layout;
-    public List<Contact> list;
+    public List<User> list;
 
-    public ContactAdapter(Context context, int layout, List<Contact> list)
-    {
-        this.context = context;
-        this.layout = layout;
-        this.list = list;
+    public ContactAdapter(Context context, int layout, List<User> list)
+        {
+            this.context = context;
+            this.layout = layout;
+            this.list = list;
     }
     public Context getContext() {
         return context;
@@ -43,11 +47,11 @@ public class ContactAdapter extends BaseAdapter
         this.layout = layout;
     }
 
-    public List<Contact> getList() {
+    public List<User> getList() {
         return list;
     }
 
-    public void setList(List<Contact> list) {
+    public void setList(List<User> list) {
         this.list = list;
     }
 
@@ -73,12 +77,13 @@ public class ContactAdapter extends BaseAdapter
         TextView txtName = view.findViewById(R.id.txt_name);
         TextView txtPhone = view.findViewById(R.id.txt_phone);
         ImageView image = view.findViewById(R.id.img_view);
-        Contact contact = list.get(i);
+        ImageView add_friend = view.findViewById(R.id.add_friend);
+        User contact = list.get(i);
         txtName.setText(contact.getName());
         txtPhone.setText(contact.getPhone());
         Glide.with(context /* context */)
                 .asDrawable()
-                .load(contact.getImageSource())
+                .load(contact.getPhotourl())
                 .apply(RequestOptions.circleCropTransform())
                 .error(R.drawable.user)
                 .into(image);

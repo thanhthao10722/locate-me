@@ -158,6 +158,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isModalOn) {
+//                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                     finish();
                 }
             }
@@ -317,13 +319,14 @@ public class ProfileActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (reqCode) {
                 case GALLERY_REQUEST :
-                {
-                    try {
-                        filePath = data.getData();
-                        final InputStream imageStream = getContentResolver().openInputStream(filePath);
-                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        mAvatar.setImageBitmap(selectedImage);
-                    } catch (FileNotFoundException e) {
+                        {
+                            try {
+                                filePath = data.getData();
+                                final InputStream imageStream = getContentResolver().openInputStream(filePath);
+                                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                                mAvatar.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e)
+                    {
                         e.printStackTrace();
                     }
                     uploadImage();

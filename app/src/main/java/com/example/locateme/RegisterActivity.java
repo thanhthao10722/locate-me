@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.locateme.helper.MyDB;
+import com.example.locateme.model.Friend;
 import com.example.locateme.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     String password;
     String phone;
     public MyDB db;
+    private TextView error;
     Date date;
     SimpleDateFormat formatter;
     private FirebaseAuth mAuth;
@@ -41,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_page);
         mEdit_Name = (EditText)findViewById(R.id.mEdit_Fullname);
         mEdit_Password = (EditText)findViewById(R.id.mEdit_Password);
+        error = findViewById(R.id.material_text_button);
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone").toString();
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -56,27 +60,30 @@ public class RegisterActivity extends AppCompatActivity {
         password = mEdit_Password.getText().toString();
         if(name.equals(""))
         {
-            Toast.makeText(RegisterActivity.this, "Your name must not be blank", Toast.LENGTH_LONG).show();
+//            Toast.makeText(RegisterActivity.this, "Your name must not be blank", Toast.LENGTH_LONG).show();
+            error.setText("Your name must not be blank");
         }
         else if(password.equals(""))
         {
-            Toast.makeText(RegisterActivity.this, "Your password must not be blank", Toast.LENGTH_LONG).show();
+//            Toast.makeText(RegisterActivity.this, "Your password must not be blank", Toast.LENGTH_LONG).show();
+            error.setText("Your password must not be blank");
         }
         else
         {
             Intent success = new Intent(this, LoginActivity.class);
             date = new Date();
-            final User user = new User(phone, password, name, "active", formatter.format(date), "", "", "");
+            final User user = new User(phone, password, name, "active", formatter.format(date), "", "", "", new Friend(), new Friend(),  new Friend());
             mAuth.createUserWithEmailAndPassword(phone + "@gmail.com", password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(RegisterActivity.this, "Create user successfully", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(RegisterActivity.this, "Create user successfully", Toast.LENGTH_LONG).show();
+                                error.setText("Success");
                                 createUserInDatabase(user);
                             } else {
-                                Toast.makeText(RegisterActivity.this, "Fail!", Toast.LENGTH_LONG).show();
-
+//                                Toast.makeText(RegisterActivity.this, "Fail!", Toast.LENGTH_LONG).show();
+                                error.setText("Fail");
                             }
                         }
                     });
@@ -110,7 +117,8 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                         }
                         else {
-                            Toast.makeText(RegisterActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(RegisterActivity.this,"Your password or phone number is incorrect.",Toast.LENGTH_LONG).show();
+                            error.setText("Your password or phone number is incorrect.");
                         }
                     }
                 });

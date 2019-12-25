@@ -9,9 +9,10 @@
     <TextView
         android:id="@+id/txt_requestPending"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Contact list "
-        android:textSize="28dp"
+        android:layout_height="45dp"
+        android:text="Suggestions"
+        android:textSize="25dp"
+        android:background="@color/mainBackground"
         android:textColor="#FF020202"
         android:gravity="center"/>
 
@@ -31,7 +32,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/ic_group_add"
+        app:srcCompat="@drawable/add_friend_1"
+        android:backgroundTint="@color/mainBackground"
         android:onClick="onClickAddFriend"/>
 
 </RelativeLayout>

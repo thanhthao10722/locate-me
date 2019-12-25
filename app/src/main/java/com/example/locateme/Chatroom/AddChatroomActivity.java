@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class    AddChatroomActivity extends AppCompatActivity {
+public class AddChatroomActivity extends AppCompatActivity {
 
     private ImageView mBackButton,mOkButton;
     private EditText mEdit_Chatroom;

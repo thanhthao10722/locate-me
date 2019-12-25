@@ -31,11 +31,11 @@
 
     <ImageButton
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/add_chatroom"
         android:id="@+id/add_to_chatroom_button"
         android:onClick="addToChatroom"/>
 </RelativeLayout>

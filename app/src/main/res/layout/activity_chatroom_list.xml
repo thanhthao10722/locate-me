@@ -5,17 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chatroom.ChatroomListActivity">
+
     <ImageView
-    android:id="@+id/back_button"
-    android:layout_alignParentTop="true"
-    android:layout_width="50dp"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_keyboard_arrow_back"
-    />
+        android:id="@+id/back_button"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/left_arrow" />
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchbox"
+        android:background="@drawable/searchbox_background"
         android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/back_button"
         android:focusable="true"
         app:iconifiedByDefault="false">
@@ -36,7 +43,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
+        android:backgroundTint="@color/mainBackground"
         android:src="@drawable/ic_add_black_24dp">
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </RelativeLayout>

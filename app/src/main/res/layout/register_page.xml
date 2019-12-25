@@ -130,8 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textSize="20dp"
-            android:text="Share location, Share Your Life"
+            android:textSize="17dp"
             android:textColor="#FF020202"/>
     </RelativeLayout>
 </RelativeLayout>

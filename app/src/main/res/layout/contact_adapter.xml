@@ -12,7 +12,9 @@
         <ImageView
             android:id="@+id/img_view"
             android:layout_width="90dp"
-            android:layout_height="90dp"></ImageView>
+            android:layout_height="90dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"></ImageView>
 
         <TextView
             android:id="@+id/txt_name"
@@ -31,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_toRightOf="@+id/img_view"
             android:text="Phone number"
             android:textSize="17dp"></TextView>
@@ -42,7 +44,10 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
-            android:src="@drawable/add_friend"></ImageView>
+            android:src="@drawable/add_friend"
+            android:id="@+id/add_friend"
+            android:onClick="requestFriend"
+            ></ImageView>
 
     </RelativeLayout>
 </RelativeLayout>
