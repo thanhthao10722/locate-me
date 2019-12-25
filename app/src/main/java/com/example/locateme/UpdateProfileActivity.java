@@ -117,6 +117,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     public void backButton(View v){
-        finish();
+        Intent intent = new Intent(this,MainProfileActivity.class);
+        startActivity(intent);
     }
 }
