@@ -50,7 +50,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
 
     private void loadIntent() {
         Intent intent = getIntent();
-        if(intent.getStringExtra("Flag")!=null){
+        if(intent.getStringExtra("Flag") != null){
             double latitude = intent.getDoubleExtra("Latitude",0.0);
             double longitude = intent.getDoubleExtra("Longitude",0.0);
             drawMarker(latitude,longitude);
