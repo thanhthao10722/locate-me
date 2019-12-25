@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:background="@color/mainBackground">
-
         <RelativeLayout
             android:id="@+id/main_Profile"
             android:layout_width="match_parent"

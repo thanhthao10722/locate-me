@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,7 +33,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.example.locateme.helper.MyDB;
-import com.example.locateme.model.Chat;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -52,7 +50,6 @@ public class  MainActivityChat extends AppCompatActivity {
     private MessageBubbleAdapter adapter;
     private String chatroomId;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
-    private MyDB db;
     private ImageView mAddToChatroomBtn;
     private ImageButton btnLocation;
     private NoticeDialog noticeDialog;
@@ -67,8 +64,6 @@ public class  MainActivityChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_chatroom);
-
-        db = new MyDB(this);
 
         ChatBubbles = new ArrayList<>();
         loadIntent();
@@ -258,6 +253,9 @@ public class  MainActivityChat extends AppCompatActivity {
             ChatBubbles.add(message);
             adapter.notifyDataSetChanged();
         }else if (!message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            ChatBubbles.add(message);
+            adapter.notifyDataSetChanged();
+        }else if (message.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && message.isLatLng()) {
             ChatBubbles.add(message);
             adapter.notifyDataSetChanged();
         }
