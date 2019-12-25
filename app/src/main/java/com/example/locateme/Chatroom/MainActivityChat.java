@@ -91,16 +91,17 @@ public class  MainActivityChat extends AppCompatActivity {
         mAddToChatroomBtn = findViewById(R.id.add_friend_to_chatroom);
         noticeDialog = new NoticeDialog(this);
         txtFriendName = findViewById(R.id.txt_friendName);
-        mapUtil = new MapUtil(this);
+
         //set ListView adapter first
         loadChatHistory();
         adapter = new MessageBubbleAdapter(this, ChatBubbles);
         messageView.setAdapter(adapter);
 
         final ProgressDialog myProgress = new ProgressDialog(this);
-        myProgress.setTitle("Map Loading...");
+        myProgress.setTitle("Content Loading...");
         myProgress.setMessage("Please wait...");
         myProgress.setCancelable(true);
+        mapUtil = new MapUtil(this);
 
         //show progress
         myProgress.show();
@@ -180,19 +181,23 @@ public class  MainActivityChat extends AppCompatActivity {
             noticeDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    String chatId = dbReference.child(chatroomId).push().getKey();
-                    LatLng latLng = mapUtil.getLocation();
-                    lat = latLng.latitude;
-                    lng = latLng.longitude;
-
-                    Message message = new Message();
-                    message.setId(chatId);
-                    message.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    message.setLatLng(true);
-                    message.setContent(mapUtil.getAddress());
-                    message.setLatitude(lat);
-                    message.setLongitude(lng);
-                    dbReference.child(chatId).setValue(message);
+                    if(mapUtil.currentLocation != null) {
+                        String chatId = dbReference.child(chatroomId).push().getKey();
+                        LatLng latLng = mapUtil.getLocation();
+                        lat = latLng.latitude;
+                        lng = latLng.longitude;
+                        Message message = new Message();
+                        message.setId(chatId);
+                        message.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        message.setLatLng(true);
+                        message.setContent(mapUtil.getAddress());
+                        message.setLatitude(lat);
+                        message.setLongitude(lng);
+                        dbReference.child(chatId).setValue(message);
+                    }
+                    else {
+                        Toast.makeText(MainActivityChat.this,"Đéo chia sẻ được,  mời thử lại",Toast.LENGTH_LONG).show();
+                    }
 
 //                        ChatBubble ChatBubble = new ChatBubble(mapUtil.getAddress(), false);
 //                        ChatBubbles.add(ChatBubble);

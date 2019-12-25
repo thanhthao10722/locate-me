@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ import java.util.Locale;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapUtil implements LocationListener {
-    public Location currentLocation = null;
+    public Location currentLocation;
     private Context context;
 
     public MapUtil(Context context) {
@@ -40,10 +41,9 @@ public class MapUtil implements LocationListener {
         return null;
     }
 
-    private void loadLocation() {
+    public void loadLocation() {
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         String locationProvider = this.getLocationProvider();
-        Log.d("Event",locationProvider);
         if (locationProvider != null) {
             final long MIN_TIME_BW_UPDATES = 1000;
             final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
@@ -84,7 +84,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }
@@ -100,7 +99,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }
@@ -115,7 +113,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }

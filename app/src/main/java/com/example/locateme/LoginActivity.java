@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_page);
         mEditPhone = (EditText)findViewById(R.id.usrusr);
         mEditPassword = (EditText)findViewById(R.id.pswrdd);
-        btnLogin = (Button) findViewById(R.id.btn_Login);
+        btnLogin = (Button) findViewById(R.id.btn_Login_of_login_page);
         mAuth = FirebaseAuth.getInstance();
         error = findViewById(R.id.error);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -64,11 +64,14 @@ public class LoginActivity extends AppCompatActivity {
         this.startActivity(forgotPass);
     }
     public void backButton(View v) {
-        Intent register = new Intent(this,MainActivity.class);
-        startActivity(register);
+        finish();
     }
     public void moveToRegister(View v) {
         Intent register = new Intent(this,InputPhoneNumberActivity.class);
         startActivity(register);
+    }
+    @Override
+    public void onBackPressed() {
+
     }
 }

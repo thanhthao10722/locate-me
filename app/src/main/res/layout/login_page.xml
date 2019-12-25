@@ -110,7 +110,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_Login"
+            android:id="@+id/btn_Login_of_login_page"
             android:layout_below="@id/linear_layout_password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"

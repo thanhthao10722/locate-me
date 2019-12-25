@@ -131,7 +131,6 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        loadingDialog.dismiss();
     }
 
     private void chooseImage() {
@@ -197,7 +196,6 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
 
     private void loadImage()
     {
-
         if (current_user.getPhotoUrl() != null)
         {
             String uri = current_user.getPhotoUrl().toString();
@@ -257,8 +255,9 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                 startActivity(intent);
             }break;
             case R.id.btn_signout: {
-                finish();
                 mAuth.signOut();
+                Intent intent = new Intent(MainProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
             }break;
         }
     }

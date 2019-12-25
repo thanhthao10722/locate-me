@@ -1,10 +1,13 @@
 package com.example.locateme;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private MapUtil map;
+    private ImageView mIcAddress;
     DatabaseReference databaseReference;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +50,18 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mEdit_Address = findViewById(R.id.mEdit_Address);
         mButton_Update = findViewById(R.id.btn_update);
         mButton_Password = findViewById(R.id.btn_changePassword);
+        mIcAddress = findViewById(R.id.ic_address);
+        map = new MapUtil(UpdateProfileActivity.this);
+        mIcAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.loadLocation();
+                fetchAddress();
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        map = new MapUtil(UpdateProfileActivity.this);
         databaseReference.child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
@@ -58,7 +70,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 mEdit_Phone.setText(user.getPhone());
                 mEdit_Name.setText(currentUser.getDisplayName());
-                mEdit_Address.setText(map.getSubAddress());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -67,6 +78,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         setEvent();
 
+        fetchAddress();
     }
     public void setmButton_Update() {
         final String name = mEdit_Name.getText().toString();
@@ -119,5 +131,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
     public void backButton(View v){
         Intent intent = new Intent(this,MainProfileActivity.class);
         startActivity(intent);
+    }
+    public void fetchAddress() {
+        if(map.currentLocation !=null) {
+            mEdit_Address.setText(map.getSubAddress());
+        } else {
+            Toast.makeText(this,"Problems with your GPS system",Toast.LENGTH_LONG).show();
+        }
     }
 }
