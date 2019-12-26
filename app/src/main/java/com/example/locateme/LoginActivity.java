@@ -32,9 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-        mEditPhone = (EditText)findViewById(R.id.usrusr);
-        mEditPassword = (EditText)findViewById(R.id.pswrdd);
-        btnLogin = (Button) findViewById(R.id.btn_Login_of_login_page);
+        mEditPhone = findViewById(R.id.phone_number);
+        mEditPassword = findViewById(R.id.password);
+        btnLogin = findViewById(R.id.btn_Login_of_login_page);
         mAuth = FirebaseAuth.getInstance();
         error = findViewById(R.id.error);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -49,14 +49,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(final String phone, final String password)
     {
-//        Toast.makeText(LoginActivity.this, "Hello", Toast.LENGTH_LONG).show();
-////        mAuth.signInWithEmailAndPassword(phone + "@gmail.com", password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-////            @Override
-////            public void onSuccess(AuthResult authResult) {
-////                Intent intent = new Intent(LoginActivity.this, MainProfileActivity.class);
-////                startActivity(intent);
-////            }
-////        });
         if(phone.matches("") || password.matches("")) {
             error.setText("");
 //                                Toast.makeText(LoginActivity.this, "Please fill all the blanks", Toast.LENGTH_LONG).show();

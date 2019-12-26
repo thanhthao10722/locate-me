@@ -32,7 +32,6 @@ import java.util.ArrayList;
 public class ChatroomListActivity extends AppCompatActivity {
 
     private ListView mLv_Chatroom;
-//    private ImageView mBackButton;
     private ChatroomAdapter adapter;
     private ArrayList<Chatroom> listFriend = new ArrayList<Chatroom>();
     private String userId;
@@ -72,7 +71,6 @@ public class ChatroomListActivity extends AppCompatActivity {
 
     public void setProperties() {
         this.mLv_Chatroom = findViewById(R.id.Chatroom_listview);
-//        this.mBackButton = findViewById(R.id.back_button);
         mAddChatroom_Btn = findViewById(R.id.add_chatroom_button);
         searchView = findViewById(R.id.searchbox);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -83,9 +81,7 @@ public class ChatroomListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("Filter",newText);
                 adapter.getFilter().filter(newText);
-                adapter.notifyDataSetChanged();
                 return false;
             }
         });
@@ -113,23 +109,6 @@ public class ChatroomListActivity extends AppCompatActivity {
 
     public void getChatroomList() {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.exists()) {
-//                    for( DataSnapshot i : dataSnapshot.getChildren()) {
-//                        checkId(i);
-//                    }
-//                    adapter.notifyDataSetChanged();
-//                }
-//                dialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

@@ -51,7 +51,6 @@ import java.util.Date;
 
 public class MainProfileActivity extends AppCompatActivity implements BottomSheetModal.ActionListener {
     Button btn_Menu;
-    ProgressBar progressBar;
     CircleImageView mAvatar;
     private TextView name;
     private TextView phone;
@@ -66,10 +65,12 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     private String image;
     private FirebaseUser current_user;
     BottomSheetModal modal = new BottomSheetModal();
+    ProgressDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_profile);
+        triggerDialog();
         setProperties();
         setActionListenerMPP();
         getDatabaseReference();
@@ -83,7 +84,14 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
         mAvatar = findViewById(R.id.profile_image);
         formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         current_user = mAuth.getCurrentUser();
-        Log.d("Event","Set PROPERTIES");
+    }
+
+    private void triggerDialog() {
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setTitle("Loading Information");
+        loadingDialog.setMessage("PLease wait ...");
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
     }
 
     public void setActionListenerMPP() {
@@ -102,12 +110,10 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                 chooseImage();
             }
         });
-        Log.d("Event","setActionListener");
     }
 
     public void getDatabaseReference() {
         storageReference = FirebaseStorage.getInstance().getReference();
-        Log.d("Event","setDB");
     }
 
     public void loadUser() {
@@ -207,6 +213,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                     .error(R.drawable.user)
                     .into(mAvatar);
         }
+        loadingDialog.dismiss();
     }
     public void backButton(View v) { finish();
     }

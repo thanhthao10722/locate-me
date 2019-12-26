@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/mainBackground"
     >
-    <ImageView
-        android:id="@+id/back_button"
-        android:layout_alignParentTop="true"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_keyboard_arrow_back"
-        android:onClick="backButton"
-        android:layout_alignParentLeft="true"/>
 
     <TextView
         android:id="@+id/message_to_user"

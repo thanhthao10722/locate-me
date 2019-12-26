@@ -9,17 +9,8 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="40dp"
         >
-
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_alignParentTop="true"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_arrow_back"
-            android:onClick="backButton"
-            android:layout_alignParentLeft="true"/>
 
         <ImageView
             android:layout_below="@+id/back_button"
@@ -27,7 +18,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/logo_locate_me"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -59,7 +51,7 @@
                     android:src="@drawable/telephone" />
 
                 <EditText
-                    android:id="@+id/usrusr"
+                    android:id="@+id/phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -90,7 +82,7 @@
                     android:src="@drawable/locked_padlock" />
 
                 <EditText
-                    android:id="@+id/pswrdd"
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -102,11 +94,6 @@
                     android:textColorHint="#000000"
                     android:textSize="16dp" />
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="#4a5a71"/>-->
         </LinearLayout>
 
         <Button

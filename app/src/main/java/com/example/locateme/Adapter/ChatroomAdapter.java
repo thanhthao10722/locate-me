@@ -1,11 +1,13 @@
 package com.example.locateme.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +18,10 @@ import com.example.locateme.model.Chatroom;
 import java.util.ArrayList;
 
 
-public class ChatroomAdapter extends ArrayAdapter<Chatroom> {
+public class ChatroomAdapter extends ArrayAdapter<Chatroom> implements Filterable {
     private Context context;
     private int resource;
-    private ArrayList<Chatroom> list, temporaryList;
+    private ArrayList<Chatroom> list,temporaryList;
 
     public ChatroomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Chatroom> inputList) {
         super(context, resource, inputList);
@@ -27,6 +29,7 @@ public class ChatroomAdapter extends ArrayAdapter<Chatroom> {
         this.resource = resource;
         this.list = inputList;
         this.temporaryList = inputList;
+        Log.d("temporaryList",String.valueOf(temporaryList.size()));
     }
 
     @Override
@@ -48,40 +51,42 @@ public class ChatroomAdapter extends ArrayAdapter<Chatroom> {
         TextView tvName;
     }
 
-    private class ChatroomFilter extends Filter {
+    @Override
+    public Filter getFilter() {
+        return  ChatroomFlter;
+    }
+    Filter ChatroomFlter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            // We implement here the filter logic
+            Log.d("temporaryList",String.valueOf(temporaryList.size()));
             if (constraint == null || constraint.length() == 0) {
-                // No filter implemented we return all the list
-                results.values = list;
-                results.count = list.size();
+                results.values = temporaryList;
+                results.count = temporaryList.size();
             }
             else {
-                // We perform filtering operation
-                ArrayList<Chatroom> nChatroom = new ArrayList<Chatroom>();
-
-                for (Chatroom p : list) {
-                    if (p.getName().toUpperCase()
-                            .startsWith(constraint.toString().toUpperCase()))
+                ArrayList<Chatroom> nChatroom = new ArrayList<>();
+                for (Chatroom p : temporaryList) {
+                    if (p.getName().toLowerCase()
+                            .contains(constraint.toString().toLowerCase()))
                         nChatroom.add(p);
                 }
-
                 results.values = nChatroom;
                 results.count = nChatroom.size();
+
             }
             return results;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint,FilterResults results) {
-            if (results.count == 0)
-                notifyDataSetInvalidated();
-            else {
-                list = (ArrayList<Chatroom>)results.values;
-                notifyDataSetChanged();
+            clear();
+            notifyDataSetChanged();
+            for (Chatroom i : (ArrayList<Chatroom>)results.values) {
+                add(i);
             }
+            notifyDataSetInvalidated();
         }
-    }
+    };
 }

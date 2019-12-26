@@ -13,25 +13,17 @@
         android:background="@color/mainBackground"
         android:layout_centerInParent="true">
 
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_alignParentTop="true"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_arrow_back"
-            android:onClick="backButton"
-            android:background="@color/mainBackground"
-            android:layout_alignParentLeft="true"/>
-
-
         <ImageView
             android:layout_below="@+id/back_button"
             android:id="@+id/locate_me"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/logo_locate_me"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            />
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

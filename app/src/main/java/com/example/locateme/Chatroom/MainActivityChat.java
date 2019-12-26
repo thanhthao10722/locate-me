@@ -191,7 +191,7 @@ public class  MainActivityChat extends AppCompatActivity {
                         dbReference.child(chatId).setValue(message);
                     }
                     else {
-                        Toast.makeText(MainActivityChat.this,"Đéo chia sẻ được,  mời thử lại",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivityChat.this,"Please double check your GPS",Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -210,7 +210,7 @@ public class  MainActivityChat extends AppCompatActivity {
             chatroomId = intent.getStringExtra("chatroomId");
             dbReference = dbReference.child(chatroomId).child("content");
         } else {
-            Toast.makeText(this,"Something wrong :v" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Something wrong" , Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -223,7 +223,6 @@ public class  MainActivityChat extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("new message2",dataSnapshot.getValue(Message.class).getContent());
                 addNewMessageToListview(dataSnapshot.getValue(Message.class));
             }
 
