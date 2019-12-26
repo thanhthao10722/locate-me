@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful())
                         {
                             final String uId = mAuth.getCurrentUser().getUid();
-                            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
                             databaseReference.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

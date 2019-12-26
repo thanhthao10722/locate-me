@@ -79,7 +79,7 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
             contactList.add(phoneNumber);
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
         databaseReference.child(current_user.getUid()).child("friend").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

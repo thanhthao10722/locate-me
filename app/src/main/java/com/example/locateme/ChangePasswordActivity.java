@@ -59,7 +59,7 @@ public class ChangePasswordActivity extends AppCompatActivity
         }else
             {
                 final FirebaseUser current_user = mAuth.getCurrentUser();
-                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
 
                 databaseReference.child(current_user.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override

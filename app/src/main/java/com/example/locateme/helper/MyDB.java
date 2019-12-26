@@ -18,7 +18,7 @@ public class MyDB {
     public void writeNewUser(User user) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         String userId = databaseReference.push().getKey();
-        databaseReference.child("users").child(userId).setValue(user);
+        databaseReference.child("user").child(userId).setValue(user);
     }
 
 }

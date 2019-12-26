@@ -111,7 +111,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     }
 
     public void loadUser() {
-        databaseReference.child("users").child(current_user.getUid()).addValueEventListener(new ValueEventListener()
+        databaseReference.child("user").child(current_user.getUid()).addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -169,8 +169,8 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                                         public void onComplete(@NonNull Task<Void> task) {
                                         }
                                     });
-                                    databaseReference.child("users").child(current_user.getUid()).child("photourl").setValue(image);
-                                    databaseReference.child("users").child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
+                                    databaseReference.child("user").child(current_user.getUid()).child("photourl").setValue(image);
+                                    databaseReference.child("user").child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
 
                                 }
                             });

@@ -49,7 +49,7 @@ public class AddFriendActivity extends AppCompatActivity {
         adapter = new AddFriendAdapter(this, R.layout.add_friend_adapter, userList);
         mListViewFriends = findViewById(R.id.add_friend_list);
         mListViewFriends.setAdapter(adapter);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
     }
 
     public void acceptFriend(View v) {

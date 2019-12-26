@@ -147,7 +147,7 @@ public class InputPhoneNumberActivity extends AppCompatActivity {
         {
             if (isValid(phone))
             {
-                databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)

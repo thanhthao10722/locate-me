@@ -28,7 +28,7 @@ public class FriendListActivity extends AppCompatActivity {
     private ListView mLvFriendList;
     private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private AddToChatroomAdapter adapter;
-    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("users");
+    private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("user");
     private ProgressDialog dialog;
     private String chatroomId = "";
 
@@ -104,8 +104,8 @@ public class FriendListActivity extends AppCompatActivity {
     public void addToChatroom(View v) {
         DatabaseReference dbChatListRef = FirebaseDatabase.getInstance().getReference();
         int pos =  mLvFriendList.getPositionForView(v);
-        String keyFriend = dbChatListRef.child("users").child(userId).child("friend")
+        String keyFriend = dbChatListRef.child("user").child(userId).child("friend")
                 .child(friendList.get(pos).getId()).getKey();
-        dbChatListRef.child("chatlist").child(chatroomId).child("users").child(keyFriend).setValue(1);
+        dbChatListRef.child("chatlist").child(chatroomId).child("user").child(keyFriend).setValue(1);
     }
 }
