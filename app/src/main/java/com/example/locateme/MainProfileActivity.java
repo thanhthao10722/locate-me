@@ -200,7 +200,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
         if (current_user.getPhotoUrl() != null)
         {
             String uri = current_user.getPhotoUrl().toString();
-            Glide.with(this /* context */)
+            Glide.with(MainProfileActivity.this /* context */)
                     .asDrawable()
                     .load(uri)
                     .apply(RequestOptions.circleCropTransform())
@@ -210,10 +210,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     }
     public void backButton(View v) { finish();
     }
-    public void moveToMap(View v){
-        Intent moveToMap = new Intent(this, MapActivity.class);
-        this.startActivity(moveToMap);
-    }
+
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);

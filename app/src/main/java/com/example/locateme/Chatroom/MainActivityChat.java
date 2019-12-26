@@ -178,7 +178,7 @@ public class  MainActivityChat extends AppCompatActivity {
                 public void onDismiss(DialogInterface dialog) {
                     if(mapUtil.currentLocation != null) {
                         String chatId = dbReference.child(chatroomId).push().getKey();
-                        LatLng latLng = mapUtil.getLocation();
+                        LatLng latLng = mapUtil.getLocationLatLng();
                         lat = latLng.latitude;
                         lng = latLng.longitude;
                         Message message = new Message();
@@ -193,10 +193,6 @@ public class  MainActivityChat extends AppCompatActivity {
                     else {
                         Toast.makeText(MainActivityChat.this,"Đéo chia sẻ được,  mời thử lại",Toast.LENGTH_LONG).show();
                     }
-
-//                        ChatBubble ChatBubble = new ChatBubble(mapUtil.getAddress(), false);
-//                        ChatBubbles.add(ChatBubble);
-//                        adapter.notifyDataSetChanged();
                 }
             });
             noticeDialog.show();

@@ -1,6 +1,10 @@
 package com.example.locateme;
 
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UpdateProfileActivity extends AppCompatActivity {
+public class UpdateProfileActivity extends AppCompatActivity{
     private TextView mEdit_Phone;
     private EditText mEdit_Name;
     private TextView mEdit_Address;
@@ -52,15 +56,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         mButton_Update = findViewById(R.id.btn_update);
         mButton_Password = findViewById(R.id.btn_changePassword);
         mIcAddress = findViewById(R.id.ic_address);
-        map = new MapUtil(UpdateProfileActivity.this);
-        noti = findViewById(R.id.material_text_button);
-        mIcAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                map.loadLocation();
-                fetchAddress();
-            }
-        });
+        map = new MapUtil(this);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("user");
@@ -72,15 +68,14 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 mEdit_Phone.setText(user.getPhone());
                 mEdit_Name.setText(currentUser.getDisplayName());
+                fetchAddress();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
         setEvent();
-
-        fetchAddress();
+        new MyAsyncTask().execute();
     }
     public void setmButton_Update() {
         final String name = mEdit_Name.getText().toString();
@@ -126,7 +121,21 @@ public class UpdateProfileActivity extends AppCompatActivity {
         if(map.currentLocation !=null) {
             mEdit_Address.setText(map.getSubAddress());
         } else {
-            Toast.makeText(this,"Problems with your GPS system",Toast.LENGTH_LONG).show();
+        }
+    }
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if(map.currentLocation == null) {
+                map.getLocation();
+                fetchAddress();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            this.cancel(true);
         }
     }
 }

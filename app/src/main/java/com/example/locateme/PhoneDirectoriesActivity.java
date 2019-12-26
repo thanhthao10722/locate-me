@@ -67,7 +67,7 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
         User addFriend = userList.get(index);
 
         databaseReference.child(addFriend.getId()).child("friendrequest").child(current_user.getUid()).setValue(current_user.getUid());
-        databaseReference.child(current_user.getUid()).child("invatationsent").child(addFriend.getId()).setValue(addFriend.getId());
+        databaseReference.child(current_user.getUid()).child("invitationsent").child(addFriend.getId()).setValue(addFriend.getId());
         userList.remove(userList.get(index));
         adapter.notifyDataSetChanged();
     }
@@ -102,7 +102,7 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        databaseReference.child(current_user.getUid()).child("invatationsent").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(current_user.getUid()).child("invitationsent").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren())
@@ -113,7 +113,6 @@ public class PhoneDirectoriesActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        Log.d("FRIEND LIST", friendList.toString());
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
