@@ -36,8 +36,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="270dp"
+                android:layout_height="270dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:src="@drawable/user"
@@ -66,19 +66,8 @@
                     android:inputType="text"
                     android:textColor="#000000"
                     android:textColorHint="#000000"
-                    android:textSize="35sp" />
+                    android:textSize="27sp" />
             </RelativeLayout>
-
-
-            <ImageView
-                android:id="@+id/icon_phone"
-                android:layout_width="22dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="60dp"
-                android:layout_below="@+id/profile_name_layout"
-                android:src="@drawable/telephone_old"
-                android:layout_marginTop="20dp"/>
-
             <TextView
                 android:id="@+id/profile_phone"
                 android:layout_width="wrap_content"
@@ -87,8 +76,18 @@
                 android:fontFamily="sans-serif"
                 android:textColorHint="#000000"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:textSize="26dp"></TextView>
+                android:layout_marginTop="13dp"
+                android:textSize="26dp"
+                android:text="Phone number"></TextView>
+            <ImageView
+                android:id="@+id/icon_phone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/profile_name_layout"
+                android:layout_toLeftOf="@+id/profile_phone"
+                android:src="@drawable/telephone_old"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="13dp"/>
 
             <View
                 android:id="@+id/line"
@@ -96,7 +95,6 @@
                 android:layout_height="2dp"
                 android:layout_centerHorizontal="true"
                 android:background="@android:color/darker_gray" />
-
 
             <Button
                 android:id="@+id/btn_Menu"

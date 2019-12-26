@@ -65,6 +65,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     SimpleDateFormat formatter;
     private String image;
     private FirebaseUser current_user;
+    BottomSheetModal modal = new BottomSheetModal();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
         btn_Menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetModal modal = new BottomSheetModal();
+
                 modal.setActionListener(MainProfileActivity.this);
                 modal.show(getSupportFragmentManager(),"modalMenu");
             }
@@ -110,7 +111,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     }
 
     public void loadUser() {
-        databaseReference.child("users").child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
+        databaseReference.child("users").child(current_user.getUid()).addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -168,8 +169,8 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                                         public void onComplete(@NonNull Task<Void> task) {
                                         }
                                     });
-                                    databaseReference.child(current_user.getUid()).child("photourl").setValue(image);
-                                    databaseReference.child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
+                                    databaseReference.child("users").child(current_user.getUid()).child("photourl").setValue(image);
+                                    databaseReference.child("users").child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
 
                                 }
                             });
@@ -239,23 +240,28 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     public void onButtonClick(int id) {
         switch (id) {
             case R.id.btn_chat_profile: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, ChatroomListActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_add_friend: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, PhoneDirectoriesActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_update_profile: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, UpdateProfileActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_map: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, MapActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_signout: {
                 mAuth.signOut();
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
             }break;
