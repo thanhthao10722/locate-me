@@ -229,10 +229,7 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     }
     public void backButton(View v) { finish();
     }
-    public void moveToMap(View v){
-        Intent moveToMap = new Intent(this, MapActivity.class);
-        this.startActivity(moveToMap);
-    }
+
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
