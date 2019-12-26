@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,18 +23,15 @@ import java.util.Locale;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapUtil implements LocationListener {
-    public Location currentLocation = null;
+    public Location currentLocation;
     private Context context;
 
     public MapUtil(Context context) {
         this.context = context;
-        while (currentLocation == null) {
-            loadLocation();
-        }
+        loadLocation();
     }
 
     private String getLocationProvider() {
-
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -43,7 +41,7 @@ public class MapUtil implements LocationListener {
         return null;
     }
 
-    private void loadLocation() {
+    public void loadLocation() {
         LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         String locationProvider = this.getLocationProvider();
         if (locationProvider != null) {
@@ -86,7 +84,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }
@@ -102,7 +99,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }
@@ -117,7 +113,6 @@ public class MapUtil implements LocationListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Exception", e.getMessage());
         }
         return add;
     }

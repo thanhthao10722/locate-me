@@ -25,6 +25,7 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
     private final int SELF_MESSAGE = 121;
     private final int OTHER_MESSAGE = 212;
     private final int LOCATION_MESSAGE = 121212;
+    private final int SELF_LOCATION = 12321;
 
 
     public MessageBubbleAdapter(Context context, ArrayList<Message> list) {
@@ -41,8 +42,11 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
         } else if(viewType == OTHER_MESSAGE){
             View view = LayoutInflater.from(context).inflate(R.layout.left_message,parent,false);
             return new MessageBubbleAdapter.ViewHolder(view);
-        } else {
+        } else if (viewType == LOCATION_MESSAGE) {
             View view = LayoutInflater.from(context).inflate(R.layout.location_message,parent,false);
+            return new MessageBubbleAdapter.ViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.mylocation_message,parent,false);
             return new MessageBubbleAdapter.ViewHolder(view);
         }
     }
@@ -58,9 +62,11 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
             holder.tv_Content.setText(message.getContent());
             holder.tv_Name = holder.view.findViewById(R.id.left_message_user);
             holder.tv_Name.setText(message.getUserName());
-        } else {
+        } else if(getItemViewType(position) == LOCATION_MESSAGE){
             holder.tv_Content = holder.view.findViewById(R.id.location_message_content);
             holder.tv_Content.setText(message.getContent());
+            holder.tv_Name = holder.view.findViewById(R.id.left_message_user);
+            holder.tv_Name.setText(message.getUserName());
             holder.tv_Content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,8 +77,19 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
                     context.startActivity(intent);
                 }
             });
-            holder.tv_Name = holder.view.findViewById(R.id.left_message_user);
-            holder.tv_Name.setText(message.getUserName());
+
+        } else {
+            holder.tv_Content = holder.view.findViewById(R.id.mylocation_message_content);
+            holder.tv_Content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("Flag", "MYLOCATION");
+                    intent.putExtra("Latitude", message.getLatitude());
+                    intent.putExtra("Longitude", message.getLongitude());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -95,8 +112,10 @@ public class MessageBubbleAdapter extends RecyclerView.Adapter<MessageBubbleAdap
     public int getItemViewType(int position) {
         if(messagesList.get(position).getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && !messagesList.get(position).isLatLng()) {
             return SELF_MESSAGE;
-        } else if(messagesList.get(position).isLatLng()) {
+        } else if(messagesList.get(position).isLatLng() && !messagesList.get(position).getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             return LOCATION_MESSAGE;
+        } else if(messagesList.get(position).isLatLng() && messagesList.get(position).getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            return SELF_LOCATION;
         } else {
             return OTHER_MESSAGE;
         }

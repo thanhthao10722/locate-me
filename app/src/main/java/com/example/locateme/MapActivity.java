@@ -51,11 +51,27 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private void loadIntent() {
         Intent intent = getIntent();
         if(intent.getStringExtra("Flag") != null){
-            double latitude = intent.getDoubleExtra("Latitude",0.0);
-            double longitude = intent.getDoubleExtra("Longitude",0.0);
-            drawMarker(latitude,longitude);
-
+            if(intent.getStringExtra("Flag").equals("LOCATION")) {
+                double latitude = intent.getDoubleExtra("Latitude",0.0);
+                double longitude = intent.getDoubleExtra("Longitude",0.0);
+                drawMarker(latitude,longitude);
+            }
+            else if (intent.getStringExtra("Flag").equals("MYLOCATION")) {
+                double latitude = intent.getDoubleExtra("Latitude",0.0);
+                double longitude = intent.getDoubleExtra("Longitude",0.0);
+                zoom(new LatLng(latitude,longitude));
+            }
         }
+    }
+
+    private void zoom(LatLng latLng) {
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng)             // Sets the center of the map to location user
+                .zoom(15)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(0)                   // Sets the tilt of the camera
+                .build();                   // Creates a CameraPosition from the builder
+        myMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     private void onMyMapReady(GoogleMap googleMap) {

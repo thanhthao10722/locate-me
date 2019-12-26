@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Button;
@@ -49,58 +51,46 @@ import java.util.Date;
 
 public class MainProfileActivity extends AppCompatActivity implements BottomSheetModal.ActionListener {
     Button btn_Menu;
-    ProgressDialog loadingDialog;
+    ProgressBar progressBar;
     CircleImageView mAvatar;
     private TextView name;
     private TextView phone;
-    private TextView address;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private final int GALLERY_REQUEST = 1001;
-    private FirebaseStorage storage;
     private StorageReference storageReference;
     private Uri filePath;
     private User user;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private MapUtil map;
     SimpleDateFormat formatter;
     private String image;
     private FirebaseUser current_user;
+    BottomSheetModal modal = new BottomSheetModal();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_profile);
-        dialogTrigger();
         setProperties();
+        setActionListenerMPP();
+        getDatabaseReference();
+        loadUser();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    }
-
-    private void dialogTrigger() {
-        loadingDialog = new ProgressDialog(MainProfileActivity.this);
-        loadingDialog.setCancelable(false);
-        loadingDialog.setTitle("Loading Your Information");
-        loadingDialog.setMessage("Please wait...");
-        loadingDialog.show();
-    }
-
-    private void setProperties() {
+    public void setProperties() {
         name = findViewById(R.id.profile_name);
         phone = findViewById(R.id.profile_phone);
-        address = findViewById(R.id.profile_location);
         btn_Menu = (Button)findViewById(R.id.btn_Menu);
         mAvatar = findViewById(R.id.profile_image);
-        setActionListener();
+        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        current_user = mAuth.getCurrentUser();
+        Log.d("Event","Set PROPERTIES");
     }
 
-    private void setActionListener() {
+    public void setActionListenerMPP() {
         btn_Menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetModal modal = new BottomSheetModal();
+
                 modal.setActionListener(MainProfileActivity.this);
                 modal.show(getSupportFragmentManager(),"modalMenu");
             }
@@ -112,19 +102,16 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                 chooseImage();
             }
         });
-        getDatabaseReference();
+        Log.d("Event","setActionListener");
     }
 
-    private void getDatabaseReference() {
-        mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-        current_user = mAuth.getCurrentUser();//
+    public void getDatabaseReference() {
         storageReference = FirebaseStorage.getInstance().getReference();
-        loadUser();
+        Log.d("Event","setDB");
     }
 
-    private void loadUser() {
-        databaseReference.child(current_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
+    public void loadUser() {
+        databaseReference.child("users").child(current_user.getUid()).addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -133,22 +120,18 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                 name.setText(user.getName());
                 phone.setText(user.getPhone());
                 UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(user.getName()).build();
-                current_user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mAuth.getCurrentUser().updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                     }
                 });
                 loadImage();
-                map = new MapUtil(MainProfileActivity.this);
-                String location = map.getAddress();
-                address.setText(location);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        loadingDialog.dismiss();
     }
 
     private void chooseImage() {
@@ -164,7 +147,6 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-
             final StorageReference ref = storageReference.child("images/" + user.getPhone() + "/" + "profile.png");
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
@@ -187,8 +169,8 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
                                         public void onComplete(@NonNull Task<Void> task) {
                                         }
                                     });
-                                    databaseReference.child(current_user.getUid()).child("photourl").setValue(image);
-                                    databaseReference.child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
+                                    databaseReference.child("users").child(current_user.getUid()).child("photourl").setValue(image);
+                                    databaseReference.child("users").child(current_user.getUid()).child("_updated").setValue(formatter.format(new Date()));
 
                                 }
                             });
@@ -215,10 +197,9 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
 
     private void loadImage()
     {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user.getPhotoUrl() != null)
+        if (current_user.getPhotoUrl() != null)
         {
-            String uri = user.getPhotoUrl().toString();
+            String uri = current_user.getPhotoUrl().toString();
             Glide.with(this /* context */)
                     .asDrawable()
                     .load(uri)
@@ -256,24 +237,30 @@ public class MainProfileActivity extends AppCompatActivity implements BottomShee
     public void onButtonClick(int id) {
         switch (id) {
             case R.id.btn_chat_profile: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, ChatroomListActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_add_friend: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, PhoneDirectoriesActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_update_profile: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, UpdateProfileActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_map: {
+                modal.dismiss();
                 Intent intent = new Intent(MainProfileActivity.this, MapActivity.class);
                 startActivity(intent);
             }break;
             case R.id.btn_signout: {
-                finish();
                 mAuth.signOut();
+                modal.dismiss();
+                Intent intent = new Intent(MainProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
             }break;
         }
     }

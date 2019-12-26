@@ -10,19 +10,11 @@
         android:layout_height="50dp"
         android:layout_marginTop="0dp"
         android:background="@color/background_material_light">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="35dp"
-            android:src="@drawable/left_arrow"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/back_button"
-            android:layout_centerVertical="true"
-            />
 
         <ImageView
             android:id="@+id/add_friend_to_chatroom"
-            android:layout_width="50dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@+id/btn_location"
             android:backgroundTint="@color/mainBackground"
@@ -36,19 +28,20 @@
             android:id="@+id/txt_friendName"
             android:layout_width="250dp"
             android:layout_height="35dp"
-            android:layout_toRightOf="@id/back_button"
             android:layout_centerVertical="true"
-            android:text="Chatroom's Name"
-            android:textSize="25sp"
+            android:text="Chatroom Name"
+            android:textSize="23sp"
             android:fontFamily="sans-serif"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"/>
 
         <ImageButton
             android:id="@+id/btn_location"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/share"
+            android:layout_marginRight="15dp"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>
@@ -69,16 +62,18 @@
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/btn_chat_send"
             android:layout_weight="0.7"
-            android:hint="Input message" />
+            android:hint="Input message"
+            android:layout_marginBottom="10dp"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/btn_chat_send"
-            android:layout_width="80dp"
-            android:layout_height="52dp"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
             android:backgroundTint="#FFFFFF"
             android:src="@drawable/send"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_msg"

@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddChatroomActivity extends AppCompatActivity {
 
-    private ImageView mBackButton,mOkButton;
+    private ImageView mOkButton;
     private EditText mEdit_Chatroom;
     private DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
     private String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -28,18 +28,18 @@ public class AddChatroomActivity extends AppCompatActivity {
     }
 
     public void setProperties() {
-        this.mBackButton = findViewById(R.id.back_button);
+//        this.mBackButton = findViewById(R.id.back_button);
         this.mOkButton = findViewById(R.id.done_button);
         this.mEdit_Chatroom = findViewById(R.id.edit_chatroom_name);
     }
 
     public void setEvent() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        mBackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

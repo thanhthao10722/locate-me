@@ -1,6 +1,7 @@
 package com.example.locateme.Chatroom;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -19,6 +20,7 @@ import com.example.locateme.helper.MyDB;
 import com.example.locateme.model.Chatroom;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 public class ChatroomListActivity extends AppCompatActivity {
 
     private ListView mLv_Chatroom;
-    private ImageView mBackButton;
+//    private ImageView mBackButton;
     private ChatroomAdapter adapter;
     private ArrayList<Chatroom> listFriend = new ArrayList<Chatroom>();
     private String userId;
@@ -70,7 +72,7 @@ public class ChatroomListActivity extends AppCompatActivity {
 
     public void setProperties() {
         this.mLv_Chatroom = findViewById(R.id.Chatroom_listview);
-        this.mBackButton = findViewById(R.id.back_button);
+//        this.mBackButton = findViewById(R.id.back_button);
         mAddChatroom_Btn = findViewById(R.id.add_chatroom_button);
         searchView = findViewById(R.id.searchbox);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -98,27 +100,54 @@ public class ChatroomListActivity extends AppCompatActivity {
     private void checkId(DataSnapshot i) {
         for ( DataSnapshot y : i.child("users").getChildren()) {
             if(y.getKey().equals(uId))
-            {
+                {
                 Chatroom chatroom =  new Chatroom();
                 chatroom.setName(i.child("name").getValue().toString());
                 chatroom.setId(i.getKey());
-                listFriend.add(chatroom);
+                if(!listFriend.contains(chatroom))
+                    listFriend.add(chatroom);
             }
         }
+        adapter.notifyDataSetChanged();
     }
 
     public void getChatroomList() {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("chatlist");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.exists()) {
+//                    for( DataSnapshot i : dataSnapshot.getChildren()) {
+//                        checkId(i);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                }
+//                dialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    for( DataSnapshot i : dataSnapshot.getChildren()) {
-                        checkId(i);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-                dialog.dismiss();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                checkId(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                checkIdToRemove(dataSnapshot);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
@@ -126,15 +155,29 @@ public class ChatroomListActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void checkIdToRemove(DataSnapshot i) {
+        for ( DataSnapshot y : i.child("users").getChildren()) {
+            if(y.getKey().equals(uId))
+            {
+                Chatroom chatroom =  new Chatroom();
+                chatroom.setName(i.child("name").getValue().toString());
+                chatroom.setId(i.getKey());
+                if(listFriend.contains(chatroom))
+                    listFriend.remove(chatroom);
+            }
+        }
     }
 
     public void setEvent() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        mBackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         mAddChatroom_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
