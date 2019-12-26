@@ -45,6 +45,7 @@ public class UpdateProfileActivity extends AppCompatActivity{
     private MapUtil map;
     private ImageView mIcAddress;
     DatabaseReference databaseReference;
+    TextView noti;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,28 +80,16 @@ public class UpdateProfileActivity extends AppCompatActivity{
     public void setmButton_Update() {
         final String name = mEdit_Name.getText().toString();
         if(name.equals(""))
-            Toast.makeText(this,"Please fill all the blanks", Toast.LENGTH_LONG).show();
+            noti.setText("Please fill all the blanks");
         else
             {
-                databaseReference.child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
-                {
+                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                currentUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                    {
-                        User user = dataSnapshot.getValue(User.class);
-                        user.setName(name);
-                        databaseReference.child(currentUser.getUid()).setValue(user);
-                        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-                        currentUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                            }
-                        });
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onComplete(@NonNull Task<Void> task) {
                     }
                 });
+                databaseReference.child(currentUser.getUid()).child("name").setValue(name);
             finish();
         }
 

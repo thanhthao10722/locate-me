@@ -50,6 +50,10 @@ public class ChangePasswordActivity extends AppCompatActivity
             }
         });
     }
+
+    public void backButton(View v) {
+        finish();
+    }
     public void updatePassword() {
         final String oldPassword = mEdit_OldPassword.getText().toString();
         final String newPassword = mEdit_NewPassword.getText().toString();
@@ -105,8 +109,6 @@ public class ChangePasswordActivity extends AppCompatActivity
                 });
             Intent intent = new Intent(ChangePasswordActivity.this, MainProfileActivity.class);
             startActivity(intent);
-
-
         }
     }
 }

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class ChatroomListActivity extends AppCompatActivity {
 
     private ListView mLv_Chatroom;
-    private ImageView mBackButton;
+//    private ImageView mBackButton;
     private ChatroomAdapter adapter;
     private ArrayList<Chatroom> listFriend = new ArrayList<Chatroom>();
     private String userId;
@@ -72,7 +72,7 @@ public class ChatroomListActivity extends AppCompatActivity {
 
     public void setProperties() {
         this.mLv_Chatroom = findViewById(R.id.Chatroom_listview);
-        this.mBackButton = findViewById(R.id.back_button);
+//        this.mBackButton = findViewById(R.id.back_button);
         mAddChatroom_Btn = findViewById(R.id.add_chatroom_button);
         searchView = findViewById(R.id.searchbox);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -138,7 +138,6 @@ public class ChatroomListActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                checkId(dataSnapshot);
             }
 
             @Override
@@ -173,12 +172,12 @@ public class ChatroomListActivity extends AppCompatActivity {
     }
 
     public void setEvent() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        mBackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         mAddChatroom_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
